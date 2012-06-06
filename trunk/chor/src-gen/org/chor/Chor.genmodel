@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/chor/src-gen"
+    editDirectory="/chor.edit/src" editorDirectory="/chor.editor/src" modelPluginID="chor"
+    forceOverwrite="true" modelName="Chor" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="chor.edit" editorPluginID="chor.editor">
+  <genPackages prefix="Chor" basePackage="org.chor" disposableProviderFactory="true"
+      ecorePackage="Chor.ecore#/">
+    <genClasses ecoreClass="Chor.ecore#//Program">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Program/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Program/preamble"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Program/choreography"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//Preamble">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Preamble/protocols"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Preamble/site"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//Protocol">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Protocol/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Protocol/type"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//Site">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Site/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Chor.ecore#//Site/protocol"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//GlobalType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//GlobalType/sender"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//GlobalType/receiver"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//GlobalType/branches"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//BranchGType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//BranchGType/operation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//BranchGType/dataType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//BranchGType/continuation"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//DataType"/>
+    <genClasses ecoreClass="Chor.ecore#//BasicType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//BasicType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//LocalType"/>
+    <genClasses ecoreClass="Chor.ecore#//BranchType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//BranchType/label"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//Choreography"/>
+    <genClasses ecoreClass="Chor.ecore#//Start">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Start/activeThreads"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Start/serviceThreads"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Chor.ecore#//Start/publicChannel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Start/session"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Start/continuation"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//ThreadWithRole">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//ThreadWithRole/thread"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//ThreadWithRole/role"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//Interaction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Interaction/sender"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Interaction/senderExpression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Interaction/receiver"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Interaction/receiverVariable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Interaction/operation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Interaction/session"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Interaction/continuation"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//IfThenElse">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//IfThenElse/condition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//IfThenElse/thread"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//IfThenElse/then"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//IfThenElse/else"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//Expression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Expression/sumExpression"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//SumExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//SumExpression/children"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//SumExpressionTerm">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//SumExpressionTerm/expression"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//ExpressionBasicTerm">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//ExpressionBasicTerm/variable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//ExpressionBasicTerm/constant"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//Constant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Constant/intValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//Constant/strValue"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//Condition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//Condition/compareCondition"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//CompareCondition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//CompareCondition/leftExpression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Chor.ecore#//CompareCondition/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//CompareCondition/rightExpression"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//OutputType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//OutputType/datatype"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//OutputType/continuation"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//InputType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//InputType/datatype"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//InputType/continuation"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//BranchingType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//BranchingType/branches"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//SelectionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Chor.ecore#//SelectionType/branches"/>
+    </genClasses>
+    <genClasses ecoreClass="Chor.ecore#//SumExpressionAddTerm"/>
+    <genClasses ecoreClass="Chor.ecore#//SumExpressionSubtractTerm"/>
+  </genPackages>
+</genmodel:GenModel>

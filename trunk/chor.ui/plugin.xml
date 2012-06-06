@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+    <extension
+            point="org.eclipse.ui.editors">
+        <editor
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            extensions="cho"
+            id="org.chor.Chor"
+            name="Chor Editor">
+        </editor>
+    </extension>
+    <extension
+          id="org.chor.ui.handlers.GenerateJolieHandler"
+          point="org.eclipse.ui.handlers">
+        <handler
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+            commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
+            <activeWhen>
+                <reference
+                    definitionId="org.chor.Chor.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+        <handler
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+            commandId="org.chor.Chor.validate">
+         <activeWhen>
+            <reference
+                    definitionId="org.chor.Chor.Editor.opened">
+            </reference>
+         </activeWhen>
+      </handler>
+        <handler
+              class="org.chor.ui.handlers.GenerateJolieHandler"
+              commandId="org.chor.ui.commands.epp.jolie">
+           <activeWhen>
+              <reference
+                    definitionId="org.chor.Chor.Editor.opened">
+              </reference>
+           </activeWhen>
+        </handler>
+    </extension>
+    <extension point="org.eclipse.core.expressions.definitions">
+        <definition id="org.chor.Chor.Editor.opened">
+            <and>
+                <reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
+                <with variable="activeEditor">
+                    <test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
+                        value="org.chor.Chor" 
+                        forcePluginActivation="true"/>
+                </with>        
+            </and>
+        </definition>
+    </extension>
+    <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="org.chor.Chor"
+            name="Chor">
+            <keywordReference id="org.chor.ui.keyword_Chor"/>
+        </page>
+        <page
+            category="org.chor.Chor"
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+            id="org.chor.Chor.coloring"
+            name="Syntax Coloring">
+            <keywordReference id="org.chor.ui.keyword_Chor"/>
+        </page>
+        <page
+            category="org.chor.Chor"
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+            id="org.chor.Chor.templates"
+            name="Templates">
+            <keywordReference id="org.chor.ui.keyword_Chor"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="org.chor.Chor"
+            name="Chor">
+            <keywordReference id="org.chor.ui.keyword_Chor"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+    <extension
+        point="org.eclipse.ui.keywords">
+        <keyword
+            id="org.chor.ui.keyword_Chor"
+            label="Chor"/>
+    </extension>
+    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Trigger expensive validation"
+            id="org.chor.Chor.validate"
+            name="Validate">
+      </command>
+      <command
+            categoryId="org.chor.ui.commands.category.epp"
+            defaultHandler="org.chor.ui.handlers.GenerateJolieHandler"
+            description="Endpoint projection to Jolie"
+            id="org.chor.ui.commands.epp.jolie"
+            name="Jolie Endpoint Projection">
+      </command>
+      <category
+            description="Endpoint Projection"
+            id="org.chor.ui.commands.category.epp"
+            name="Endpoint Projection">
+      </category>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+             <command
+                 commandId="org.chor.Chor.validate"
+                 style="push"
+                 tooltip="Trigger expensive validation">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="org.chor.Chor.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>
+         </menuContribution>
+        <menuContribution
+              locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+           <toolbar
+                 id="chor.ui.toolbar.epp">
+              <command
+                    commandId="org.chor.ui.commands.epp.jolie"
+                    icon="icons/jolie_epp.gif"
+                    label="Jolie Endpoint Projection"
+                    style="push"
+                    tooltip="Jolie Endpoint Projection">
+                 <visibleWhen
+                       checkEnabled="false">
+                    <reference
+                          definitionId="org.chor.Chor.Editor.opened">
+                    </reference>
+                 </visibleWhen>
+              </command>
+           </toolbar>
+        </menuContribution>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
+			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
+				<visibleWhen checkEnabled="false">
+                	<reference definitionId="org.chor.Chor.Editor.opened">
+                	</reference>
+            	</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+	    <handler
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+            commandId="org.eclipse.xtext.ui.editor.FindReferences">
+            <activeWhen>
+                <reference
+                    definitionId="org.chor.Chor.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>   
+
+<!-- adding resource factories -->
+
+	<extension
+		point="org.eclipse.emf.ecore.extension_parser">
+		<parser
+			class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			type="cho">
+		</parser>
+	</extension>
+	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+        <resourceServiceProvider
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+            uriExtension="cho">
+        </resourceServiceProvider>
+    </extension>
+
+
+
+   <extension
+         point="org.eclipse.xtext.builder.participant">
+      <participant
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.builder.IXtextBuilderParticipant">
+      </participant>
+   </extension>
+   <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            category="org.chor.Chor"
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="org.chor.Chor.compiler.preferencePage"
+            name="Compiler">
+            <keywordReference id="org.chor.ui.keyword_Chor"/>
+        </page>
+    </extension>
+    <extension
+            point="org.eclipse.ui.propertyPages">
+        <page
+            category="org.chor.Chor"
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.builder.preferences.BuilderPreferencePage"
+            id="org.chor.Chor.compiler.propertyPage"
+            name="Compiler">
+            <keywordReference id="org.chor.ui.keyword_Chor"/>
+            <enabledWhen>
+	            <adapt type="org.eclipse.core.resources.IProject"/>
+			</enabledWhen>
+	        <filter name="projectNature" value="org.eclipse.xtext.ui.shared.xtextNature"/>
+        </page>
+    </extension>
+
+	<!-- Quick Outline -->
+	<extension
+		point="org.eclipse.ui.handlers">
+		<handler 
+			class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
+			<activeWhen>
+				<reference
+					definitionId="org.chor.Chor.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension
+		point="org.eclipse.ui.commands">
+		<command
+			description="Open the quick outline."
+			id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+			name="Quick Outline">
+		</command>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:#TextEditorContext?after=group.open">
+			<command commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+				style="push"
+				tooltip="Open Quick Outline">
+				<visibleWhen checkEnabled="false">
+					<reference definitionId="org.chor.Chor.Editor.opened"/>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+   <!-- quickfix marker resolution generator -->
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator">
+      </markerResolutionGenerator>
+   </extension>
+   	<!-- Rename Refactoring -->
+	<extension point="org.eclipse.ui.handlers">
+		<handler 
+			class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.IRenameElementHandler"
+			commandId="org.eclipse.xtext.ui.refactoring.RenameElement">
+			<activeWhen>
+				<reference
+					definitionId="org.chor.Chor.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+    <extension point="org.eclipse.ui.menus">
+         <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+         <command commandId="org.eclipse.xtext.ui.refactoring.RenameElement"
+               style="push">
+            <visibleWhen checkEnabled="false">
+               <reference
+                     definitionId="org.chor.Chor.Editor.opened">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension point="org.eclipse.ui.preferencePages">
+	    <page
+	        category="org.chor.Chor"
+	        class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.refactoring.ui.RefactoringPreferencePage"
+	        id="org.chor.Chor.refactoring"
+	        name="Refactoring">
+	        <keywordReference id="org.chor.ui.keyword_Chor"/>
+	    </page>
+	</extension>
+
+
+  <extension point="org.eclipse.compare.contentViewers">
+    <viewer id="org.chor.Chor.compare.contentViewers"
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+            extensions="cho">
+    </viewer>
+  </extension>
+  <extension point="org.eclipse.compare.contentMergeViewers">
+    <viewer id="org.chor.Chor.compare.contentMergeViewers"
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.compare.InjectableViewerCreator"
+            extensions="cho" label="Chor Compare">
+     </viewer>
+  </extension>
+  <extension point="org.eclipse.ui.editors.documentProviders">
+    <provider id="org.chor.Chor.editors.documentProviders"
+            class="org.chor.ui.ChorExecutableExtensionFactory:org.eclipse.xtext.ui.editor.model.XtextDocumentProvider"
+            extensions="cho">
+    </provider>
+  </extension>
+
+</plugin>

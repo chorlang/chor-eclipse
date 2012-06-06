@@ -1,0 +1,251 @@
+grammar org.chor.Chor with org.eclipse.xtext.common.Terminals
+
+generate chor "http://www.chor-lang.org/Chor"
+
+Program: // Main nonterminal
+	'program' name=ID SEMICOLON
+	preamble=Preamble
+	'main'
+	LCURLY
+		(choreography=Choreography)
+	RCURLY
+;
+
+// Preamble of a program
+Preamble:
+	{Preamble}
+	(
+		(protocols += Protocol) // Protocol definitions
+		|
+		(site += Site) // Site definitions
+	)*
+;
+
+// Definition of a protocol, associating a name to a multiparty behavioural type.
+Protocol:
+	'protocol' name=ID LCURLY
+		type=GlobalType
+	RCURLY
+;
+
+// Definition of a site, associating a public channel name to a protocol.
+Site:
+	'site' name=ID COLON protocol=[Protocol]
+;
+
+// Multiparty behavioural type, also denoted with G in comments for brevity (referring to the theoretical papers).
+GlobalType:
+	// Interaction. Example: A -> B: op(string); G
+	sender=ID ARROW receiver=ID
+		COLON
+		((
+			branches += BranchGType
+		)
+		|
+		(
+			LCURLY
+			(branches += BranchGType) (COMMA branches += BranchGType)*
+			RCURLY
+		))
+;
+
+// Type of a branch. Example: label: G
+BranchGType:
+	operation=ID LPAREN dataType=DataType RPAREN (SEMICOLON continuation=GlobalType)?
+;
+
+
+// Data types. 
+DataType:
+	BasicType | LocalType
+;
+
+
+// Basic types. Example: int
+BasicType: {BasicType}
+	name='int' | name='string' | name='bool' | name='void'
+;
+
+
+
+// Local types. 
+LocalType:
+	
+	{OutputType}  BANG LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType
+	
+	|
+	
+	{InputType}  QUESTION_MARK LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType
+	
+	|
+
+	{BranchingType}  QUESTION_MARK LCURLY (branches += BranchType)  (COMMA branches += BranchType)* RCURLY
+	
+	|
+
+	{SelectionType}  BANG LCURLY (branches += BranchType)  (COMMA branches += BranchType)* RCURLY
+	
+//	|
+
+	// End
+//	{EndType} 'end'
+;
+
+
+// Type of a branch. Example: label: L
+BranchType:
+	label=ID COLON LocalType
+;
+
+
+
+/**
+ * A choreography.
+ * TODO: introduce recursion
+ */
+Choreography:
+	Start | Interaction | IfThenElse | LCURLY Choreography RCURLY
+	// | End
+;
+
+/**
+ * Multiparty session start.
+ * Example: t1[role1],t2[role2] start t3[role3]: a(k)
+ */ 
+Start:
+	// List of active threads
+	activeThreads += ThreadWithRole
+	(COMMA activeThreads += ThreadWithRole)*
+	
+	'start'
+	
+	// List of service threads
+	(
+		serviceThreads += ThreadWithRole
+		(COMMA serviceThreads += ThreadWithRole)*
+	)?
+	
+	COLON
+	
+	// Public channel name
+	publicChannel = [Site]
+	// Protocol name
+	//LSQUARE protocol = ID RSQUARE
+	// Private session name
+	LPAREN session = ID RPAREN
+	(SEMICOLON 
+	continuation=Choreography)?
+;
+
+// A thread with a role. Example: myThread[MyRole]
+ThreadWithRole:
+	thread=ID LSQUARE role=ID RSQUARE
+;
+
+// End of a choreography.
+//End: {End} 'end';
+
+/** 
+ * Interaction (data communication). Example: t1.(x + 2) -> t2.y : k
+ * 
+ * Comment: the syntax is not great now (parentheses around the expression are always
+ * present), but we will put some sugar on it in a later version. 
+ */	
+Interaction:
+	sender=ID // The sender thread
+	(DOT
+		senderExpression=ExpressionBasicTerm
+	)? // The expression whose evaluation has to be sent
+	ARROW
+	receiver=ID // The receiver thread
+	(DOT
+	receiverVariable=ID)? // The variable in which the receiver stores the received value
+	COLON
+	operation=ID
+	LPAREN
+	session=ID // The session of the interaction
+	RPAREN
+	(SEMICOLON
+	continuation=Choreography)?
+;
+
+/**
+ * if (condition)@thread { Choreography } else { Choreography }
+ */
+IfThenElse:
+	'if' LPAREN condition=Condition RPAREN AT thread=ID
+	then=Choreography
+	('else' else=Choreography)?
+;
+
+
+
+/*** Expressions and conditions ***/
+
+Expression:
+	sumExpression=SumExpression;
+
+SumExpression:
+	children+=ExpressionBasicTerm (children+=SumExpressionTerm)*;
+
+SumExpressionTerm:
+	{SumExpressionAddTerm} PLUS expression=ExpressionBasicTerm
+	|
+	{SumExpressionSubtractTerm} MINUS expression=ExpressionBasicTerm
+;
+
+ExpressionBasicTerm: variable=ID | constant=Constant | LPAREN expression=Expression RPAREN;
+
+Constant:
+	intValue=INT | strValue=STRING
+;
+
+// Condition. Example: x < 5
+Condition:
+	compareCondition=CompareCondition
+;
+
+CompareCondition:
+	leftExpression=Expression
+	operator=ConditionOperator
+	rightExpression=Expression
+;
+
+ConditionOperator:
+	less ?= LESS
+	|
+	equal ?= EQUAL
+	|
+	greater ?= GREATER
+	|
+	not_equal ?= NOT_EQUAL
+;
+
+// Terminals
+terminal LCURLY: '{';
+terminal RCURLY: '}';
+terminal LSQUARE: '[';
+terminal RSQUARE: ']';
+terminal ARROW: '->';
+terminal SEMICOLON: ';';
+terminal COLON: ':';
+terminal PLUS: '+';
+terminal TIMES: '*';
+terminal MINUS: '-';
+terminal VERT: '|';
+terminal QUESTION_MARK: '?';
+terminal BANG: '!';
+terminal AT: '@';
+//terminal SESSIONDECL: 'session';
+//terminal STARTS: 'starts';
+//terminal ONE_WAY: 'OneWay';
+//terminal REQUEST_RESPONSE: 'RequestResponse';
+terminal ASSIGN: '=';
+terminal DOT: '.';
+terminal LPAREN: '(';
+terminal RPAREN: ')';
+terminal COMMA: ',';
+terminal LESS: '<';
+terminal EQUAL: '==';
+terminal GREATER: '>';
+terminal NOT_EQUAL: '!=';

@@ -34,14 +34,6 @@ public class ChorJavaValidator extends AbstractChorJavaValidator
 	public void checkProgram(Program program)
 	{
 		TypeChecker t = new TypeChecker( program, this );
-		/* for (Pair<String, EStructuralFeature> p : t.errors) {
-			error(p.key(),ChorPackage.Literals.PROGRAM__NAME);
-			error(
-				p.key(),
-				program.getChoreography().eContainer(),
-				ChorPackage.Literals.INTERACTION__OPERATION,2
-			);
-			//error( p.key(), p.value() );
-		}*/
+		t.run();
 	}
 }

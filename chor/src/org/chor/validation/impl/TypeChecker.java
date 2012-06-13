@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Marco Carbone <carbonem@itu.dk>                 *
  *   Copyright (C) 2011-2012 by Fabrizio Montesi <famontesi@gmail.com>     *
+ *   Copyright (C) 2011 by Marco Carbone <carbonem@itu.dk>                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Library General Public License as       *
@@ -27,11 +27,12 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import jolie.util.Pair;
 
 import org.chor.chor.BranchGType;
-import org.chor.chor.ChorPackage;
+import org.chor.chor.Choreography;
 import org.chor.chor.ExpressionBasicTerm;
 import org.chor.chor.GlobalType;
 import org.chor.chor.IfThenElse;
@@ -47,38 +48,67 @@ import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.validation.AbstractDeclarativeValidator;
 
-public class TypeChecker extends ChorSwitch< String >
+/**
+ * This class implements a type checking algorithm that
+ * verifies whether, in a given {@link Program}, the choreography respects
+ * the predeclared protocol definitions.
+ * 
+ * @author Fabrizio Montesi
+ * @author Marco Carbone
+ *
+ */
+public class TypeChecker extends ChorSwitch< Boolean >
 {
-	private Map< String, HashMap< String, String >> theta;
+	// theta: thread name -> session -> role
+	// Theta keeps track of the role each thread plays in a session
+	private final Map< String, Map< String, String >> theta;
+	
+	// delta: session -> global type
+	// Delta keeps track of the global type that a session should follow
 	private Map< String, GlobalType > delta;
-	private Map< Site, HashSet< String >> services;
-	// private HashMap< String, HashMap< String, String >> varTypes;
+	
+	// services: public channel -> { role | role is a service role in the public channel }
+	private final Map< Site, Set< String >> services;
+	
+	// The validator we are going to use for displaying errors
 	private final AbstractDeclarativeValidator validator;
+	
+	// The program to type check
+	private final Program program;
 
+	// Deprecated. To be removed.
 	public List< Pair< String, EStructuralFeature >> errors = new LinkedList< Pair< String, EStructuralFeature >>();
+	// private HashMap< String, HashMap< String, String >> varTypes;
 
+	/**
+	 * Constructor
+	 * @param program the {@link Program} to type check
+	 * @param validator the validator to use for showing messages
+	 */
 	public TypeChecker( Program program, AbstractDeclarativeValidator validator )
 	{
 		this.validator = validator;
+		this.program = program;
 
-		// Initialise Theta and Delta to empty
-		theta = new HashMap< String, HashMap< String, String >>();
+		// Initialise maps to empty
+		theta = new HashMap< String, Map< String, String >>();
 		delta = new HashMap< String, GlobalType >();
-
-		// We also initialise services, needed for keeping track of what roles
-		// play services in a start
-		services = new HashMap< Site, HashSet< String >>();
+		services = new HashMap< Site, Set< String >>();
 
 		// and, finally, we initialize varTypes;
 		// varTypes = new HashMap< String, HashMap< String, String >>();
-
-		// we start parsing the choreography of program
+	}
+	
+	/**
+	 * Run the type checking algorithm
+	 */
+	public void run()
+	{
 		doSwitchIfNotNull( program.getChoreography() );
 	}
 
-	public String caseStart( Start start )
+	public Boolean caseStart( Start start )
 	{
-
 		// First, we check that if we are using a used binder, then the old
 		// session is complete
 		if ( delta.containsKey( start.getSession() ) && delta.get( start.getSession() ) != null )
@@ -151,86 +181,122 @@ public class TypeChecker extends ChorSwitch< String >
 
 		return doSwitchIfNotNull( start.getContinuation() );
 	}
-
-	public void displayError( String error, Interaction interaction )
+	
+	private void displayError( String error, Choreography choreography )
 	{
-		List< INode > iNodes = NodeModelUtils.findNodesForFeature( interaction, interaction.eContainmentFeature() );
-		int offset = iNodes.get( 0 ).getOffset();
-		int contOffset = offset + iNodes.get( 0 ).getLength();
-		if ( interaction.getContinuation() != null ) {
-			List< INode > cNodes = NodeModelUtils.findNodesForFeature( interaction.getContinuation(), interaction
-					.getContinuation().eContainingFeature() );
-			contOffset = cNodes.get( 0 ).getOffset();
+		int offset;
+		List< INode > iNodes = NodeModelUtils.findNodesForFeature( choreography, choreography.eContainmentFeature() );
+		if ( !iNodes.isEmpty() ) {
+			offset = iNodes.get( 0 ).getOffset();
+			validator.acceptError( error, choreography, offset, 4, null );
+		} else {
+			displayError( error, program );
 		}
-		validator.acceptError( error, interaction, offset, contOffset - offset, null );
+	}
+	
+	private void displayError( String error, Program program )
+	{
+		validator.acceptError( error, program, program.eContainmentFeature(), 0, "" );
 	}
 
-	public String caseInteraction( Interaction interaction )
+	private void displayError( String error, Interaction interaction )
 	{
-		// we first make sure that that the session channel used is in delta
+		int offset;
+		int contOffset;
+		List< INode > iNodes = NodeModelUtils.findNodesForFeature( interaction, interaction.eContainmentFeature() );
+		if ( !iNodes.isEmpty() ) {
+			offset = iNodes.get( 0 ).getOffset();
+			contOffset = offset + iNodes.get( 0 ).getLength();
+			if ( interaction.getContinuation() != null ) {
+				List< INode > cNodes = NodeModelUtils.findNodesForFeature( interaction.getContinuation(), interaction
+						.getContinuation().eContainingFeature() );
+				if ( !cNodes.isEmpty() )
+					contOffset = cNodes.get( 0 ).getOffset();
+			}
+			validator.acceptError( error, interaction, offset, contOffset - offset, null );
+		} else {
+			displayError( error, program );
+		}
+	}
+
+	public Boolean caseInteraction( Interaction interaction )
+	{
+		// Make sure that the session channel is in delta
 		if ( !delta.containsKey( interaction.getSession() ) ) {
-			errors.add( new Pair< String, EStructuralFeature >( "The choreography contains open term "
-					+ interaction.getSession(), interaction.eContainingFeature() ) );
-			return "";
+			displayError( "Session " + interaction.getSession() + " has not been started before", interaction );
+			return false;
 		}
 
 		GlobalType g = delta.get( interaction.getSession() );
-
-		// we check that the sender thread exists
-		if ( theta.get( interaction.getSender() ) == null ) {
-			errors.add( new Pair< String, EStructuralFeature >( "Thread " + interaction.getSender()
-					+ " is not in session " + interaction.getSession(), interaction.eContainingFeature() ) );
-		}
-		// if so, we check that the sender thread is actually in this session
-		else if ( !theta.get( interaction.getSender() ).containsKey( interaction.getSession() ) ) {
-			errors.add( new Pair< String, EStructuralFeature >( "Thread " + interaction.getSender()
-					+ " is not in session " + interaction.getSession(), interaction.eContainingFeature() ) );
-		}
-		// if so, we check that the sender thread is the one supposed to send
-		// according to the type
-		else {
-			String temp = (theta.get( interaction.getSender() )).get( interaction.getSession() );
-			if ( !temp.equals( g.getSender() ) ) {
-				errors.add( new Pair< String, EStructuralFeature >( "Thread " + interaction.getSender()
-						+ " is not supposed to output here", interaction.eContainingFeature() ) );
-			}
+		if ( g == null ) {
+			displayError( "The type for session " + interaction.getSession() +
+					" is finished, but the session is still performing communications",
+					interaction );
+			return false;
 		}
 
-		// we check that the receiver thread exists
-		if ( theta.get( interaction.getReceiver() ) == null ) {
-			errors.add( new Pair< String, EStructuralFeature >( "Thread " + interaction.getReceiver()
-					+ " is not in session " + interaction.getSession(), interaction.eContainingFeature() ) );
+		// Check that the sender thread exists
+		if ( !theta.containsKey( interaction.getSender() ) ) {
+			displayError( "Thread " + interaction.getSender()
+					+ " is not in session " + interaction.getSession(), interaction );
+			return false;
 		}
-		// if so, we check that the receiver thread is actually in this session
-		else if ( !theta.get( interaction.getReceiver() ).containsKey( interaction.getSession() ) ) {
-			errors.add( new Pair< String, EStructuralFeature >( "Thread " + interaction.getReceiver()
-					+ " is not in session " + interaction.getSession(), interaction.eContainingFeature() ) );
-		}
-		// if so, we check that the receiver thread is the one supposed to
-		// receive according to the type
-		else {
-			String temp2 = (theta.get( interaction.getReceiver() )).get( interaction.getSession() );
-			if ( !temp2.equals( g.getReceiver() ) ) {
-				errors.add( new Pair< String, EStructuralFeature >( "Thread " + interaction.getReceiver()
-						+ " is not supposed to input here", interaction.eContainingFeature() ) );
-			}
+		
+		// Check that the sender thread is actually in this session
+		if ( !theta.get( interaction.getSender() ).containsKey( interaction.getSession() ) ) {
+			displayError( "Thread " + interaction.getSender()
+					+ " is not in session " + interaction.getSession(), interaction );
+			return false;
 		}
 
-		// we check that the operator used is among the ones available in the
-		// type
-		boolean flag = true;
-		GlobalType newtype = null;
+		// Check that the sender thread is the one supposed to send according to the session type
+		String senderRole = theta.get( interaction.getSender() ).get( interaction.getSession() );
+		if ( !senderRole.equals( g.getSender() ) ) {
+			displayError( "Protocol for session " + interaction.getSession() + " expects an output from role " + g.getSender() +
+					", while thread " + interaction.getSender() + " has role " + senderRole, interaction );
+		}
+
+		// Check that the receiver thread exists
+		if ( !theta.containsKey( interaction.getReceiver() ) ) {
+			displayError( "Thread " + interaction.getReceiver()
+					+ " is not in session " + interaction.getSession(), interaction );
+			return false;
+		}
+		
+		// Check that the receiver thread is actually in this session
+		if ( !theta.get( interaction.getReceiver() ).containsKey( interaction.getSession() ) ) {
+			displayError( "Thread " + interaction.getReceiver()
+					+ " is not in session " + interaction.getSession(), interaction );
+			return false;
+		}
+		
+		// Check that the sender thread is the one supposed to send according to the session type
+		String recvRole = theta.get( interaction.getReceiver() ).get( interaction.getSession() );
+		if ( !recvRole.equals( g.getReceiver() ) ) {
+			displayError( "Protocol for session " + interaction.getSession() + " expects an input from role " + g.getReceiver() +
+					", while thread " + interaction.getReceiver() + " has role " + recvRole, interaction );
+		}
+
+		// Check the operation name wrt the session type
+		GlobalType contType = null;
+		boolean found = false;
 		for( BranchGType br : g.getBranches() ) {
 			if ( br.getOperation().equals( interaction.getOperation() ) ) {
-				flag = false;
-				newtype = br.getContinuation();
+				contType = br.getContinuation();
+				found = true;
+				break;
 			}
 		}
-		if ( flag ) {
-			displayError( "Operation " + interaction.getOperation() + " is not declared in the type of session "
+		
+		if ( !found ) {
+			displayError( "Operation " + interaction.getOperation() + " is not expected by the type for session "
 					+ interaction.getSession(), interaction );
-			return "";
+			return false;
 		}
+		
+		// Update the session type in delta
+		delta.put( interaction.getSession(), contType );
+		return doSwitchIfNotNull( interaction.getContinuation() );
 
 		// We need to check that the type of the message matches the type of the
 		// receiving variable
@@ -251,51 +317,39 @@ public class TypeChecker extends ChorSwitch< String >
 		 * interaction.eContainmentFeature())); }
 		 */
 		// we now change delta and then check the continuation
-		delta.remove( interaction.getSession() );
-		delta.put( interaction.getSession(), newtype );
-		return doSwitchIfNotNull( interaction.getContinuation() );
-
+		// delta.remove( interaction.getSession() );
 	}
 
 	private String infer( ExpressionBasicTerm exp )
 	{
-
 		// System.out.println(exp.getClass().toString());
 
 		return "";
 	}
 
-	public String caseIfThenElse( IfThenElse cond )
+	public Boolean caseIfThenElse( IfThenElse cond )
 	{
-
-		Map< String, GlobalType > backup = (HashMap< String, GlobalType >)((HashMap< String, GlobalType >) delta).clone();
-
-		System.out.println( delta );
-
-		doSwitchIfNotNull( cond.getThen() );
-
-		System.out.println( delta );
-
-		delta = backup;
-
-		System.out.println( delta );
-
-		doSwitchIfNotNull( cond.getElse() );
-
-		return "";
+		Map< String, GlobalType > deltaBackup = new HashMap< String, GlobalType >( delta );
+		if ( doSwitchIfNotNull( cond.getThen() ) == false ) { return false; }
+		delta = deltaBackup;
+		if ( doSwitchIfNotNull( cond.getElse() ) == false ) { return false; }
+		return true;
 	}
 
-	public String doSwitchIfNotNull( EObject obj )
+	public Boolean doSwitchIfNotNull( EObject obj )
 	{
 		if ( obj == null ) {
-			for( String s : delta.keySet() ) {
-				if ( delta.get( s ) != null )
-					errors.add( new Pair< String, EStructuralFeature >( "Channel " + s + " is not correctly used",
-							ChorPackage.Literals.PROGRAM__NAME ) );
+			// For every session...
+			for( String session : delta.keySet() ) {
+				// ...check that its respective type is finished too.
+				if ( delta.get( session ) != null ) {
+					displayError( "Session " + session + " ends before completing its type", program.getChoreography() );
+				}
 			}
-			return "";
-		} else
+			return true;
+		} else {
 			return doSwitch( obj );
+		}
 	}
 
 }

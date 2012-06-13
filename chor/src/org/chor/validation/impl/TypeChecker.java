@@ -32,7 +32,6 @@ import java.util.Set;
 import jolie.util.Pair;
 
 import org.chor.chor.BranchGType;
-import org.chor.chor.Choreography;
 import org.chor.chor.ExpressionBasicTerm;
 import org.chor.chor.GlobalType;
 import org.chor.chor.IfThenElse;
@@ -76,8 +75,6 @@ public class TypeChecker extends ChorSwitch< Boolean >
 	// The program to type check
 	private final Program program;
 
-	// Deprecated. To be removed.
-	public List< Pair< String, EStructuralFeature >> errors = new LinkedList< Pair< String, EStructuralFeature >>();
 	// private HashMap< String, HashMap< String, String >> varTypes;
 
 	/**
@@ -109,89 +106,83 @@ public class TypeChecker extends ChorSwitch< Boolean >
 
 	public Boolean caseStart( Start start )
 	{
-		// First, we check that if we are using a used binder, then the old
-		// session is complete
-		if ( delta.containsKey( start.getSession() ) && delta.get( start.getSession() ) != null )
-			errors.add( new Pair< String, EStructuralFeature >( "Channel " + start.getSession()
-					+ " is not correctly used", start.eContainingFeature() ) );
-		// if the old session is complete, we need to flush delta and theta from
-		// such a binder
-		else if ( delta.containsKey( start.getSession() ) ) {
-			delta.remove( start.getSession() );
-			for( String s : theta.keySet() ) {
-				if ( (theta.get( s )).containsKey( start.getSession() ) )
-					(theta.get( s )).remove( start.getSession() );
+		/*
+		 * If we are starting a session with a name that was used before,
+		 * we need to ensure that the previous session with the same name
+		 * has been correctly terminated.
+		 * If so, we can safely remove it from delta and theta.
+		 */
+		if ( delta.remove( start.getSession() ) != null ) { // This also cleans delta if necessary
+			displayError( "Session " + start.getSession() + " must be completed correctly following its protocol, before its name" +
+					"can be reused for starting a new session", start );
+		} else {
+			/*
+			 * Clean theta of all threads involved in the start.
+			 * We do not bother removing the mappings for service threads,
+			 * since they will be removed altogether afterwards by
+			 * the service thread name freshness check.
+			 */
+			for( ThreadWithRole twr : start.getActiveThreads() ) {
+				if ( theta.containsKey( twr.getThread() ) ) {
+					theta.remove( twr.getThread() ).get( start.getSession() );
+				}
 			}
+			/* for( ThreadWithRole twr : start.getServiceThreads() ) {
+				if ( theta.containsKey( twr.getThread() ) ) {
+					theta.remove( twr.getThread() ).get( start.getSession() );
+				}
+			} */
 		}
-
-		// We update the theta environment with active threads
+		
+		// Update theta with the active threads
 		for( ThreadWithRole twr : start.getActiveThreads() ) {
-			// if theta contains a thread, then we update its function
-			if ( theta.containsKey( twr.getThread() ) ) {
-				(theta.get( twr.getThread() )).put( start.getSession(), twr.getRole() );
+			Map< String, String > threadRoles = theta.get( twr.getThread() );
+			if ( threadRoles == null ) { // Create a fresh map for the thread if not in theta already
+				threadRoles = new HashMap< String, String >();
+				theta.put( twr.getThread(), threadRoles );
 			}
-			// otherwise we just create a HashMap for this new thread
-			else {
-				HashMap< String, String > temp = new HashMap< String, String >();
-				temp.put( start.getSession(), twr.getRole() );
-				theta.put( twr.getThread(), temp );
-			}
+			threadRoles.put( start.getSession(), twr.getRole() );
+		}
+		
+		// Clean up theta from all service threads, for ensuring thread name freshness (binding)
+		for( ThreadWithRole twr : start.getServiceThreads() ) {
+			theta.remove( twr.getThread() );
+		}
+		
+		// Update theta with the service threads
+		for( ThreadWithRole twr : start.getServiceThreads() ) {
+			Map< String, String > threadRoles = new HashMap< String, String >();
+			threadRoles.put( start.getSession(), twr.getRole() );
+			theta.put( twr.getThread(), threadRoles );
 		}
 
-		// ...and service threads
-		// first we remove any service thread name already used from theta
-		// (binding)
-		for( ThreadWithRole twr : start.getServiceThreads() ) {
-			if ( theta.containsKey( twr.getThread() ) )
-				theta.remove( twr.getThread() );
-		}
-		// then we do the expected update
-		for( ThreadWithRole twr : start.getServiceThreads() ) {
-			HashMap< String, String > temp = new HashMap< String, String >();
-			temp.put( start.getSession(), twr.getRole() );
-			theta.put( twr.getThread(), temp );
-		}
-
-		// Then, we update the delta environment
+		// Update delta with the type of the started session
 		delta.put( start.getSession(), start.getPublicChannel().getProtocol().getType() );
 
-		// We need to check that the service roles are so also in other starts.
-		// First we check if the public channel entry is empty (first
-		// occurrence)
-		// If so we add a new entry to services
-		HashSet< String > tempSet = new HashSet< String >();
-		if ( services.get( start.getPublicChannel() ) == null ) {
-			for( ThreadWithRole twr : start.getServiceThreads() ) {
-				tempSet.add( twr.getRole() );
-			}
-			services.put( start.getPublicChannel(), tempSet );
+		/* Check if the service roles are the same
+		 * for every start on the same public channel.
+		 * If it is the first time we do such a start, we just put
+		 * the service roles in services.
+		 */
+		Set< String > serviceRoles = new HashSet< String >();
+		for( ThreadWithRole twr : start.getServiceThreads() ) {
+			serviceRoles.add( twr.getRole() );
 		}
-		// Otherwise we run a check
-		else {
-			// It consists of checking that the set of service roles is what we
-			// get from services
-			for( ThreadWithRole twr : start.getServiceThreads() )
-				tempSet.add( twr.getRole() );
-			if ( !services.get( start.getPublicChannel() ).equals( tempSet ) ) {
-				errors.add( new Pair< String, EStructuralFeature >( "Some roles in "
-						+ start.getPublicChannel().getName()
-						+ " are used as servers and as active roles in other instances.", start.eContainingFeature() ) );
+		if ( !services.containsKey( start.getPublicChannel() ) ) { // First time
+			services.put( start.getPublicChannel(), serviceRoles );
+		} else { // Not first time: run the check
+			if ( !services.get( start.getPublicChannel() ).equals( serviceRoles ) ) {
+				displayError( "Every start on the same public channel must have the same set of roles on the service (right-hand) side", start );
 			}
 		}
 
 		return doSwitchIfNotNull( start.getContinuation() );
 	}
 	
-	private void displayError( String error, Choreography choreography )
+	private void displayMainError( String error )
 	{
-		int offset;
-		List< INode > iNodes = NodeModelUtils.findNodesForFeature( choreography, choreography.eContainmentFeature() );
-		if ( !iNodes.isEmpty() ) {
-			offset = iNodes.get( 0 ).getOffset();
-			validator.acceptError( error, choreography, offset, 4, null );
-		} else {
-			displayError( error, program );
-		}
+		INode node = NodeModelUtils.findActualNodeFor( program );
+		validator.acceptError( error, program, node.getOffset(), "program".length(), null );
 	}
 	
 	private void displayError( String error, Program program )
@@ -202,21 +193,29 @@ public class TypeChecker extends ChorSwitch< Boolean >
 	private void displayError( String error, Interaction interaction )
 	{
 		int offset;
-		int contOffset;
-		List< INode > iNodes = NodeModelUtils.findNodesForFeature( interaction, interaction.eContainmentFeature() );
-		if ( !iNodes.isEmpty() ) {
-			offset = iNodes.get( 0 ).getOffset();
-			contOffset = offset + iNodes.get( 0 ).getLength();
-			if ( interaction.getContinuation() != null ) {
-				List< INode > cNodes = NodeModelUtils.findNodesForFeature( interaction.getContinuation(), interaction
-						.getContinuation().eContainingFeature() );
-				if ( !cNodes.isEmpty() )
-					contOffset = cNodes.get( 0 ).getOffset();
-			}
-			validator.acceptError( error, interaction, offset, contOffset - offset, null );
-		} else {
-			displayError( error, program );
+		int len;
+		INode node = NodeModelUtils.findActualNodeFor( interaction );
+		offset = node.getOffset();
+		len = node.getLength();
+		if ( interaction.getContinuation() != null ) {
+			INode contNode = NodeModelUtils.findActualNodeFor( interaction.getContinuation() );
+			len = len - contNode.getLength();
 		}
+		validator.acceptError( error, interaction, offset, len, null );
+	}
+	
+	private void displayError( String error, Start start )
+	{
+		int offset;
+		int len;
+		INode node = NodeModelUtils.findActualNodeFor( start );
+		offset = node.getOffset();
+		len = node.getLength();
+		if ( start.getContinuation() != null ) {
+			INode contNode = NodeModelUtils.findActualNodeFor( start.getContinuation() );
+			len = len - contNode.getLength();
+		}
+		validator.acceptError( error, start, offset, len, null );
 	}
 
 	public Boolean caseInteraction( Interaction interaction )
@@ -298,9 +297,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		delta.put( interaction.getSession(), contType );
 		return doSwitchIfNotNull( interaction.getContinuation() );
 
-		// We need to check that the type of the message matches the type of the
-		// receiving variable
-		// for that we call a specialised method
+		// TODO: check expression types
 		/*
 		 * String tempType; if (varTypes.get(interaction.getReceiver())==null)
 		 * tempType = null; else tempType =
@@ -316,8 +313,6 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		 * " does not match the type of the communicated message",
 		 * interaction.eContainmentFeature())); }
 		 */
-		// we now change delta and then check the continuation
-		// delta.remove( interaction.getSession() );
 	}
 
 	private String infer( ExpressionBasicTerm exp )
@@ -343,7 +338,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 			for( String session : delta.keySet() ) {
 				// ...check that its respective type is finished too.
 				if ( delta.get( session ) != null ) {
-					displayError( "Session " + session + " ends before completing its type", program.getChoreography() );
+					displayMainError( "Session " + session + " ends before completing its type" );
 				}
 			}
 			return true;
@@ -351,5 +346,4 @@ public class TypeChecker extends ChorSwitch< Boolean >
 			return doSwitch( obj );
 		}
 	}
-
 }

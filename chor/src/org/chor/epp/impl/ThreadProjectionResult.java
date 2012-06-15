@@ -43,6 +43,7 @@ public class ThreadProjectionResult
 	private final Map< String, Set< String > > inputOperationMap;
 	private final Set< String > uncorrelatedInputOperations;
 	private final Map< String, OutputPortInfo > outputPorts;
+	private final Set< String > includes;
 	
 	public ThreadProjectionResult()
 	{
@@ -50,6 +51,17 @@ public class ThreadProjectionResult
 		this.inputOperationMap = new HashMap< String, Set< String > >();
 		this.uncorrelatedInputOperations = new HashSet< String >();
 		this.outputPorts = new HashMap< String, OutputPortInfo >();
+		this.includes = new HashSet< String >();
+	}
+	
+	public void addInclude( String include )
+	{
+		includes.add( include );
+	}
+	
+	public Set< String > includes()
+	{
+		return includes;
 	}
 	
 	public OLSyntaxNode jolieNode()
@@ -132,5 +144,7 @@ public class ThreadProjectionResult
 				}
 			}
 		}
+		
+		includes.addAll( other.includes );
 	}
 }

@@ -24,25 +24,21 @@ package org.chor.validation.impl;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import jolie.util.Pair;
 
 import org.chor.chor.BranchGType;
 import org.chor.chor.ExpressionBasicTerm;
 import org.chor.chor.GlobalType;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
+import org.chor.chor.LocalCode;
 import org.chor.chor.Program;
 import org.chor.chor.Site;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
 import org.chor.chor.util.ChorSwitch;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.validation.AbstractDeclarativeValidator;
@@ -184,11 +180,6 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		INode node = NodeModelUtils.findActualNodeFor( program );
 		validator.acceptError( error, program, node.getOffset(), "program".length(), null );
 	}
-	
-	private void displayError( String error, Program program )
-	{
-		validator.acceptError( error, program, program.eContainmentFeature(), 0, "" );
-	}
 
 	private void displayError( String error, Interaction interaction )
 	{
@@ -216,6 +207,11 @@ public class TypeChecker extends ChorSwitch< Boolean >
 			len = len - contNode.getLength();
 		}
 		validator.acceptError( error, start, offset, len, null );
+	}
+	
+	public Boolean caseLocalCode( LocalCode localCode )
+	{
+		return doSwitchIfNotNull( localCode.getContinuation() );
 	}
 
 	public Boolean caseInteraction( Interaction interaction )

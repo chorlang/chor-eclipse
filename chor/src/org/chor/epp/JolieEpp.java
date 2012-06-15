@@ -21,6 +21,7 @@
 
 package org.chor.epp;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -240,6 +241,15 @@ public class JolieEpp
 		}
 	}
 	
+	private void writeIncludes( Writer w, ThreadProjectionResult result )
+		throws IOException
+	{
+		for( String include : result.includes() ) {
+			w.write( "include \"" + include + ".iol\"\n" );
+		}
+		w.write( '\n' );
+	}
+	
 	private void projectActiveThread( String thread, Program program )
 		throws EndpointProjectionException, IOException
 	{
@@ -257,6 +267,7 @@ public class JolieEpp
 		jolieProgram.addChild( jolieMainNode );
 		StringWriter w = new StringWriter();
 		JolieProcessPrettyPrinter printer = new JolieProcessPrettyPrinter( w, jolieProgram );
+		writeIncludes( w, result );
 		printer.run();
 		OutputStream ostream = new FileOutputStream( targetDirectory.getAbsolutePath() + File.separator + thread + ".ol" );
 		Writer fileWriter = new OutputStreamWriter( ostream );
@@ -273,14 +284,15 @@ public class JolieEpp
 		}
 	}
 	
-	private void writeJolieFile( String filename, jolie.lang.parse.ast.Program jolieProgram, String... preamble )
+	private void writeJolieFile( String filename, ThreadProjectionResult result, String... preamble )
 		throws IOException
 	{
 		StringWriter w = new StringWriter();
-		JolieProcessPrettyPrinter printer = new JolieProcessPrettyPrinter( w, jolieProgram );
+		JolieProcessPrettyPrinter printer = new JolieProcessPrettyPrinter( w, result.jolieNode() );
 		printer.run();
 		OutputStream ostream = new FileOutputStream( targetDirectory.getAbsolutePath() + File.separator + filename + ".ol" );
 		Writer fileWriter = new OutputStreamWriter( ostream );
+		writeIncludes( fileWriter, result );
 		for( String s : preamble ) {
 			fileWriter.write( s );
 		}
@@ -290,7 +302,7 @@ public class JolieEpp
 		ostream.close();
 	}
 	
-	private jolie.lang.parse.ast.Program buildJolieServiceProgram( String publicChannel, String role, Program program )
+	private ThreadProjectionResult buildJolieServiceProgram( String publicChannel, String role, Program program )
 		throws EndpointProjectionException
 	{
 		ThreadProjectionResult result = ServiceProjector.projectService( publicChannel, role, program );
@@ -304,7 +316,8 @@ public class JolieEpp
 
 		OLSyntaxNode jolieMainNode = new DefinitionNode( JolieEppUtils.PARSING_CONTEXT, "main", result.jolieNode() );
 		jolieProgram.addChild( jolieMainNode );
-		return jolieProgram;
+		result.setJolieNode( jolieProgram );
+		return result;
 	}
 
 	private void projectServiceThreads( Program program )
@@ -393,7 +406,7 @@ public class JolieEpp
 		jolieProgram.addChild( csetInfo );
 	}
 	
-	private jolie.lang.parse.ast.Program buildJolieStartServerProgram( String publicChannel )
+	private ThreadProjectionResult buildJolieStartServerProgram( String publicChannel )
 	{
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program( JolieEppUtils.PARSING_CONTEXT );
 		jolieProgram.addChild( new ExecutionInfo( JolieEppUtils.PARSING_CONTEXT, ExecutionMode.CONCURRENT ) );
@@ -413,7 +426,10 @@ public class JolieEpp
 		}
 		OLSyntaxNode jolieMainNode = new DefinitionNode( JolieEppUtils.PARSING_CONTEXT, "main", buildStartServerMainCode( publicChannel ) );
 		jolieProgram.addChild( jolieMainNode );
-		return jolieProgram;
+		
+		ThreadProjectionResult result = new ThreadProjectionResult();
+		result.setJolieNode( jolieProgram );
+		return result;
 	}
 	
 	private OLSyntaxNode buildStartServerActiveThreadCheck( String publicChannel )

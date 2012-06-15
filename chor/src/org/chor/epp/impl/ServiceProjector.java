@@ -52,7 +52,6 @@ public class ServiceProjector extends ChorSwitch< Boolean >
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static ThreadProjectionResult projectService( String publicChannel, String role, Program program )
 		throws EndpointProjectionException
 	{

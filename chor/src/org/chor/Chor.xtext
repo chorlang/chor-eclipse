@@ -127,6 +127,7 @@ BranchType:
  */
 Choreography:
 	Start | Interaction | IfThenElse | LCURLY Choreography RCURLY
+	| LocalCode
 	// | End
 ;
 
@@ -200,7 +201,18 @@ IfThenElse:
 	('else' else=Choreography)?
 ;
 
-
+// Local thread code
+LocalCode:
+	// Ask a question to the user, e.g. ask@thr(question,result)
+	{LocalAskCommand}
+	'ask' AT thread=ID LPAREN question=Expression COMMA resultVariable=ID RPAREN
+	(SEMICOLON continuation=Choreography)?
+	|
+	// Show some text, e.g. show@thr("Hello, world!")
+	{LocalShowCommand}
+	'show' AT thread=ID LPAREN expression=Expression RPAREN
+	(SEMICOLON continuation=Choreography)?
+;
 
 /*** Expressions and conditions ***/
 

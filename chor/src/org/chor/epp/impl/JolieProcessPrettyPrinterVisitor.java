@@ -662,8 +662,10 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	@Override
 	public void visit( TypeCastExpressionNode n )
 	{
-		// TODO Auto-generated method stub
-
+		printer.write( n.type().id() );
+		printer.write( "(" );
+		prettyPrint( n.expression() );
+		printer.write( ")" );
 	}
 
 	@Override

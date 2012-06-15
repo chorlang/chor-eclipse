@@ -31,6 +31,8 @@ import jolie.lang.parse.ast.NotificationOperationStatement;
 import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
+import jolie.lang.parse.ast.SolicitResponseOperationStatement;
+import jolie.lang.parse.ast.TypeCastExpressionNode;
 import jolie.lang.parse.ast.VariablePathNode;
 import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
@@ -54,6 +56,30 @@ public class EqualUtils
 		} catch( IllegalAccessException e ) {
 			return false;
 		}
+	}
+	
+	public static Boolean checkEqual( ConstantStringExpression left, ConstantStringExpression right )
+	{
+		return left.value().equals( right.value() );
+	}
+	
+	public static Boolean checkEqual( ConstantIntegerExpression left, ConstantIntegerExpression right )
+	{
+		return left.value() == right.value();
+	}
+	
+	public static Boolean checkEqual( TypeCastExpressionNode left, TypeCastExpressionNode right )
+	{
+		return left.type().equals( right.type() ) && checkEqual( left.expression(), right.expression() );
+	}
+	
+	public static Boolean checkEqual( SolicitResponseOperationStatement left, SolicitResponseOperationStatement right )
+	{
+		if ( !left.id().equals( right.id() ) ) {
+			return false;
+		}
+		
+		return checkEqual( left.inputVarPath(), right.inputVarPath() ) && checkEqual( left.outputExpression(), right.outputExpression() );
 	}
 	
 	public static Boolean checkEqual( OneWayOperationStatement left, OneWayOperationStatement right )

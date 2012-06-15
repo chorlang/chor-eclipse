@@ -34,6 +34,9 @@ public class MergeUtils
 	public static OLSyntaxNode merge( OLSyntaxNode left, OLSyntaxNode right )
 		throws MergingException
 	{
+		if ( left == null || right == null ) {
+			throw new MergingException( "Merging failed due to an internal error" );
+		}
 		try {
 			Method m = MergeFunction.class.getMethod( "merge", left.getClass(), right.getClass() );
 			return (OLSyntaxNode) m.invoke( null, left, right );

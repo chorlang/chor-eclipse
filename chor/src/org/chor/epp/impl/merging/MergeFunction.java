@@ -28,13 +28,16 @@ import java.util.List;
 import java.util.Map;
 
 import jolie.lang.parse.ast.NDChoiceStatement;
+import jolie.lang.parse.ast.NotificationOperationStatement;
 import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
+import jolie.lang.parse.ast.SolicitResponseOperationStatement;
 import jolie.util.Pair;
 
 import org.chor.epp.impl.JolieEppUtils;
+import org.eclipse.xtext.util.Notifications;
 
 public class MergeFunction
 {
@@ -79,6 +82,24 @@ public class MergeFunction
 		}
 		
 		throw new MergingException( "Could not transform sequence to input choice" );
+	}
+	
+	public static OLSyntaxNode merge( NotificationOperationStatement left, NotificationOperationStatement right )
+		throws MergingException
+	{
+		if ( EqualUtils.checkEqual( left, right ) ) {
+			return left;
+		}
+		throw new MergingException( left, right );
+	}
+	
+	public static OLSyntaxNode merge( SolicitResponseOperationStatement left, SolicitResponseOperationStatement right )
+			throws MergingException
+	{
+		if ( EqualUtils.checkEqual( left, right ) ) {
+			return left;
+		}
+		throw new MergingException( left, right );
 	}
 
 	public static OLSyntaxNode merge( SequenceStatement left, SequenceStatement right )

@@ -28,14 +28,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import jolie.lang.NativeType;
 import jolie.lang.parse.ast.AssignStatement;
 import jolie.lang.parse.ast.DeepCopyStatement;
 import jolie.lang.parse.ast.IfStatement;
 import jolie.lang.parse.ast.NotificationOperationStatement;
+import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.SolicitResponseOperationStatement;
+import jolie.lang.parse.ast.TypeCastExpressionNode;
 import jolie.lang.parse.ast.VariablePathNode;
 import jolie.lang.parse.ast.expression.FreshValueExpressionNode;
 import jolie.util.Pair;
@@ -43,6 +46,8 @@ import jolie.util.Pair;
 import org.chor.chor.Choreography;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
+import org.chor.chor.LocalAskCommand;
+import org.chor.chor.LocalShowCommand;
 import org.chor.chor.Site;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
@@ -376,6 +381,64 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 	private String getOutputPortNameForOutput( String session, String role )
 	{
 		return session + "_" + role;
+	}
+	
+	public ThreadProjectionResult caseLocalAskCommand( LocalAskCommand n )
+	{
+		ThreadProjectionResult result = new ThreadProjectionResult();
+		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+		if ( n.getThread().equals( thread ) ) {
+			seq.addChild( new SolicitResponseOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				"showInputDialog", "SwingUI",
+				ExpressionProjector.project( n.getQuestion() ),
+				JolieEppUtils.variableNameToJolieVariablePath( n.getResultVariable() ),
+				null )
+			);
+			result.addInclude( "ui/swing_ui" );
+		}
+		
+		if ( n.getContinuation() == null ) {
+			if ( seq.children().isEmpty() ) {
+				return result;
+			}
+		} else {
+			ThreadProjectionResult res = doSwitch( n.getContinuation() );
+			result.mergeNamesOnly( res );
+			seq.addChild( res.jolieNode() );
+		}
+		
+		result.setJolieNode( seq );
+		return result;
+	}
+	
+	public ThreadProjectionResult caseLocalShowCommand( LocalShowCommand n )
+	{
+		ThreadProjectionResult result = new ThreadProjectionResult();
+		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+		if ( n.getThread().equals( thread ) ) {
+			seq.addChild( new SolicitResponseOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				"showMessageDialog", "SwingUI",
+				new TypeCastExpressionNode(
+					JolieEppUtils.PARSING_CONTEXT, NativeType.STRING, ExpressionProjector.project( n.getExpression() )
+				), null, null
+			) );
+			result.addInclude( "ui/swing_ui" );
+		}
+		
+		if ( n.getContinuation() == null ) {
+			if ( seq.children().isEmpty() ) {
+				return result;
+			}
+		} else {
+			ThreadProjectionResult res = doSwitch( n.getContinuation() );
+			result.mergeNamesOnly( res );
+			seq.addChild( res.jolieNode() );
+		}
+		
+		result.setJolieNode( seq );
+		return result;
 	}
 
 	public ThreadProjectionResult caseInteraction( Interaction n )

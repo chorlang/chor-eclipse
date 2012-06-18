@@ -40,9 +40,10 @@ import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
 /**
- * Our sample handler extends AbstractHandler, an IHandler base class.
- * @see org.eclipse.core.commands.IHandler
- * @see org.eclipse.core.commands.AbstractHandler
+ * Handler for generating the Jolie Endpoint Projection for the Chor program
+ * in the current window.
+ * 
+ * @author Fabrizio Montesi
  */
 public class GenerateJolieHandler extends AbstractHandler {
 	/**

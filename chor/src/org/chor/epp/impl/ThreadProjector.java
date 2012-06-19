@@ -33,7 +33,6 @@ import jolie.lang.parse.ast.AssignStatement;
 import jolie.lang.parse.ast.DeepCopyStatement;
 import jolie.lang.parse.ast.IfStatement;
 import jolie.lang.parse.ast.NotificationOperationStatement;
-import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
@@ -44,6 +43,7 @@ import jolie.lang.parse.ast.expression.FreshValueExpressionNode;
 import jolie.util.Pair;
 
 import org.chor.chor.Choreography;
+import org.chor.chor.Delegation;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
 import org.chor.chor.LocalAskCommand;
@@ -489,6 +489,60 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 				JolieEppUtils.PARSING_CONTEXT,
 				n.getOperation(),
 				JolieEppUtils.variableNameToJolieVariablePath( n.getReceiverVariable() )
+			));
+		}
+
+		if ( n.getContinuation() == null ) {
+			if ( seq.children().isEmpty() ) {
+				return result;
+			}
+		} else {
+			ThreadProjectionResult res = doSwitch( n.getContinuation() );
+			result.mergeNamesOnly( res );
+			seq.addChild( res.jolieNode() );
+		}
+
+		result.setJolieNode( seq );
+		return result;
+	}
+	
+	public ThreadProjectionResult caseDelegation( Delegation n )
+	{
+		ThreadProjectionResult result = new ThreadProjectionResult();
+		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+		if ( n.getSender().equals( thread ) ) {
+			VariablePathNode outVarPath, tidVarPath;
+			String varName = "pippo";
+			//if ( varName != null ) {
+				// It's a simple variable
+				outVarPath = JolieEppUtils.variableNameToJolieVariablePath( varName );
+				tidVarPath = JolieEppUtils.variableNameToJolieVariablePath( varName );
+				JolieEppUtils.appendSubNode( tidVarPath, "tid" );
+			//}
+			
+			VariablePathNode receiverTidPath = JolieEppUtils.getSessionDescriptorPath( n.getSession() );
+			JolieEppUtils.appendSubNode( receiverTidPath, startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) );
+			JolieEppUtils.appendSubNode( receiverTidPath, "tid" );
+			seq.addChild( new AssignStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				tidVarPath,
+				receiverTidPath
+			));
+			seq.addChild( new NotificationOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				n.getOperation(),
+				getOutputPortNameForOutput( n.getSession(), startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) ),
+				outVarPath
+			));
+			result.addOneWayOperation( getOutputPortNameForOutput( n.getSession(), startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) ), n.getOperation() );
+		} else if ( n.getReceiver().equals( thread ) ) {
+			result.inputOperationsForCorrelationSet(
+				getCorrelationVariableName( n.getSender(), n.getSession() )
+			).add( n.getOperation() );
+			seq.addChild( new OneWayOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				n.getOperation(),
+				JolieEppUtils.variableNameToJolieVariablePath( "pippo" )
 			));
 		}
 

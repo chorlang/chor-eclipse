@@ -32,16 +32,29 @@ import jolie.lang.parse.ast.OneWayOperationDeclaration;
 import jolie.lang.parse.ast.OperationDeclaration;
 
 import org.chor.chor.Choreography;
+import org.chor.chor.Delegation;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
+import org.chor.chor.LocalCode;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
 import org.chor.chor.util.ChorSwitch;
 import org.eclipse.emf.ecore.EObject;
 
-public class NameCollector extends ChorSwitch<Boolean>
+/**
+ * Utility class for collecting some name sets and maps from programs.
+ * 
+ * @author Fabrizio Montesi
+ *
+ */
+public class NameCollector extends ChorSwitch< Boolean >
 {
+	/*
+	 * Collects the input operations used by each receiver thread.
+	 */
 	public static class ThreadOperations {
+		
+		// thread -> operation -> operation type
 		private final Map< String, Map< String, OperationDeclaration > > operationMap =
 			new HashMap< String, Map< String, OperationDeclaration > >();
 
@@ -57,11 +70,24 @@ public class NameCollector extends ChorSwitch<Boolean>
 				new OneWayOperationDeclaration( JolieEppUtils.PARSING_CONTEXT, n.getOperation() )
 			);
 		}
+		
+		private void checkDelegation( Delegation n )
+		{
+			Map< String, OperationDeclaration > operations = operationMap.get( n.getReceiver() );
+			if ( operations == null ) {
+				operations = new HashMap< String, OperationDeclaration >();
+				operationMap.put( n.getReceiver(), operations );
+			}
+			operations.put(
+				n.getOperation(),
+				new OneWayOperationDeclaration( JolieEppUtils.PARSING_CONTEXT, n.getOperation() )
+			);
+		}
 	}
 	
 	private final Set< String > activeThreads = new HashSet< String >();
 	private final ThreadOperations threadOperations = new ThreadOperations();
-	private final Map< String, Set< String> > targetThreads = new HashMap< String, Set< String > >();
+	// private final Map< String, Set< String> > targetThreads = new HashMap< String, Set< String > >();
 	private final Map< String, Set< String > > publicChannelActiveRoles =
 		new HashMap< String, Set< String > >();
 	private final Map< String, Set< String > > publicChannelServiceRoles =
@@ -86,17 +112,17 @@ public class NameCollector extends ChorSwitch<Boolean>
 		}
 		roles.add( role );
 	}
-	
+
 	public ThreadOperations threadOperations()
 	{
 		return threadOperations;
 	}
-	
+
 	public Set< String > activeThreads()
 	{
 		return activeThreads;
 	}
-	
+
 	public Set< String > publicChannels()
 	{
 		Set< String > channels = new HashSet< String >();
@@ -160,11 +186,25 @@ public class NameCollector extends ChorSwitch<Boolean>
 		return true;
 	}
 	
+	public Boolean caseLocalCode( LocalCode n )
+	{
+		doSwitchIfNotNull( n.getContinuation() );
+		return true;
+	}
+	
 	public Boolean caseInteraction( Interaction n )
 	{
 		doSwitchIfNotNull( n.getContinuation() );
 		threadOperations.checkInteraction( n );
-		addTargetThread( n );
+		//addTargetThread( n );
+		return true;
+	}
+	
+	public Boolean caseDelegation( Delegation n )
+	{
+		doSwitchIfNotNull( n.getContinuation() );
+		threadOperations.checkDelegation( n );
+		//addTargetThread( n );
 		return true;
 	}
 	
@@ -180,10 +220,10 @@ public class NameCollector extends ChorSwitch<Boolean>
 		if ( e != null ) {
 			return doSwitch( e );
 		}
-		return null;
+		return true;
 	}
 	
-	private void addTargetThread( Interaction n )
+	/*private void addTargetThread( Interaction n )
 	{
 		Set< String > targets = targetThreads.get( n.getSender() );
 		if ( targets == null ) {
@@ -191,4 +231,13 @@ public class NameCollector extends ChorSwitch<Boolean>
 		}
 		targets.add( n.getReceiver() );
 	}
+	
+	private void addTargetThread( Delegation n )
+	{
+		Set< String > targets = targetThreads.get( n.getSender() );
+		if ( targets == null ) {
+			targets = new HashSet< String >();
+		}
+		targets.add( n.getReceiver() );
+	}*/
 }

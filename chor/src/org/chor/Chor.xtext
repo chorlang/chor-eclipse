@@ -52,7 +52,7 @@ Protocol:
 
 // Definition of a site, associating a public channel name to a protocol.
 Site:
-	'site' name=ID COLON protocol=[Protocol]
+	'public' name=ID COLON protocol=[Protocol]
 ;
 
 // Multiparty behavioural type, also denoted with G in comments for brevity (referring to the theoretical papers).
@@ -71,27 +71,28 @@ GlobalType:
 		))
 ;
 
-// Type of a branch. Example: label: G
+// Type of a branch. Example: op(DataType); G
 BranchGType:
 	operation=ID LPAREN dataType=DataType RPAREN (SEMICOLON continuation=GlobalType)?
 ;
 
-
 // Data types. 
 DataType:
-	BasicType | LocalType
+	BasicType | DelegationType
 ;
 
+// Type for a carried delegated session
+DelegationType:
+	protocol=[Protocol] AT role=ID 
+;
 
 // Basic types. Example: int
 BasicType: {BasicType}
 	name='int' | name='string' | name='bool' | name='void'
 ;
 
-
-
 // Local types. 
-LocalType:
+/*LocalType:
 	
 	{OutputType}  BANG LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType
 	
@@ -106,29 +107,21 @@ LocalType:
 	|
 
 	{SelectionType}  BANG LCURLY (branches += BranchType)  (COMMA branches += BranchType)* RCURLY
-	
-//	|
-
-	// End
-//	{EndType} 'end'
-;
+;*/
 
 
 // Type of a branch. Example: label: L
-BranchType:
+/* BranchType:
 	label=ID COLON LocalType
-;
-
-
+; */
 
 /**
  * A choreography.
  * TODO: introduce recursion
  */
 Choreography:
-	Start | Interaction | IfThenElse | LCURLY Choreography RCURLY
-	| LocalCode
-	// | End
+	Start | Interaction | Delegation
+	| IfThenElse | LocalCode | LCURLY Choreography RCURLY
 ;
 
 /**
@@ -157,7 +150,7 @@ Start:
 	// Private session name
 	LPAREN session = ID RPAREN
 	(SEMICOLON 
-	continuation=Choreography)?
+	continuation=Choreography)?  // Optional continuation
 ;
 
 // A thread with a role. Example: myThread[MyRole]
@@ -165,14 +158,8 @@ ThreadWithRole:
 	thread=ID LSQUARE role=ID RSQUARE
 ;
 
-// End of a choreography.
-//End: {End} 'end';
-
 /** 
- * Interaction (data communication). Example: t1.(x + 2) -> t2.y : k
- * 
- * Comment: the syntax is not great now (parentheses around the expression are always
- * present), but we will put some sugar on it in a later version. 
+ * Interaction (data communication). Example: t1.(x + 2) -> t2.y : op(k)
  */	
 Interaction:
 	sender=ID // The sender thread
@@ -189,7 +176,26 @@ Interaction:
 	session=ID // The session of the interaction
 	RPAREN
 	(SEMICOLON
-	continuation=Choreography)?
+	continuation=Choreography)? // Optional continuation
+;
+
+/** 
+ * Delegation (session communication). Example: t1 -> t2 : op(k(k'))
+ */	
+Delegation:
+	sender=ID // The sender thread
+	ARROW
+	receiver=ID // The receiver thread
+	COLON
+	operation=ID
+	LPAREN
+	session=ID // The session of the interaction
+		LPAREN
+		delegatedSession=ID // The delegated session
+		RPAREN
+	RPAREN
+	(SEMICOLON
+	continuation=Choreography)? // Optional continuation
 ;
 
 /**
@@ -211,7 +217,7 @@ LocalCode:
 	// Show some text, e.g. show@thr("Hello, world!")
 	{LocalShowCommand}
 	'show' AT thread=ID LPAREN expression=Expression RPAREN
-	(SEMICOLON continuation=Choreography)?
+	(SEMICOLON continuation=Choreography)?  // Optional continuation
 ;
 
 /*** Expressions and conditions ***/

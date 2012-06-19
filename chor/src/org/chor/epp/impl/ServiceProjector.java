@@ -22,8 +22,10 @@
 
 package org.chor.epp.impl;
 
+import org.chor.chor.Delegation;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
+import org.chor.chor.LocalCode;
 import org.chor.chor.Program;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
@@ -102,6 +104,16 @@ public class ServiceProjector extends ChorSwitch< Boolean >
 		doSwitchIfNotNull( n.getThen() );
 		doSwitchIfNotNull( n.getElse() );
 		return true;
+	}
+	
+	public Boolean caseDelegation( Delegation n )
+	{
+		return doSwitchIfNotNull( n.getContinuation() );
+	}
+	
+	public Boolean caseLocalCode( LocalCode n )
+	{
+		return doSwitchIfNotNull( n.getContinuation() );
 	}
 	
 	public Boolean caseInteraction( Interaction n )

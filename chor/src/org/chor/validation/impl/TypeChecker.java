@@ -22,12 +22,15 @@
 
 package org.chor.validation.impl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.chor.chor.BranchGType;
+import org.chor.chor.Delegation;
+import org.chor.chor.DelegationType;
 import org.chor.chor.ExpressionBasicTerm;
 import org.chor.chor.GlobalType;
 import org.chor.chor.IfThenElse;
@@ -56,14 +59,14 @@ public class TypeChecker extends ChorSwitch< Boolean >
 {
 	// theta: thread name -> session -> role
 	// Theta keeps track of the role each thread plays in a session
-	private final Map< String, Map< String, String >> theta;
+	private final Map< String, Map< String, String > > theta;
 	
 	// delta: session -> global type
 	// Delta keeps track of the global type that a session should follow
 	private Map< String, GlobalType > delta;
 	
 	// services: public channel -> { role | role is a service role in the public channel }
-	private final Map< Site, Set< String >> services;
+	private final Map< Site, Set< String > > services;
 	
 	// The validator we are going to use for displaying errors
 	private final AbstractDeclarativeValidator validator;
@@ -111,23 +114,21 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		if ( delta.remove( start.getSession() ) != null ) { // This also cleans delta if necessary
 			displayError( "Session " + start.getSession() + " must be completed correctly following its protocol, before its name" +
 					"can be reused for starting a new session", start );
+			return false;
 		} else {
 			/*
-			 * Clean theta of all threads involved in the start.
+			 * Clean theta of all mappings towards the same session name for 
+			 * all active threads, to ensure session name freshness (binding).
+			 * 
 			 * We do not bother removing the mappings for service threads,
 			 * since they will be removed altogether afterwards by
 			 * the service thread name freshness check.
 			 */
 			for( ThreadWithRole twr : start.getActiveThreads() ) {
 				if ( theta.containsKey( twr.getThread() ) ) {
-					theta.remove( twr.getThread() ).get( start.getSession() );
+					theta.get( twr.getThread() ).remove( start.getSession() );
 				}
 			}
-			/* for( ThreadWithRole twr : start.getServiceThreads() ) {
-				if ( theta.containsKey( twr.getThread() ) ) {
-					theta.remove( twr.getThread() ).get( start.getSession() );
-				}
-			} */
 		}
 		
 		// Update theta with the active threads
@@ -141,15 +142,11 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		}
 		
 		// Clean up theta from all service threads, for ensuring thread name freshness (binding)
-		for( ThreadWithRole twr : start.getServiceThreads() ) {
-			theta.remove( twr.getThread() );
-		}
-		
-		// Update theta with the service threads
+		// Also, update theta with the new service thread information
 		for( ThreadWithRole twr : start.getServiceThreads() ) {
 			Map< String, String > threadRoles = new HashMap< String, String >();
 			threadRoles.put( start.getSession(), twr.getRole() );
-			theta.put( twr.getThread(), threadRoles );
+			theta.put( twr.getThread(), threadRoles ); // This cleans up and updates theta in a single shot
 		}
 
 		// Update delta with the type of the started session
@@ -171,8 +168,48 @@ public class TypeChecker extends ChorSwitch< Boolean >
 				displayError( "Every start on the same public channel must have the same set of roles on the service (right-hand) side", start );
 			}
 		}
+		
+		/*
+		 * We verify that each active thread is not entering
+		 * in a session (the one we are starting) that uses any operation name
+		 * that is already in use in another session that the thread is already
+		 * participating in.
+		 * 
+		 * This is a restriction from the Jolie language, which imposes
+		 * the usage of different operations for distinguishing inputs from different parties.
+		 */
+		for( ThreadWithRole twr : start.getActiveThreads() ) {
+			if ( !checkOperationsConsistency( twr.getThread() ) ) {
+				displayError( "Thread " + twr.getThread()
+						+ " is starting a session that shares an operation name with another running session for the same thread", start
+				);
+				return false;
+			}
+		}
 
 		return doSwitchIfNotNull( start.getContinuation() );
+	}
+	
+	private boolean checkOperationsConsistency( String thread )
+	{
+		Map< String, String > roles = theta.get( thread );
+		if ( roles == null ) { // Safety check. Should never be null though, since we got called in this method.
+			return true;
+		}
+				
+		// For each (session |-> role) mapping...
+		Set< String > ops = new HashSet< String >();
+		Set< String > curr;
+		for( Map.Entry< String, String > entry : roles.entrySet() ) {
+			curr = TypeUtils.calculateInputOperations( delta.get( entry.getKey() ), entry.getValue() );
+			if ( Collections.disjoint( ops, curr ) ) {
+				ops.addAll( curr );
+			} else {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	private void displayMainError( String error )
@@ -195,6 +232,20 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		validator.acceptError( error, interaction, offset, len, null );
 	}
 	
+	private void displayError( String error, Delegation delegation )
+	{
+		int offset;
+		int len;
+		INode node = NodeModelUtils.findActualNodeFor( delegation );
+		offset = node.getOffset();
+		len = node.getLength();
+		if ( delegation.getContinuation() != null ) {
+			INode contNode = NodeModelUtils.findActualNodeFor( delegation.getContinuation() );
+			len = len - contNode.getLength();
+		}
+		validator.acceptError( error, delegation, offset, len, null );
+	}
+	
 	private void displayError( String error, Start start )
 	{
 		int offset;
@@ -212,6 +263,134 @@ public class TypeChecker extends ChorSwitch< Boolean >
 	public Boolean caseLocalCode( LocalCode localCode )
 	{
 		return doSwitchIfNotNull( localCode.getContinuation() );
+	}
+	
+	public Boolean caseDelegation( Delegation delegation )
+	{
+		// Make sure that the session channel is in delta
+		if ( !delta.containsKey( delegation.getSession() ) ) {
+			displayError( "Session " + delegation.getSession() + " has not been started before", delegation );
+			return false;
+		}
+
+		GlobalType g = delta.get( delegation.getSession() );
+		if ( g == null ) {
+			displayError( "The type for session " + delegation.getSession() +
+					" is finished, but the session is still performing communications",
+					delegation );
+			return false;
+		}
+
+		// Check that the sender thread exists
+		if ( !theta.containsKey( delegation.getSender() ) ) {
+			displayError( "Thread " + delegation.getSender()
+					+ " is not in session " + delegation.getSession(), delegation );
+			return false;
+		}
+
+		// Check that the sender thread is actually in this session
+		if ( !theta.get( delegation.getSender() ).containsKey( delegation.getSession() ) ) {
+			displayError( "Thread " + delegation.getSender()
+					+ " is not in session " + delegation.getSession(), delegation );
+			return false;
+		}
+
+		// Check that the sender thread is the one supposed to send according to the session type
+		String senderRole = theta.get( delegation.getSender() ).get( delegation.getSession() );
+		if ( !senderRole.equals( g.getSender() ) ) {
+			displayError( "Protocol for session " + delegation.getSession() + " expects an output from role " + g.getSender() +
+					", while thread " + delegation.getSender() + " has role " + senderRole, delegation );
+		}
+
+		// Check that the receiver thread exists
+		if ( !theta.containsKey( delegation.getReceiver() ) ) {
+			displayError( "Thread " + delegation.getReceiver()
+					+ " is not in session " + delegation.getSession(), delegation );
+			return false;
+		}
+		
+		// Check that the receiver thread is actually in this session
+		if ( !theta.get( delegation.getReceiver() ).containsKey( delegation.getSession() ) ) {
+			displayError( "Thread " + delegation.getReceiver()
+					+ " is not in session " + delegation.getSession(), delegation );
+			return false;
+		}
+
+		// Check that the receiver thread is the one supposed to receive according to the session type
+		String recvRole = theta.get( delegation.getReceiver() ).get( delegation.getSession() );
+		if ( !recvRole.equals( g.getReceiver() ) ) {
+			displayError( "Protocol for session " + delegation.getSession() + " expects an input from role " + g.getReceiver() +
+					", while thread " + delegation.getReceiver() + " has role " + recvRole, delegation );
+		}
+
+		// Check the operation name wrt the session type
+		BranchGType branch = null;
+		for( BranchGType br : g.getBranches() ) {
+			if ( br.getOperation().equals( delegation.getOperation() ) ) {
+				branch = br;
+				break;
+			}
+		}
+
+		if ( branch == null ) {
+			displayError( "Operation " + delegation.getOperation() + " is not expected by the type for session "
+					+ delegation.getSession(), delegation );
+			return false;
+		}
+		
+		if ( !(branch.getDataType() instanceof DelegationType) ) {
+			displayError( "Type for operation " + delegation.getOperation() + " in session "
+					+ delegation.getSession() + " does not expect a session delegation at this point of execution", delegation );
+			return false;
+		}
+
+		DelegationType delegationType = (DelegationType)branch.getDataType();
+		String senderRoleInDelegatedSession = theta.get( delegation.getSender() ).remove( delegation.getDelegatedSession() );
+
+		// Check that the sender thread is actually in the delegated session
+		if ( senderRoleInDelegatedSession == null ) {
+			displayError( "Thread " + delegation.getSender() + " is delegating session "
+					+ delegation.getDelegatedSession() + " but it is not in its participants", delegation );
+			return false;
+		}
+		// Check that the sender thread is delegating a role that it owns
+		else if ( !delegationType.getRole().equals( senderRoleInDelegatedSession ) ) {
+			displayError( "Thread " + delegation.getSender() + " is delegating role " + delegationType.getRole()
+					+ " for session "
+					+ delegation.getDelegatedSession() + " but it owns role " + senderRoleInDelegatedSession + " instead", delegation );
+			return false;
+		}
+		// Check that the receiving thread is not already in the delegated session
+		else if ( theta.get( delegation.getReceiver() ).containsKey( delegation.getDelegatedSession() ) ) {
+			displayError( "Thread " + delegation.getReceiver() + " is already in session " + delegation.getDelegatedSession()
+					+ " with role "
+					+ theta.get( delegation.getReceiver() ).get( delegation.getDelegatedSession() ), delegation );
+			return false;
+		}
+
+		// Update theta for the delegation
+		theta.get( delegation.getSender() ).remove( delegation.getDelegatedSession() );
+		theta.get( delegation.getReceiver() ).put( delegation.getDelegatedSession(), senderRoleInDelegatedSession );
+		
+		/*
+		 *  Check that the delegation carried type specifies the same protocol
+		 *  that is going to be implemented for the delegated session.
+		 */
+		if ( !TypeUtils.checkEqualForRole(
+				delta.get( delegation.getDelegatedSession() ),
+				delegationType.getProtocol().getType(),
+				senderRoleInDelegatedSession )
+		) {
+			displayError( "The delegated carried protocol declared in the communication for session " + delegation.getSession()
+					+ " is different than the protocol behaviour remaining for session "
+					+ delegation.getDelegatedSession()
+					+ " and role " + senderRoleInDelegatedSession, delegation );
+			return false;
+		}
+		
+		// Update the session type in delta
+		delta.put( delegation.getSession(), branch.getContinuation() );
+		return doSwitchIfNotNull( delegation.getContinuation() );
 	}
 
 	public Boolean caseInteraction( Interaction interaction )
@@ -265,7 +444,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 			return false;
 		}
 		
-		// Check that the sender thread is the one supposed to send according to the session type
+		// Check that the receiver thread is the one supposed to receive according to the session type
 		String recvRole = theta.get( interaction.getReceiver() ).get( interaction.getSession() );
 		if ( !recvRole.equals( g.getReceiver() ) ) {
 			displayError( "Protocol for session " + interaction.getSession() + " expects an input from role " + g.getReceiver() +
@@ -273,24 +452,22 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		}
 
 		// Check the operation name wrt the session type
-		GlobalType contType = null;
-		boolean found = false;
+		BranchGType branch = null;
 		for( BranchGType br : g.getBranches() ) {
 			if ( br.getOperation().equals( interaction.getOperation() ) ) {
-				contType = br.getContinuation();
-				found = true;
+				branch = br;
 				break;
 			}
 		}
 		
-		if ( !found ) {
+		if ( branch == null ) {
 			displayError( "Operation " + interaction.getOperation() + " is not expected by the type for session "
 					+ interaction.getSession(), interaction );
 			return false;
 		}
 		
 		// Update the session type in delta
-		delta.put( interaction.getSession(), contType );
+		delta.put( interaction.getSession(), branch.getContinuation() );
 		return doSwitchIfNotNull( interaction.getContinuation() );
 
 		// TODO: check expression types

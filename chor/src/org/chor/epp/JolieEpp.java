@@ -21,7 +21,6 @@
 
 package org.chor.epp;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -71,7 +70,6 @@ import jolie.lang.parse.ast.types.TypeInlineDefinition;
 import jolie.util.Pair;
 import jolie.util.Range;
 
-import org.chor.chor.Interaction;
 import org.chor.chor.Program;
 import org.chor.epp.impl.FileUtils;
 import org.chor.epp.impl.JolieEppUtils;
@@ -559,10 +557,5 @@ public class JolieEpp
 		projectActiveThreads( program );
 		projectServiceThreads( program );
 		projectStartServers( program );
-	}
-	
-	public Boolean caseInteraction( Interaction n )
-	{
-		return true;
 	}
 }

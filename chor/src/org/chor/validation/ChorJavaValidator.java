@@ -23,17 +23,49 @@
 
 package org.chor.validation;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.chor.chor.BranchGType;
+import org.chor.chor.ChorPackage;
+import org.chor.chor.GlobalType;
 import org.chor.chor.Program;
 import org.chor.validation.impl.TypeChecker;
 import org.eclipse.xtext.validation.Check;
 
-
+/**
+ * Performs some basic well-formedness checks and calls the type checker
+ * for verifying that the protocols are correctly used inside the main choreography.
+ * 
+ * @author Fabrizio Montesi
+ *
+ */
 public class ChorJavaValidator extends AbstractChorJavaValidator
 {
 	@Check
-	public void checkProgram(Program program)
+	public void checkProgram( Program program )
 	{
+		// Check that the choreography respects the predefined protocols
 		TypeChecker t = new TypeChecker( program, this );
 		t.run();
+	}
+	
+	@Check
+	public void checkGlobalType( GlobalType t )
+	{
+		// Check that sender and receiver are different
+		if ( t.getSender().equals( t.getReceiver() ) ) {
+			error( "A role cannot send a message to itself", ChorPackage.Literals.GLOBAL_TYPE__SENDER );
+		}
+		
+		// Check disjointness of operation names in choices
+		Set< String > ops = new HashSet< String >();
+		for( BranchGType branch : t.getBranches() ) {
+			if ( ops.contains( branch.getOperation() ) ) {
+				error( "All operations in the same choice must have distinct names (operation name: " + branch.getOperation() + ")",
+						ChorPackage.Literals.GLOBAL_TYPE__BRANCHES );
+			}
+			ops.add( branch.getOperation() );
+		}
 	}
 }

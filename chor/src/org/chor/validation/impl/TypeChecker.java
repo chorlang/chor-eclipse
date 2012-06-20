@@ -31,7 +31,6 @@ import java.util.Set;
 import org.chor.chor.BranchGType;
 import org.chor.chor.Delegation;
 import org.chor.chor.DelegationType;
-import org.chor.chor.ExpressionBasicTerm;
 import org.chor.chor.GlobalType;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
@@ -488,12 +487,12 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		 */
 	}
 
-	private String infer( ExpressionBasicTerm exp )
+	/*private String infer( ExpressionBasicTerm exp )
 	{
 		// System.out.println(exp.getClass().toString());
 
 		return "";
-	}
+	}*/
 
 	public Boolean caseIfThenElse( IfThenElse cond )
 	{

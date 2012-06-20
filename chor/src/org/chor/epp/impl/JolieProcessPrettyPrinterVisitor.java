@@ -111,6 +111,7 @@ import jolie.lang.parse.ast.types.TypeDefinition;
 import jolie.lang.parse.ast.types.TypeDefinitionLink;
 import jolie.lang.parse.ast.types.TypeInlineDefinition;
 import jolie.util.Pair;
+import jolie.util.Range;
 
 public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 {
@@ -726,6 +727,21 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	}
 
 	boolean insideType = false;
+	
+	public void prettyPrint( Range r )
+	{
+		if ( r.min() == r.max() && r.min() == 1 ) {
+			return;
+		}
+		
+		if ( r.min() == 0 && r.max() == 1 ) {
+			printer.write( "?" );
+		} else if ( r.min() == 0 && r.max() == Integer.MAX_VALUE ) {
+			printer.write( "*" );
+		} else {
+			printer.write( "[" + r.min() + "," + r.max() + "]" );
+		}
+	}
 
 	@Override
 	public void visit( TypeInlineDefinition n )
@@ -733,8 +749,12 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 		if ( insideType == false ) {
 			printer.writeIndented( "type " );
 		}
-		printer.write( n.id() + ":" + n.nativeType().id() );
-		if ( n.hasSubTypes() ) {
+		printer.write( n.id() ); 
+		prettyPrint( n.cardinality() );
+		printer.write( ":" + n.nativeType().id() );
+		if ( n.untypedSubTypes() ) {
+			printer.write( " { ? }" );
+		} else if ( n.hasSubTypes() ) {
 			boolean backup = insideType;
 			insideType = true;
 			printer.writeLine( " {" );
@@ -794,8 +814,14 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 			printer.indent();
 			printer.writeIndented( "" );
 			int i = 0;
-			for( String name : rr.keySet() ) {
-				printer.write( name );
+			for( RequestResponseOperationDeclaration decl : rr.values() ) {
+				printer.write( decl.id() );
+				if ( decl.requestType() != null ) {
+					printer.write( "(" + decl.requestType().id() + ")" );
+				}
+				if ( decl.responseType() != null ) {
+					printer.write( "(" + decl.responseType().id() + ")" );
+				}
 				if ( i++ < rr.size() - 1 ) {
 					printer.write( ", " );
 				}

@@ -35,7 +35,10 @@ public class MergingException extends Exception
 	
 	public MergingException( OLSyntaxNode left, OLSyntaxNode right )
 	{
-		this( "Could not merge " + left.getClass().getSimpleName() + " with " + right.getClass().getSimpleName() );
+		this(
+			"Could not merge " + left.getClass().getSimpleName()
+			+ " with " + right.getClass().getSimpleName()
+		);
 	}
 	
 	public MergingException( String originatingThread, MergingException e )

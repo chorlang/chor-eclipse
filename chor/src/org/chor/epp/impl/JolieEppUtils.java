@@ -83,7 +83,7 @@ public class JolieEppUtils
 	{
 		VariablePathNode ret = new VariablePathNode( JolieEppUtils.PARSING_CONTEXT, Type.NORMAL );
 		ret.append( new Pair< OLSyntaxNode, OLSyntaxNode >(
-			new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, "_sessionDescriptor" ),
+			new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, SESSION_DESCRIPTOR ),
 			new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, 0 )
 		));
 		ret.append( new Pair< OLSyntaxNode, OLSyntaxNode >(
@@ -131,15 +131,20 @@ public class JolieEppUtils
 	}
 
 	public final static String TID_VARNAME = "tid";
+	public final static String TMP_VARNAME = "_tmp";
+	public final static String DELEGATION_TMP_VARNAME = "_delegation_tmp";
+	//public final static String DELEGATION_DESCRIPTOR_VARNAME = "delegatedSessionDescriptor";
 	public final static String SELF_INPUT_PORT_NAME = "MyInputPort";
 	public final static String DEFAULT_MESSAGE_TYPE = "ChorType";
+	public final static String SESSION_DESCRIPTOR = "_sessionDescriptor";
+	private final static String DELEGATION_SYNC_OPNAME = "__delegationSync";
 	public final static VariablePathNode SELFREF_VARPATH = variableNameToJolieVariablePath( "_myRef" );
 	public final static VariablePathNode SELFREF_TID_VARPATH = variableNameToJolieVariablePath( "_myRef" );
 	public final static VariablePathNode SELFREF_BINDING_VARPATH = variableNameToJolieVariablePath( "_myRef" );
 	public final static VariablePathNode SELF_INPUT_PORT = new VariablePathNode( PARSING_CONTEXT, VariablePathNode.Type.GLOBAL );
-	public final static VariablePathNode EXPRESSION_VARPATH = variableNameToJolieVariablePath( "_tmp" );
-	public final static VariablePathNode EXPRESSION_TID_VARPATH = variableNameToJolieVariablePath( "_tmp" );
-
+	public final static VariablePathNode EXPRESSION_VARPATH = variableNameToJolieVariablePath( TMP_VARNAME );
+	public final static VariablePathNode EXPRESSION_TID_VARPATH = variableNameToJolieVariablePath( TMP_VARNAME );
+	
 	static {
 		JolieEppUtils.appendSubNode( JolieEppUtils.SELFREF_TID_VARPATH, TID_VARNAME );
 	
@@ -153,6 +158,11 @@ public class JolieEppUtils
 	
 	public static class Operations {
 		public final static String SERVICE_THREAD_START = "_start";
+	}
+	
+	public static String getDelegationSyncOperation( String session )
+	{
+		return DELEGATION_SYNC_OPNAME + "_" + session;
 	}
 	
 	public static class SessionStart {

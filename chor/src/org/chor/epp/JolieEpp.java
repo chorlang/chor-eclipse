@@ -168,6 +168,14 @@ public class JolieEpp
 				NativeType.STRING,
 				new Range( 1, 1 )
 			));
+			TypeInlineDefinition sessionDescriptorType = new TypeInlineDefinition(
+				JolieEppUtils.PARSING_CONTEXT,
+				JolieEppUtils.SESSION_DESCRIPTOR,
+				NativeType.VOID,
+				new Range( 0, 1 )
+			);
+			sessionDescriptorType.setUntypedSubTypes( true );
+			type.putSubType( sessionDescriptorType );
 			jolieProgram.addChild( type );
 			types.put( compositeRole, type );
 		}
@@ -208,11 +216,23 @@ public class JolieEpp
 		
 		InterfaceDefinition iface = new InterfaceDefinition( JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.SELF_INPUT_PORT_NAME + "Interface" );
 		OneWayOperationDeclaration decl;
+		RequestResponseOperationDeclaration rrDecl;
 		for( String compositeRole : result.compositeRoles() ) {
 			for( String operation : result.inputOperationsForCorrelationSet( compositeRole ) ) {
-				decl = new OneWayOperationDeclaration( JolieEppUtils.PARSING_CONTEXT, operation );
-				decl.setRequestType( types.get( compositeRole ) );
-				iface.addOperation( decl );
+				if ( result.isUsedForDelegation( operation ) ) {
+					rrDecl = new RequestResponseOperationDeclaration(
+						JolieEppUtils.PARSING_CONTEXT,
+						operation,
+						types.get( compositeRole ),
+						new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "void", NativeType.VOID, new Range( 1, 1 ) ),
+						null
+					);
+					iface.addOperation( rrDecl );
+				} else {
+					decl = new OneWayOperationDeclaration( JolieEppUtils.PARSING_CONTEXT, operation );
+					decl.setRequestType( types.get( compositeRole ) );
+					iface.addOperation( decl );
+				}
 			}
 		}
 		for( String operation : result.uncorrelatedInputOperations() ) {

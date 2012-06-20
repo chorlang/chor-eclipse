@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import jolie.lang.NativeType;
 import jolie.lang.parse.ast.AssignStatement;
@@ -35,10 +34,12 @@ import jolie.lang.parse.ast.IfStatement;
 import jolie.lang.parse.ast.NotificationOperationStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
+import jolie.lang.parse.ast.RequestResponseOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.SolicitResponseOperationStatement;
 import jolie.lang.parse.ast.TypeCastExpressionNode;
 import jolie.lang.parse.ast.VariablePathNode;
+import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.FreshValueExpressionNode;
 import jolie.util.Pair;
 
@@ -58,115 +59,107 @@ import org.chor.epp.impl.merging.MergingException;
 
 public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 {
-	private static class ThreadDescriptor {
-		private final String name;
-		private final String role;
-		private final Site publicChannel;
-		
-		public ThreadDescriptor( String name, String role, Site publicChannel )
-		{
-			this.name = name;
-			this.role = role;
-			this.publicChannel = publicChannel;
-		}
-		
-		/*public String getOutputPortName()
-		{
-			return publicChannel + "_" + role;
-		}*/
-	}
-	
-	private static class StartScope
+	private static class TypeEnvironment
 	{
-		private final Map< String, ThreadDescriptor > threadDescriptors = new HashMap< String, ThreadDescriptor >();
-		private final Map< String, ThreadDescriptor > serviceThreadDescriptors = new HashMap< String, ThreadDescriptor >();
-		private final Start start;
+		// thread -> session -> role
+		private final Map< String, Map< String, String > > theta = new HashMap< String, Map< String, String > >();
 		
-		public StartScope( Start n )
+		// session -> start
+		private final Map< String, Start > sessionStarts = new HashMap< String, Start >();
+				
+		public void update( Start n )
 		{
-			ThreadDescriptor td;
-			for( ThreadWithRole t : n.getServiceThreads() ) {
-				td = new ThreadDescriptor( t.getThread(), t.getRole(), n.getPublicChannel() );
-				serviceThreadDescriptors.put( t.getThread(), td );
-				threadDescriptors.put( t.getThread(), td );
+			for( ThreadWithRole twr : n.getActiveThreads() ) {
+				updateTheta( twr.getThread(), n.getSession(), twr.getRole() );
 			}
-			for( ThreadWithRole t : n.getActiveThreads() ) {
-				td = new ThreadDescriptor( t.getThread(), t.getRole(), n.getPublicChannel() );
-				threadDescriptors.put( t.getThread(), td );
+			for( ThreadWithRole twr : n.getServiceThreads() ) {
+				updateTheta( twr.getThread(), n.getSession(), twr.getRole() );
 			}
-			this.start = n;
+			sessionStarts.put( n.getSession(), n );
 		}
 		
-		/*public ThreadDescriptor getServiceThreadDescriptor( String thread )
+		public void update( Delegation n )
 		{
-			return serviceThreadDescriptors.get( thread );
-		}*/
-		
-		public String getThreadRole( String thread, String sessionName )
-		{
-			if ( sessionName.equals( start.getSession() ) == false ) {
-				return null;
-			}
-			ThreadDescriptor td = threadDescriptors.get( thread );
-			if ( td == null ) {
-				return null;
-			}
-			return td.role;
+			updateTheta( n.getReceiver(), n.getDelegatedSession(), getThreadRole( n.getSender(), n.getDelegatedSession() ) );
+			removeFromTheta( n.getSender(), n.getDelegatedSession() );
 		}
 		
-		public Site getSessionPublicChannel( String sessionName )
+		private void removeFromTheta( String thread, String session )
 		{
-			if ( sessionName.equals( start.getSession() ) == false ) {
-				return null;
+			Map< String, String > map = theta.get( thread );
+			if ( map != null ) {
+				map.remove( session );
+			}
+		}
+		
+		private void updateTheta( String thread, String session, String role )
+		{
+			Map< String, String > map = theta.get( thread );
+			if ( map == null ) {
+				map = new HashMap< String, String >();
+				theta.put( thread, map );
+			}
+			map.put( session, role );
+		}
+		
+		public boolean isThreadInSession( String thread, String session )
+		{
+			if ( theta.containsKey( thread ) ) {
+				return theta.get( thread ).containsKey( session );
 			}
 			
-			return start.getPublicChannel();
-		}
-	}
-	
-	private static class StartScopeStack
-	{
-		private final Stack< StartScope > stack = new Stack< StartScope >();
-		
-		public void push( Start n )
-		{
-			stack.push( new StartScope( n ) );
+			return false;
 		}
 		
-		public StartScope pop()
+		public List< String > getRolesForSession( String session )
 		{
-			return stack.pop();
+			Start s = sessionStarts.get( session );
+			List< String > list = new ArrayList< String >( s.getActiveThreads().size() + s.getServiceThreads().size() );
+			for( ThreadWithRole twd : s.getActiveThreads() ) {
+				list.add( twd.getRole() );
+			}
+			for( ThreadWithRole twd : s.getServiceThreads() ) {
+				list.add( twd.getRole() );
+			}
+			
+			return list;
+		}
+		
+		public List< String > getThreadsForSession( String session )
+		{
+			Start s = sessionStarts.get( session );
+			List< String > list = new ArrayList< String >( s.getActiveThreads().size() + s.getServiceThreads().size() );
+			for( ThreadWithRole twd : s.getActiveThreads() ) {
+				list.add( twd.getThread() );
+			}
+			for( ThreadWithRole twd : s.getServiceThreads() ) {
+				list.add( twd.getThread() );
+			}
+			
+			return list;
 		}
 
 		public String getThreadRole( String thread, String session )
 		{
 			String role = null;
-			for( StartScope scope : stack ) {
-				role = scope.getThreadRole( thread, session );
-				if ( role != null ) {
-					return role;
-				}
+			Map< String, String > map = theta.get( thread );
+			if ( map != null ) {
+				role = map.get( session );
 			}
+			
 			return role;
 		}
 		
 		public Site getSessionPublicChannel( String session )
 		{
-			Site publicChannel = null;
-			for( StartScope scope : stack ) {
-				publicChannel = scope.getSessionPublicChannel( session );
-				if ( publicChannel != null ) {
-					return publicChannel;
-				}
-			}
-			return publicChannel;
+			return sessionStarts.get( session ).getPublicChannel();
 		}
 	}
 	
 	private final String thread;
 	private Exception errorException = null;
 	private boolean alreadyStarted = false;
-	private final StartScopeStack startScopeStack = new StartScopeStack();
+	private final TypeEnvironment typeEnvironment = new TypeEnvironment();
 	
 	private ThreadProjector( String thread )
 	{
@@ -206,29 +199,40 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 
 	private void addOutputPortAssignmentsAfterStart( SequenceStatement seq, Start n )
 	{
-		VariablePathNode sessionDescriptorForRole;
 		List< ThreadWithRole > list = new ArrayList< ThreadWithRole >( n.getActiveThreads().size() + n.getServiceThreads().size() );
 		list.addAll( n.getActiveThreads() );
 		list.addAll( n.getServiceThreads() );
 		for( ThreadWithRole t : list ) {
 			if ( t.getThread().equals( thread ) == false ) {
-				sessionDescriptorForRole = JolieEppUtils.getSessionDescriptorPath( n.getSession() );
-				JolieEppUtils.appendSubNode( sessionDescriptorForRole, t.getRole() );
-				JolieEppUtils.appendSubNode( sessionDescriptorForRole, "binding" );
-				seq.addChild( new DeepCopyStatement(
-					JolieEppUtils.PARSING_CONTEXT,
-					JolieEppUtils.variableNameToJolieVariablePath( getOutputPortNameForOutput( n.getSession(), t.getRole() ) ),
-					sessionDescriptorForRole
-				));
+				addOutputPortBindingAssignment( seq, n.getSession(), t.getRole() );
 			}
 		}
+	}
+	
+	private void addOutputPortAssignmentsAfterDelegation( SequenceStatement seq, Delegation n )
+	{
+		for( String role : typeEnvironment.getRolesForSession( n.getDelegatedSession() ) ) {
+			addOutputPortBindingAssignment( seq, n.getDelegatedSession(), role );
+		}
+	}
+	
+	private void addOutputPortBindingAssignment( SequenceStatement seq, String session, String role )
+	{
+		VariablePathNode sessionDescriptorForRole = JolieEppUtils.getSessionDescriptorPath( session );
+		JolieEppUtils.appendSubNode( sessionDescriptorForRole, role );
+		JolieEppUtils.appendSubNode( sessionDescriptorForRole, "binding" );
+		seq.addChild( new DeepCopyStatement(
+			JolieEppUtils.PARSING_CONTEXT,
+			JolieEppUtils.variableNameToJolieVariablePath( getOutputPortNameForOutput( session, role ) ),
+			sessionDescriptorForRole
+		));
 	}
 	
 	private String getCorrelationVariableName( String thread, String session )
 	{
 		return
-			startScopeStack.getSessionPublicChannel( session ).getProtocol().getName() + "_" +
-			startScopeStack.getThreadRole( thread, session );
+			typeEnvironment.getSessionPublicChannel( session ).getProtocol().getName() + "_" +
+			typeEnvironment.getThreadRole( thread, session );
 	}
 	
 	private boolean tidInitialized = false;
@@ -238,7 +242,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		ThreadProjectionResult result = new ThreadProjectionResult();
 		boolean proceed = true;
 
-		startScopeStack.push( n );
+		typeEnvironment.update( n );
 		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
 		for( ThreadWithRole t : n.getActiveThreads() ) {
 			if ( t.getThread().equals( thread ) ) {
@@ -276,7 +280,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 					null
 				));
 				addOutputPortAssignmentsAfterStart( seq, n );
-				result.addRequestResponseOperation( n.getPublicChannel().getName(), "_start_" + t.getRole() );
+				result.addRRToOutputPort( n.getPublicChannel().getName(), "_start_" + t.getRole() );
 			}
 		}
 		
@@ -326,7 +330,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 						null
 					));
 					addOutputPortAssignmentsAfterStart( seq, n );
-					result.addRequestResponseOperation( n.getPublicChannel().getName(), "_start_" + t.getRole() );
+					result.addRRToOutputPort( n.getPublicChannel().getName(), "_start_" + t.getRole() );
 				}
 			}
 		}
@@ -340,7 +344,6 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 			seq.addChild( res.jolieNode() );
 			result.mergeNamesOnly( res );
 		}
-		startScopeStack.pop();
 		result.setJolieNode( seq );
 		return result;
 	}
@@ -355,7 +358,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 			resElse = doSwitch( n.getElse() );
 			result.mergeNamesOnly( resElse );
 		}
-		
+
 		if ( n.getThread().equals( thread ) ) {
 			IfStatement jolieStatement = new IfStatement( JolieEppUtils.PARSING_CONTEXT );
 			jolieStatement.addChild( new Pair< OLSyntaxNode, OLSyntaxNode > (
@@ -467,7 +470,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 			}
 			
 			VariablePathNode receiverTidPath = JolieEppUtils.getSessionDescriptorPath( n.getSession() );
-			JolieEppUtils.appendSubNode( receiverTidPath, startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) );
+			JolieEppUtils.appendSubNode( receiverTidPath, typeEnvironment.getThreadRole( n.getReceiver(), n.getSession() ) );
 			JolieEppUtils.appendSubNode( receiverTidPath, "tid" );
 			seq.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT,
@@ -477,10 +480,10 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 			seq.addChild( new NotificationOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT,
 				n.getOperation(),
-				getOutputPortNameForOutput( n.getSession(), startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) ),
+				getOutputPortNameForOutput( n.getSession(), typeEnvironment.getThreadRole( n.getReceiver(), n.getSession() ) ),
 				outVarPath
 			));
-			result.addOneWayOperation( getOutputPortNameForOutput( n.getSession(), startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) ), n.getOperation() );
+			result.addOWToOutputPort( getOutputPortNameForOutput( n.getSession(), typeEnvironment.getThreadRole( n.getReceiver(), n.getSession() ) ), n.getOperation() );
 		} else if ( n.getReceiver().equals( thread ) ) {
 			result.inputOperationsForCorrelationSet(
 				getCorrelationVariableName( n.getSender(), n.getSession() )
@@ -511,40 +514,114 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		ThreadProjectionResult result = new ThreadProjectionResult();
 		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
 		if ( n.getSender().equals( thread ) ) {
-			VariablePathNode outVarPath, tidVarPath;
-			String varName = "pippo";
-			//if ( varName != null ) {
-				// It's a simple variable
-				outVarPath = JolieEppUtils.variableNameToJolieVariablePath( varName );
-				tidVarPath = JolieEppUtils.variableNameToJolieVariablePath( varName );
-				JolieEppUtils.appendSubNode( tidVarPath, "tid" );
-			//}
+			// Update the binding in the session descriptor to the delegated thread
+			VariablePathNode delegatedDescriptor = JolieEppUtils.getSessionDescriptorPath( n.getDelegatedSession() );;
+			JolieEppUtils.appendSubNode( delegatedDescriptor, typeEnvironment.getThreadRole( n.getSender(), n.getDelegatedSession() ) );
+			VariablePathNode receiverDescriptorPath = JolieEppUtils.getSessionDescriptorPath( n.getSession() );
+			JolieEppUtils.appendSubNode( receiverDescriptorPath, typeEnvironment.getThreadRole( n.getReceiver(), n.getSession() ) );
+			seq.addChild( new DeepCopyStatement( JolieEppUtils.PARSING_CONTEXT,
+				delegatedDescriptor, receiverDescriptorPath
+			));
 			
+			VariablePathNode outVarPath = JolieEppUtils.variableNameToJolieVariablePath( JolieEppUtils.DELEGATION_TMP_VARNAME );
+			VariablePathNode tidVarPath = JolieEppUtils.variableNameToJolieVariablePath( JolieEppUtils.DELEGATION_TMP_VARNAME );
+			JolieEppUtils.appendSubNode( tidVarPath, "tid" );
+
+			// Add the binding information for the delegated session
+			VariablePathNode delegatedDescriptorPath = JolieEppUtils.variableNameToJolieVariablePath( JolieEppUtils.DELEGATION_TMP_VARNAME );
+			JolieEppUtils.appendSubNode( delegatedDescriptorPath, JolieEppUtils.SESSION_DESCRIPTOR );
+			seq.addChild( new DeepCopyStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				delegatedDescriptorPath,
+				JolieEppUtils.getSessionDescriptorPath( n.getDelegatedSession() )
+			));
+
+			// Add the session correlation information for reaching the receiver
 			VariablePathNode receiverTidPath = JolieEppUtils.getSessionDescriptorPath( n.getSession() );
-			JolieEppUtils.appendSubNode( receiverTidPath, startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) );
+			JolieEppUtils.appendSubNode( receiverTidPath, typeEnvironment.getThreadRole( n.getReceiver(), n.getSession() ) );
 			JolieEppUtils.appendSubNode( receiverTidPath, "tid" );
 			seq.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT,
 				tidVarPath,
 				receiverTidPath
 			));
-			seq.addChild( new NotificationOperationStatement(
+			seq.addChild( new SolicitResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT,
 				n.getOperation(),
-				getOutputPortNameForOutput( n.getSession(), startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) ),
-				outVarPath
+				getOutputPortNameForOutput( n.getSession(), typeEnvironment.getThreadRole( n.getReceiver(), n.getSession() ) ),
+				outVarPath, null, null
 			));
-			result.addOneWayOperation( getOutputPortNameForOutput( n.getSession(), startScopeStack.getThreadRole( n.getReceiver(), n.getSession() ) ), n.getOperation() );
+			result.addRRToOutputPort( getOutputPortNameForOutput( n.getSession(), typeEnvironment.getThreadRole( n.getReceiver(), n.getSession() ) ), n.getOperation() );
+
+			// Send the synchronisations to other threads involved in the session
+			for( String thread : typeEnvironment.getThreadsForSession( n.getDelegatedSession() ) ) {
+				if ( thread.equals( n.getSender() ) == false ) {
+					receiverTidPath = JolieEppUtils.getSessionDescriptorPath( n.getDelegatedSession() );
+					JolieEppUtils.appendSubNode( receiverTidPath, typeEnvironment.getThreadRole( thread, n.getDelegatedSession() ) );
+					JolieEppUtils.appendSubNode( receiverTidPath, "tid" );
+					seq.addChild( new AssignStatement(
+						JolieEppUtils.PARSING_CONTEXT,
+						tidVarPath,
+						receiverTidPath
+					));
+					seq.addChild( new NotificationOperationStatement(
+						JolieEppUtils.PARSING_CONTEXT,
+						JolieEppUtils.getDelegationSyncOperation( n.getDelegatedSession() ),
+						getOutputPortNameForOutput( n.getDelegatedSession(), typeEnvironment.getThreadRole( thread, n.getDelegatedSession() ) ),
+						outVarPath
+					));
+					result.addOWToOutputPort(
+						getOutputPortNameForOutput( n.getDelegatedSession(), typeEnvironment.getThreadRole( thread, n.getDelegatedSession() ) ),
+						JolieEppUtils.getDelegationSyncOperation( n.getDelegatedSession() )
+					);
+				}
+			}
 		} else if ( n.getReceiver().equals( thread ) ) {
 			result.inputOperationsForCorrelationSet(
 				getCorrelationVariableName( n.getSender(), n.getSession() )
 			).add( n.getOperation() );
-			seq.addChild( new OneWayOperationStatement(
+			result.setUsedForDelegation( n.getOperation() );
+			
+			SequenceStatement rrSeq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+			// Assign the output port bindings
+			VariablePathNode sessionDescriptor = JolieEppUtils.variableNameToJolieVariablePath( JolieEppUtils.DELEGATION_TMP_VARNAME );
+			JolieEppUtils.appendSubNode( sessionDescriptor, JolieEppUtils.SESSION_DESCRIPTOR );
+			rrSeq.addChild(
+				new DeepCopyStatement( JolieEppUtils.PARSING_CONTEXT,
+					JolieEppUtils.getSessionDescriptorPath( n.getDelegatedSession() ),
+					sessionDescriptor
+			));
+			addOutputPortAssignmentsAfterDelegation( rrSeq, n );
+			
+			seq.addChild( new RequestResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT,
 				n.getOperation(),
-				JolieEppUtils.variableNameToJolieVariablePath( "pippo" )
+				JolieEppUtils.variableNameToJolieVariablePath( JolieEppUtils.DELEGATION_TMP_VARNAME ),
+				null, rrSeq
 			));
+		} else if ( typeEnvironment.isThreadInSession( thread, n.getDelegatedSession() ) ) {
+			// Receive the delegation synchronisation if in the delegated session
+			result.inputOperationsForCorrelationSet(
+				getCorrelationVariableName( n.getSender(), n.getDelegatedSession() )
+			).add( JolieEppUtils.getDelegationSyncOperation( n.getDelegatedSession() ) );
+
+			VariablePathNode recvVarPath = JolieEppUtils.variableNameToJolieVariablePath( JolieEppUtils.DELEGATION_TMP_VARNAME );
+			seq.addChild( new OneWayOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				JolieEppUtils.getDelegationSyncOperation( n.getDelegatedSession() ),
+				recvVarPath
+			));
+			VariablePathNode sessionDescriptor = JolieEppUtils.variableNameToJolieVariablePath( JolieEppUtils.DELEGATION_TMP_VARNAME );
+			JolieEppUtils.appendSubNode( sessionDescriptor, JolieEppUtils.SESSION_DESCRIPTOR );
+			seq.addChild(
+				new DeepCopyStatement( JolieEppUtils.PARSING_CONTEXT,
+					JolieEppUtils.getSessionDescriptorPath( n.getDelegatedSession() ),
+					sessionDescriptor
+			));
+			addOutputPortBindingAssignment( seq, n.getDelegatedSession(), typeEnvironment.getThreadRole( n.getSender(), n.getDelegatedSession() ) );
 		}
+
+		typeEnvironment.update( n );
 
 		if ( n.getContinuation() == null ) {
 			if ( seq.children().isEmpty() ) {

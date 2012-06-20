@@ -37,14 +37,38 @@ import jolie.lang.parse.ast.RequestResponseOperationDeclaration;
 import org.chor.epp.impl.merging.MergeUtils;
 import org.chor.epp.impl.merging.MergingException;
 
+/**
+ * Result of a thread endpoint projection.
+ * 
+ * This class offers methods for merging thread projections, and accessing
+ * information such as the used input operations and their correlation sets.
+ * 
+ * @author Fabrizio Montesi
+ *
+ */
 public class ThreadProjectionResult
 {
+	// The projected Jolie abstract syntax node
 	private OLSyntaxNode jolieNode;
+	
+	// cset -> input operations
 	private final Map< String, Set< String > > inputOperationMap;
+	
+	// { op | op is an operation used for receiving a delegation }
+	private final Set< String > delegationOps = new HashSet< String >();
+	
+	// { op | op is an operation without correlation set }
 	private final Set< String > uncorrelatedInputOperations;
+	
+	// output port name -> output port
 	private final Map< String, OutputPortInfo > outputPorts;
+	
+	// { s | s is a filename to be included at the beginning of the Jolie program }
 	private final Set< String > includes;
 	
+	/**
+	 * Constructor.
+	 */
 	public ThreadProjectionResult()
 	{
 		this.jolieNode = new NullProcessStatement( JolieEppUtils.PARSING_CONTEXT );
@@ -54,11 +78,21 @@ public class ThreadProjectionResult
 		this.includes = new HashSet< String >();
 	}
 	
+	public boolean isUsedForDelegation( String operation )
+	{
+		return delegationOps.contains( operation );
+	}
+	
+	public void setUsedForDelegation( String operation )
+	{
+		delegationOps.add( operation );
+	}
+
 	public void addInclude( String include )
 	{
 		includes.add( include );
 	}
-	
+
 	public Set< String > includes()
 	{
 		return includes;
@@ -99,13 +133,13 @@ public class ThreadProjectionResult
 	{
 		return outputPorts;
 	}
-	
-	public void addOneWayOperation( String outputPortName, String operationName )
+
+	public void addOWToOutputPort( String outputPortName, String operationName )
 	{
 		getOutputPort( outputPortName ).addOperation( new OneWayOperationDeclaration( JolieEppUtils.PARSING_CONTEXT, operationName ) );
 	}
 	
-	public void addRequestResponseOperation( String outputPortName, String operationName )
+	public void addRRToOutputPort( String outputPortName, String operationName )
 	{
 		getOutputPort( outputPortName ).addOperation( new RequestResponseOperationDeclaration( JolieEppUtils.PARSING_CONTEXT, operationName, null, null, null ) );
 	}
@@ -133,14 +167,15 @@ public class ThreadProjectionResult
 		for( String cset : other.inputOperationMap.keySet() ) {
 			inputOperationsForCorrelationSet( cset ).addAll( other.inputOperationsForCorrelationSet( cset ) );
 		}
+		delegationOps.addAll( other.delegationOps );
 		uncorrelatedInputOperations.addAll( other.uncorrelatedInputOperations );
 
 		for( Map.Entry< String, OutputPortInfo > entry : other.outputPorts.entrySet() ) {
 			for( OperationDeclaration opDecl : entry.getValue().operations() ) {
 				if ( opDecl instanceof OneWayOperationDeclaration ) {
-					addOneWayOperation( entry.getKey(), opDecl.id() );
+					addOWToOutputPort( entry.getKey(), opDecl.id() );
 				} else {
-					addRequestResponseOperation( entry.getKey(), opDecl.id() );
+					addRRToOutputPort( entry.getKey(), opDecl.id() );
 				}
 			}
 		}

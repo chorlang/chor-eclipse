@@ -32,16 +32,25 @@ import jolie.lang.parse.ast.NotificationOperationStatement;
 import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
+import jolie.lang.parse.ast.RequestResponseOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.SolicitResponseOperationStatement;
 import jolie.util.Pair;
 
 import org.chor.epp.impl.JolieEppUtils;
-import org.eclipse.xtext.util.Notifications;
 
 public class MergeFunction
 {
 	private static NDChoiceStatement oneWayToInputChoice( OneWayOperationStatement stm )
+	{
+		NDChoiceStatement ndChoice = new NDChoiceStatement( JolieEppUtils.PARSING_CONTEXT );
+		ndChoice.addChild( new Pair< OLSyntaxNode, OLSyntaxNode >(
+			stm, new NullProcessStatement( JolieEppUtils.PARSING_CONTEXT )
+		));
+		return ndChoice;
+	}
+	
+	private static NDChoiceStatement requestResponseToInputChoice( RequestResponseOperationStatement stm )
 	{
 		NDChoiceStatement ndChoice = new NDChoiceStatement( JolieEppUtils.PARSING_CONTEXT );
 		ndChoice.addChild( new Pair< OLSyntaxNode, OLSyntaxNode >(
@@ -55,6 +64,14 @@ public class MergeFunction
 	{
 		OLSyntaxNode head = sequence.children().get( 0 );
 		if ( head instanceof OneWayOperationStatement ) {
+			sequence.children().remove( 0 );
+			NDChoiceStatement ndChoice = new NDChoiceStatement( JolieEppUtils.PARSING_CONTEXT );
+			ndChoice.addChild( new Pair< OLSyntaxNode, OLSyntaxNode >(
+				head,
+				JolieEppUtils.optimizeProcess( sequence )
+			));
+			return ndChoice;
+		} else if ( head instanceof RequestResponseOperationStatement ) {
 			sequence.children().remove( 0 );
 			NDChoiceStatement ndChoice = new NDChoiceStatement( JolieEppUtils.PARSING_CONTEXT );
 			ndChoice.addChild( new Pair< OLSyntaxNode, OLSyntaxNode >(
@@ -143,28 +160,51 @@ public class MergeFunction
 	{
 		Map< String, Pair< OLSyntaxNode, OLSyntaxNode > > choiceMap = new HashMap< String, Pair< OLSyntaxNode, OLSyntaxNode > >();
 		OneWayOperationStatement owStatement;
+		RequestResponseOperationStatement rrStatement;
 		Pair< OLSyntaxNode, OLSyntaxNode > otherPair;
 		List< Pair< OLSyntaxNode, OLSyntaxNode > > choiceList =
 			new ArrayList< Pair< OLSyntaxNode, OLSyntaxNode > >( left.children().size() + right.children().size() );
 		choiceList.addAll( left.children() );
 		choiceList.addAll( right.children() );
 		for( Pair< OLSyntaxNode, OLSyntaxNode > pair : choiceList ) {
-			owStatement = (OneWayOperationStatement) pair.key();
-			if ( choiceMap.containsKey( owStatement.id() ) ) {
-				otherPair = choiceMap.get( owStatement.id() );
-				if ( EqualUtils.checkEqual( owStatement, (OneWayOperationStatement) otherPair.key() ) ) {
+			if ( pair.key() instanceof OneWayOperationStatement ) {
+				owStatement = (OneWayOperationStatement) pair.key();
+				if ( choiceMap.containsKey( owStatement.id() ) ) {
+					otherPair = choiceMap.get( owStatement.id() );
+					if ( !(otherPair.key() instanceof OneWayOperationStatement) ) {
+						throw new MergingException( owStatement, otherPair.key() );
+					}
+					if ( EqualUtils.checkEqual( owStatement, (OneWayOperationStatement) otherPair.key() ) ) {
+						choiceMap.put(
+							owStatement.id(),
+							new Pair< OLSyntaxNode, OLSyntaxNode >(
+								owStatement,
+								MergeUtils.merge( pair.value(), otherPair.value() )
+							)
+						);
+					} else {
+						throw new MergingException( owStatement, otherPair.key() );
+					}
+				} else {
+					choiceMap.put( owStatement.id(), pair );
+				}
+			} else if ( pair.key() instanceof RequestResponseOperationStatement ){
+				rrStatement = (RequestResponseOperationStatement) pair.key();
+				if ( choiceMap.containsKey( rrStatement.id() ) ) {
+					otherPair = choiceMap.get( rrStatement.id() );
+					if ( !(otherPair.key() instanceof RequestResponseOperationStatement) ) {
+						throw new MergingException( rrStatement, otherPair.key() );
+					}
 					choiceMap.put(
-						owStatement.id(),
+						rrStatement.id(),
 						new Pair< OLSyntaxNode, OLSyntaxNode >(
-							owStatement,
+							MergeUtils.merge( pair.key(), (RequestResponseOperationStatement) otherPair.key() ),
 							MergeUtils.merge( pair.value(), otherPair.value() )
 						)
 					);
 				} else {
-					throw new MergingException( owStatement, otherPair.key() );
+					choiceMap.put( rrStatement.id(), pair );
 				}
-			} else {
-				choiceMap.put( owStatement.id(), pair );
 			}
 		}
 		NDChoiceStatement ndChoice = new NDChoiceStatement( JolieEppUtils.PARSING_CONTEXT );
@@ -194,6 +234,35 @@ public class MergeFunction
 		return ret;
 	}
 	
+	public static OLSyntaxNode merge( RequestResponseOperationStatement left, RequestResponseOperationStatement right )
+		throws MergingException
+	{
+		OLSyntaxNode ret = null;
+		if ( left.id().equals( right.id() ) ) {
+			if ( !EqualUtils.checkEqual( left.inputVarPath(), right.inputVarPath() )
+				|| !EqualUtils.checkEqual( left.outputExpression(), right.outputExpression() )
+			) {
+				throw new MergingException( left, right );
+			}
+			
+			ret = new RequestResponseOperationStatement(
+				left.context(), left.id(),
+				left.inputVarPath(), left.outputExpression(),
+				MergeUtils.merge( left.process(), right.process() )
+			);
+		} else {
+			NDChoiceStatement ndChoice = new NDChoiceStatement( JolieEppUtils.PARSING_CONTEXT );
+			ndChoice.addChild( new Pair< OLSyntaxNode, OLSyntaxNode >(
+				left, new NullProcessStatement( JolieEppUtils.PARSING_CONTEXT )
+			));
+			ndChoice.addChild( new Pair< OLSyntaxNode, OLSyntaxNode >(
+				right, new NullProcessStatement( JolieEppUtils.PARSING_CONTEXT )
+			));
+			ret = ndChoice;
+		}
+		return ret;
+	}
+	
 	public static OLSyntaxNode merge( NDChoiceStatement left, OneWayOperationStatement right )
 		throws MergingException
 	{
@@ -204,6 +273,18 @@ public class MergeFunction
 		throws MergingException
 	{
 		return merge( oneWayToInputChoice( left ), right );
+	}
+	
+	public static OLSyntaxNode merge( NDChoiceStatement left, RequestResponseOperationStatement right )
+		throws MergingException
+	{
+		return merge( left, requestResponseToInputChoice( right ) );
+	}
+	
+	public static OLSyntaxNode merge( RequestResponseOperationStatement left, NDChoiceStatement right )
+		throws MergingException
+	{
+		return merge( requestResponseToInputChoice( left ), right );
 	}
 	
 	public static OLSyntaxNode merge( NDChoiceStatement left, SequenceStatement right )

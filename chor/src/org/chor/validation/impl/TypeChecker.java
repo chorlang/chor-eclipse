@@ -29,13 +29,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.chor.chor.BranchGType;
+import org.chor.chor.Call;
 import org.chor.chor.Delegation;
 import org.chor.chor.DelegationType;
 import org.chor.chor.GlobalType;
+import org.chor.chor.GlobalTypeInteraction;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
 import org.chor.chor.LocalCode;
+import org.chor.chor.Procedure;
 import org.chor.chor.Program;
+import org.chor.chor.SessionProcedureParameter;
 import org.chor.chor.Site;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
@@ -58,7 +62,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 {
 	// theta: thread name -> session -> role
 	// Theta keeps track of the role each thread plays in a session
-	private final Map< String, Map< String, String > > theta;
+	private Map< String, Map< String, String > > theta;
 	
 	// delta: session -> global type
 	// Delta keeps track of the global type that a session should follow
@@ -73,7 +77,18 @@ public class TypeChecker extends ChorSwitch< Boolean >
 	// The program to type check
 	private final Program program;
 
-	// private HashMap< String, HashMap< String, String >> varTypes;
+	// Support class for keeping backups of typing environments
+	private static class Backup {
+		private final Map< String, Map< String, String > > theta;
+		private final Map< String, GlobalType > delta;
+		private Backup(
+			Map< String, Map< String, String > > theta,
+			Map< String, GlobalType > delta
+		) {
+			this.theta = theta;
+			this.delta = delta;
+		}
+	}
 
 	/**
 	 * Constructor
@@ -86,12 +101,26 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		this.program = program;
 
 		// Initialise maps to empty
-		theta = new HashMap< String, Map< String, String >>();
+		theta = new HashMap< String, Map< String, String > >();
 		delta = new HashMap< String, GlobalType >();
-		services = new HashMap< Site, Set< String >>();
+		services = new HashMap< Site, Set< String > >();
 
 		// and, finally, we initialize varTypes;
 		// varTypes = new HashMap< String, HashMap< String, String >>();
+	}
+	
+	private Backup backupAndReset()
+	{
+		Backup backup = new Backup( theta, delta );
+		theta = new HashMap< String, Map< String, String > >();
+		delta = new HashMap< String, GlobalType >();
+		return backup;
+	}
+	
+	private void restore( Backup backup )
+	{
+		theta = backup.theta;
+		delta = backup.delta;
 	}
 	
 	/**
@@ -99,7 +128,40 @@ public class TypeChecker extends ChorSwitch< Boolean >
 	 */
 	public void run()
 	{
+		// Check the procedures
+		for( Procedure proc : program.getProcedures() ) {
+			doSwitchIfNotNull( proc );
+		}
+		
+		// Check the choreography
 		doSwitchIfNotNull( program.getChoreography() );
+	}
+	
+	public Boolean caseProcedure( Procedure proc )
+	{
+		Backup backup = backupAndReset();
+
+		for( SessionProcedureParameter param : proc.getSessionParameters() ) {
+			delta.put( param.getSession(), param.getType() );
+			for( ThreadWithRole twr : param.getActiveThreads() ) {
+				updateTheta( twr.getThread(), param.getSession(), twr.getRole() );
+			}
+		}
+		
+		doSwitchIfNotNull( proc.getChoreography() );
+		
+		restore( backup );
+		return true;
+	}
+	
+	private void updateTheta( String thread, String session, String role )
+	{
+		Map< String, String > threadRoles = theta.get( thread );
+		if ( threadRoles == null ) { // Create a fresh map for the thread if not in theta already
+			threadRoles = new HashMap< String, String >();
+			theta.put( thread, threadRoles );
+		}
+		threadRoles.put( session, role );
 	}
 
 	public Boolean caseStart( Start start )
@@ -132,12 +194,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		
 		// Update theta with the active threads
 		for( ThreadWithRole twr : start.getActiveThreads() ) {
-			Map< String, String > threadRoles = theta.get( twr.getThread() );
-			if ( threadRoles == null ) { // Create a fresh map for the thread if not in theta already
-				threadRoles = new HashMap< String, String >();
-				theta.put( twr.getThread(), threadRoles );
-			}
-			threadRoles.put( start.getSession(), twr.getRole() );
+			updateTheta( twr.getThread(), start.getSession(), twr.getRole() );
 		}
 		
 		// Clean up theta from all service threads, for ensuring thread name freshness (binding)
@@ -230,7 +287,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		}
 		validator.acceptError( error, interaction, offset, len, null );
 	}
-	
+
 	private void displayError( String error, Delegation delegation )
 	{
 		int offset;
@@ -259,6 +316,16 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		validator.acceptError( error, start, offset, len, null );
 	}
 	
+	private void displayError( String error, Call call )
+	{
+		int offset;
+		int len;
+		INode node = NodeModelUtils.findActualNodeFor( call );
+		offset = node.getOffset();
+		len = node.getLength();
+		validator.acceptError( error, call, offset, len, null );
+	}
+	
 	public Boolean caseLocalCode( LocalCode localCode )
 	{
 		return doSwitchIfNotNull( localCode.getContinuation() );
@@ -272,13 +339,15 @@ public class TypeChecker extends ChorSwitch< Boolean >
 			return false;
 		}
 
-		GlobalType g = delta.get( delegation.getSession() );
-		if ( g == null ) {
+		GlobalType globalType = delta.get( delegation.getSession() );
+		if ( globalType == null ) {
 			displayError( "The type for session " + delegation.getSession() +
 					" is finished, but the session is still performing communications",
 					delegation );
 			return false;
 		}
+		
+		GlobalTypeInteraction g = TypeUtils.unfold( globalType );
 
 		// Check that the sender thread exists
 		if ( !theta.containsKey( delegation.getSender() ) ) {
@@ -377,7 +446,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		 */
 		if ( !TypeUtils.checkEqualForRole(
 				delta.get( delegation.getDelegatedSession() ),
-				delegationType.getProtocol().getType(),
+				delegationType.getType(),
 				senderRoleInDelegatedSession )
 		) {
 			displayError( "The delegated carried protocol declared in the communication for session " + delegation.getSession()
@@ -391,6 +460,33 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		delta.put( delegation.getSession(), branch.getContinuation() );
 		return doSwitchIfNotNull( delegation.getContinuation() );
 	}
+	
+	public Boolean caseCall( Call call )
+	{
+		Procedure proc = call.getProcedure();
+		if ( call.getThreads().size() != proc.getThreadParameters().size() ) {
+			displayError( "Wrong number of thread parameters for calling procedure " + proc.getName(), call );
+		} else if ( call.getSessions().size() != proc.getSessionParameters().size() ) {
+			displayError( "Wrong number of session parameters for calling procedure " + proc.getName(), call );
+		}
+		
+		for( String session : call.getSessions() ) {
+			TypeUtils.checkEquivalent( delta.get( session ), getGlobalTypeForSessionParameter( session, call.getProcedure() ) );
+		}
+		
+		return true;
+	}
+	
+	private GlobalType getGlobalTypeForSessionParameter( String session, Procedure proc )
+	{
+		for( SessionProcedureParameter param : proc.getSessionParameters() ) {
+			if ( param.getSession().equals( session ) ) {
+				return param.getType();
+			}
+		}
+		
+		return null;
+	}
 
 	public Boolean caseInteraction( Interaction interaction )
 	{
@@ -400,13 +496,15 @@ public class TypeChecker extends ChorSwitch< Boolean >
 			return false;
 		}
 
-		GlobalType g = delta.get( interaction.getSession() );
-		if ( g == null ) {
+		GlobalType globalType = delta.get( interaction.getSession() );
+		if ( globalType == null ) {
 			displayError( "The type for session " + interaction.getSession() +
 					" is finished, but the session is still performing communications",
 					interaction );
 			return false;
 		}
+		
+		GlobalTypeInteraction g = TypeUtils.unfold( globalType );
 
 		// Check that the sender thread exists
 		if ( !theta.containsKey( interaction.getSender() ) ) {
@@ -458,7 +556,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 				break;
 			}
 		}
-		
+
 		if ( branch == null ) {
 			displayError( "Operation " + interaction.getOperation() + " is not expected by the type for session "
 					+ interaction.getSession(), interaction );
@@ -468,31 +566,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		// Update the session type in delta
 		delta.put( interaction.getSession(), branch.getContinuation() );
 		return doSwitchIfNotNull( interaction.getContinuation() );
-
-		// TODO: check expression types
-		/*
-		 * String tempType; if (varTypes.get(interaction.getReceiver())==null)
-		 * tempType = null; else tempType =
-		 * (varTypes.get(interaction.getReceiver
-		 * ())).get(interaction.getReceiverVariable()); String inferredType =
-		 * null;//infer(interaction.getSenderExpression()); if (tempType==null)
-		 * { HashMap<String,String> local = new HashMap<String,String>();
-		 * local.put(interaction.getReceiverVariable(), inferredType);
-		 * varTypes.put(interaction.getReceiver(), local); } else if
-		 * (tempType!=inferredType) { errors.add(new
-		 * Pair<String,EStructuralFeature>("The type of the variable " +
-		 * interaction.getSenderExpression() +
-		 * " does not match the type of the communicated message",
-		 * interaction.eContainmentFeature())); }
-		 */
 	}
-
-	/*private String infer( ExpressionBasicTerm exp )
-	{
-		// System.out.println(exp.getClass().toString());
-
-		return "";
-	}*/
 
 	public Boolean caseIfThenElse( IfThenElse cond )
 	{

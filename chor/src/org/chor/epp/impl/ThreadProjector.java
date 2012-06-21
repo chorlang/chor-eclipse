@@ -39,7 +39,6 @@ import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.SolicitResponseOperationStatement;
 import jolie.lang.parse.ast.TypeCastExpressionNode;
 import jolie.lang.parse.ast.VariablePathNode;
-import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.FreshValueExpressionNode;
 import jolie.util.Pair;
 

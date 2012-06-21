@@ -27,6 +27,7 @@ generate chor "http://www.chor-lang.org/Chor"
 Program: // Main nonterminal
 	'program' name=ID SEMICOLON
 	preamble=Preamble
+	(procedures+=Procedure)*
 	'main'
 	LCURLY
 		(choreography=Choreography)
@@ -43,6 +44,26 @@ Preamble:
 	)*
 ;
 
+// Procedure definition, e.g. define myProcedure( thread )( k: protocol ) { Choreography }
+Procedure:
+	'define' name=ID
+	LPAREN
+		(threadParameters += ID) (COMMA threadParameters += ID)*
+	RPAREN
+	LPAREN
+		((sessionParameters += SessionProcedureParameter) (COMMA sessionParameters += SessionProcedureParameter)*)?
+	RPAREN
+	LCURLY choreography=Choreography RCURLY
+;
+
+SessionProcedureParameter:
+	session=ID
+	LSQUARE type=GlobalTypeCall RSQUARE
+	COLON
+	(activeThreads+=ThreadWithRole)
+	(activeThreads+=ThreadWithRole)*
+;
+
 // Definition of a protocol, associating a name to a multiparty behavioural type.
 Protocol:
 	'protocol' name=ID LCURLY
@@ -55,9 +76,14 @@ Site:
 	'public' name=ID COLON protocol=[Protocol]
 ;
 
-// Multiparty behavioural type, also denoted with G in comments for brevity (referring to the theoretical papers).
-GlobalType:
-	// Interaction. Example: A -> B: op(string); G
+/* 
+ * Multiparty behavioural type, or global type.
+ * Also denoted by G in the comments, for brevity (referring to the theoretical papers).
+ */
+GlobalType: GlobalTypeInteraction | GlobalTypeCall;
+
+// Interaction. Example: A -> B: op(string); G
+GlobalTypeInteraction:
 	sender=ID ARROW receiver=ID
 		COLON
 		((
@@ -71,6 +97,9 @@ GlobalType:
 		))
 ;
 
+// Protocol call
+GlobalTypeCall: protocol=[Protocol] ;
+
 // Type of a branch. Example: op(DataType); G
 BranchGType:
 	operation=ID LPAREN dataType=DataType RPAREN (SEMICOLON continuation=GlobalType)?
@@ -83,7 +112,7 @@ DataType:
 
 // Type for a carried delegated session
 DelegationType:
-	protocol=[Protocol] AT role=ID 
+	type=GlobalTypeCall AT role=ID 
 ;
 
 // Basic types. Example: int
@@ -91,36 +120,12 @@ BasicType: {BasicType}
 	name='int' | name='string' | name='bool' | name='void'
 ;
 
-// Local types. 
-/*LocalType:
-	
-	{OutputType}  BANG LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType
-	
-	|
-	
-	{InputType}  QUESTION_MARK LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType
-	
-	|
-
-	{BranchingType}  QUESTION_MARK LCURLY (branches += BranchType)  (COMMA branches += BranchType)* RCURLY
-	
-	|
-
-	{SelectionType}  BANG LCURLY (branches += BranchType)  (COMMA branches += BranchType)* RCURLY
-;*/
-
-
-// Type of a branch. Example: label: L
-/* BranchType:
-	label=ID COLON LocalType
-; */
-
 /**
  * A choreography.
  * TODO: introduce recursion
  */
 Choreography:
-	Start | Interaction | Delegation
+	Start | Interaction | Delegation | Call
 	| IfThenElse | LocalCode | LCURLY Choreography RCURLY
 ;
 
@@ -196,6 +201,19 @@ Delegation:
 	RPAREN
 	(SEMICOLON
 	continuation=Choreography)? // Optional continuation
+;
+
+/*
+ * A procedure call, e.g. myProc( thread[Role], thread2[Role2] )( k, k2 )
+ */
+Call:
+	procedure=[Procedure]
+	LPAREN
+		(threads += ID) (COMMA threads += ID)*
+	RPAREN
+	LPAREN
+		((sessions += ID) (COMMA sessions += ID)*)?
+	RPAREN
 ;
 
 /**
@@ -276,10 +294,6 @@ terminal VERT: '|';
 terminal QUESTION_MARK: '?';
 terminal BANG: '!';
 terminal AT: '@';
-//terminal SESSIONDECL: 'session';
-//terminal STARTS: 'starts';
-//terminal ONE_WAY: 'OneWay';
-//terminal REQUEST_RESPONSE: 'RequestResponse';
 terminal ASSIGN: '=';
 terminal DOT: '.';
 terminal LPAREN: '(';

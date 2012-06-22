@@ -1,0 +1,36 @@
+program stream;
+
+protocol StreamingProtocol {
+	S -> C: packet( string );
+	S -> C: {
+		again( void ); StreamingProtocol,
+		end( void )
+	}
+}
+
+public a : StreamingProtocol
+
+define doStreaming( c, s )( k[StreamingProtocol: c[C], s[S]] )
+{
+	ask@s( "[s] Give me some data to send for packet number " + i, data );
+	
+	s.data -> c.data: packet( k );
+	local@c( result = result + data );
+	local@s( i = i + 1 );
+	if ( i < nPackets )@s {
+		s -> c: again( k );
+		doStreaming( c, s )( k )
+	} else {
+		s -> c: end( k );
+		show@c( "[c] Received data: " + result )
+	}
+}
+
+main
+{
+	c[C] start s[S]: a( k );
+	ask@s( "[s] How many packets do you want to send?", nPackets );
+	local@s( i = 0 );
+	
+	doStreaming( c, s )( k )
+}

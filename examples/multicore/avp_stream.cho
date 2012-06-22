@@ -1,0 +1,102 @@
+program avp_stream;
+
+protocol StreamingProtocol {
+	S -> C: packet( string );
+	S -> C: {
+		again( void ); StreamingProtocol,
+		end( void )
+	}
+}
+
+/**
+ * F(ilesystem) provides the bytes that need to be processed.
+ * A is an Audio decoder
+ * V is a Video decoder
+ * S is a Sink for the A and V decoders
+ *
+ */
+protocol AudioVideoProcessing {
+	F -> A: recvBytes( string );
+	F -> V: recvBytes( string );
+
+	A -> S: audioPacket( string );
+	V -> S: videoPacket( string );
+
+	F -> A: {
+	again( void );
+		A -> V: again( void );
+		V -> S: again( void );
+		AudioVideoProcessing,
+	end( void );
+		A -> V: end( void );
+		V -> S: end( void )
+	}
+}
+
+public a : StreamingProtocol
+public b : AudioVideoProcessing
+
+define doStreaming( c, s )( k[StreamingProtocol: c[C], s[S]] )
+{
+	ask@s( "[s] Give me some data to send for packet number " + i, data );
+	
+	s.data -> c.data: packet( k );
+	local@c( result = result + data );
+	local@s( i = i + 1 );
+	if ( i < nPackets )@s {
+		s -> c: again( k );
+		doStreaming( c, s )( k )
+	} else {
+		s -> c: end( k );
+		show@c( "[c] Received data: " + result )
+	}
+}
+
+define doAVPStreaming( f, a, v, s, c )(
+	avp[AudioVideoProcessing: f[F], a[A], v[V], s[S] ],
+	stream[StreamingProtocol: c[C], s[S] ]
+) {
+	ask@f( "[f] Give me some bytes for an audio file byte chunk", audioByteChunk );
+	f.audioByteChunk -> a.audioByteChunk: recvBytes( avp );
+	ask@a( "[a] Give me the processed packet for audio byte chunk" + audioByteChunk, audioPacket );
+	
+	ask@f( "[f] Give me some bytes for a video file byte chunk", videoByteChunk );
+	f.videoByteChunk -> v.videoByteChunk: recvBytes( avp );
+	ask@v( "[v] Give me the processed packet for video byte chunk" + videoByteChunk, videoPacket );
+	
+	a.audioPacket -> s.audioPacket: audioPacket( avp );
+	v.videoPacket -> s.videoPacket: videoPacket( avp );
+	
+	s.(audioPacket + "|" + videoPacket) -> c.packet: packet( stream );
+	show@c( "[c] Received packet: " + packet );
+	
+	local@f( sentChunks = sentChunks + 1 );
+	if ( sentChunks < nChunks )@f {
+		f -> a: again( avp );
+		a -> v: again( avp );
+		v -> s: again( avp );
+		s -> c: again( stream );
+		doAVPStreaming( f, a, v, s, c )( avp, stream )
+	} else {
+		f -> a: end( avp );
+		a -> v: end( avp );
+		v -> s: end( avp );
+		s -> c: end( stream )
+	}
+}
+
+
+main
+{
+	// Client asks for a streaming session
+	c[C] start s[S]: a( stream );
+	
+	// The streaming server creates an avp session for processing the movie file
+	s[S] start f[F], a[A], v[V]: b( avp );
+	
+	// f calculates the number of byte chunks to read
+	ask@f( "[f] How many byte chunks to read from the movie file?", nChunks );
+	local@f( sentChunks = 0 );
+	
+	doAVPStreaming( f, a, v, s, c )( avp, stream )
+}

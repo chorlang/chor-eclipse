@@ -1,0 +1,55 @@
+program instrument;
+
+/**
+ * Execute a command on an instrument, under authentication
+ */
+protocol AuthCommand {
+	U -> A: username( string );
+	U -> A: password( string );
+	A -> U: {
+	valid(void);
+		Connect
+	,
+	fail(void)
+	}
+}
+
+/**
+ * Connects a U(ser) to an I(nstrument) through a R(egistry)
+ */
+protocol Connect {
+	U -> R: connect( string );
+	R -> U: {
+		ok( ExecCommand@U ),
+		unavailable( void )
+	} 
+}
+
+/**
+ * A C(lient) executes a command on an (I)nstrument and gets a result 
+ */
+protocol ExecCommand {
+	C -> I: {
+	readTemperature(void);
+		I -> C: result(string),
+	readPressure(void);
+		I -> C: result(string)
+	}
+}
+
+public a : AuthCommand
+
+main
+{
+	u[U] start a[A]: a( auth );
+	ask@u( "[u] Insert username", username );
+	ask@u( "[u] Insert password", pwd );
+	u.username -> a.username: username( auth );
+	u.pwd -> a.pwd: password( auth );
+	ask@a( "[a] Confirm credentials? (yes/no) : " + username + " : " + password, confirm );
+	if ( confirm == "yes" ) {
+		
+	} else {
+		
+	}
+}

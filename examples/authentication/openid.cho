@@ -1,0 +1,95 @@
+/***************************************************************************
+ *   Copyright (C) 2011-2012 by Fabrizio Montesi <famontesi@gmail.com>     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Library General Public License as       *
+ *   published by the Free Software Foundation; either version 2 of the    *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU Library General Public     *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *                                                                         *
+ *   For details about the authors of this software, see the AUTHORS file. *
+ ***************************************************************************/
+
+
+program openid;
+
+/**
+ * A protocol inspired by OpenID, a standard distributed
+ * authentication protocol.
+ * 
+ * - U (for User) is a user that wants to access a service offered by RP.
+ * - RP (for Relying Party) is a server that offers a service, given that
+ *   the requesting user is able to authenticate through IP.
+ * - IP (for Identity Provider) is another service offering the possibility
+ *   to authenticate some user credentials.
+ * 
+ * The choreography ensures that only IP will get the password
+ * from the user.
+ * 
+ */
+protocol OpenID {
+	U -> RP: username( string );	// User sends her username to the Relying Party
+	RP -> IP: username( string );	// Relying Party sends the username to the Identity Provider
+	U -> IP: password( string );	// User sends her password to the Identity Provider
+	IP -> RP: {						// Identity Provider informs the Relying Party on whether...
+	ok( void );						// ...the authentication is successful
+		RP -> U: ok( void ),
+	fail(string); 					// ...or the authentication failed
+		RP -> U: fail( string )
+	}
+}
+
+// publicOpenID is a public site offering the OpenID protocol
+public publicOpenID: OpenID
+
+main
+{
+	// Start authentication session
+	rp[RP], u[U] start ip[IP]: publicOpenID( authSession );
+	
+	// Ask the user for her username
+	ask@u( "Insert Username", user );
+	
+	u.user -> rp.user: username( authSession );
+	rp.user -> ip.username: username( authSession );
+
+	// Ask the user for her password
+	ask@u( "Insert Password", pwd );
+	
+	u.pwd -> ip.password: password( authSession );
+	
+	/*
+	 * Check the credentials at the identity provider.
+	 * 
+	 * In this example, we accept only username=="John"
+	 * and password=="Pwd", but this could easily be generalised
+	 * by using show and ask at ip.
+	 * 
+	 * Notice that if the username is wrong or the password
+	 * is wrong we send two different error messages.
+	 */
+	if (username == "John")@ip {
+		if (password == "Pwd")@ip {
+			ip -> rp: ok( authSession );
+			rp -> u: ok( authSession);
+			show@u( "Authentication successful!" )
+		} else {
+			ip."Incorrect password" -> rp.error: fail( authSession );
+			rp.error -> u.error: fail( authSession );
+			show@u( error )
+		}
+	} else {
+		ip."Unknown username" -> rp.error: fail( authSession );
+		rp.error -> u.error: fail( authSession );
+		show@u( error )
+	}
+}

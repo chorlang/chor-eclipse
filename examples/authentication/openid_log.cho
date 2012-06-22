@@ -1,0 +1,140 @@
+/***************************************************************************
+ *   Copyright (C) 2011-2012 by Fabrizio Montesi <famontesi@gmail.com>     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Library General Public License as       *
+ *   published by the Free Software Foundation; either version 2 of the    *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU Library General Public     *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *                                                                         *
+ *   For details about the authors of this software, see the AUTHORS file. *
+ ***************************************************************************/
+
+/**
+ * This example showcases procedures and the possibility to refer to other protocols
+ * inside protocol definitions.
+ * 
+ * In this program, we model a system in which a log server offers
+ * the possibility to read a log to users.
+ * 
+ * However, before being able to read the log, users must first
+ * authenticate using the OpenID authentication protocol (from openid.cho).
+ * 
+ * We choose to keep the log server implementation simple, i.e. completely
+ * oblivious of the authentication logic (for loose coupling reasons).
+ * We obtain this by using session delegation at the end of the authentication
+ * protocol.
+ * 
+ *** A comment on security and future work **
+ * Notice that the log server will be accessible through a public channel.
+ * Therefore, a malicious client may contact it directly and read the log, circumventing
+ * authentication. However, this can happen only if the projected system will be
+ * put in execution with other unknown processes, unspecified in the choreography.
+ * 
+ * Even if this problem does not break the soundness of our choreography (all its
+ * executions will have the user going through the authentication), security wrt
+ * open systems is an interesting aspect. In this case we plan, as future work,
+ * to introduce a more refined deployment model that will allow programmers to specify
+ * private connections and networks. A potential application wrt this example would
+ * be to specify that the log server is reachable only by the relying party, which
+ * acts as proxy between it and the external network after successful authentications.
+ */
+program openid_log;
+
+/**
+ * The OpenID protocol, from openid.cho.
+ * 
+ * In this example we make it more modular, allowing for a 
+ * continuation (AuthSuccessful) in case the user authentication
+ * is successful.
+ */
+protocol OpenID {
+	U -> RP: username( string );
+	RP -> IP: username( string );
+	U -> IP: password( string );
+	IP -> RP: {
+	ok( void );
+		RP -> U: ok( void ); AuthSuccessful,
+	fail(string);
+		RP -> U: fail( string )
+	}
+}
+
+/**
+ * In case the authentication is successful,
+ * we send to the user a session for reading the log (delegation).
+ */
+protocol AuthSuccessful {
+	RP -> U: ok(ReadLog@C)
+}
+
+/**
+ * A simple protocol for reading the log, where
+ * the content of the latter is simply sent from the S(erver)
+ * to the C(lient).
+ */
+protocol ReadLog {
+	S -> C: readLog( string )
+}
+
+// The public site for starting authentication sessions
+public publicOpenID: OpenID
+
+// The public site for reading the log
+public publicLog: ReadLog
+
+
+/**
+ * Starts a session for reading the log between rp and the log server,
+ * and then delegates it to the user.
+ * 
+ * For simplicity, the log is a static string.
+ */
+define doLogRead( rp, u, s )( authSession[ AuthSuccessful:rp[RP], u[U] ] )
+{
+	rp[C] start s[S]: publicLog( logSession );
+	rp -> u: ok( authSession(logSession) );
+	s."Hello, World!" -> u.logContent: readLog( logSession );
+	show@u( logContent )
+}
+
+/**
+ * Attempts to authenticate and, if successful, calls doLogRead
+ */
+define doAuth( rp, u )()
+{
+	rp[RP], u[U] start ip[IP]: publicOpenID( authSession );
+	ask@u( "Insert Username", user );
+	u.user -> rp.user: username( authSession );
+	rp.user -> ip.username: username( authSession );
+	ask@u( "Insert Password", pwd );
+	u.pwd -> ip.password: password( authSession );
+	if (username == "John")@ip {
+		if (password == "Pwd")@ip {
+			ip -> rp: ok( authSession );
+			doLogRead( rp, u, s )( authSession )
+		} else {
+			ip."Incorrect password" -> rp.error: fail( authSession );
+			rp.error -> u.error: fail( authSession );
+			show@u( error )
+		}
+	} else {
+		ip."Unknown username" -> rp.error: fail( authSession );
+		rp.error -> u.error: fail( authSession );
+		show@u( error )
+	}
+}
+
+main
+{
+	doAuth( rp, u )()
+}

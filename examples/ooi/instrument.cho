@@ -71,15 +71,13 @@ define findAndExec( u, r )( connect[Connect: u[U], r[R]] )
 		r -> u: ok( connect( exec ) );
 		u -> i: readTemperature( exec );
 		i."28 C" -> u.temp: result( exec )
-	} else {
-		if ( name == "inst2" )@r {
+	} else if ( name == "inst2" )@r {
 			r[C] start i[I]: instrument2( exec );
 			r -> u: ok( connect( exec ) );
 			u -> i: readTemperature( exec );
 			i."2 C" -> u.temp: result( exec )
-		} else {
-			r -> u: unavailable( connect )
-		}
+	} else {
+		r -> u: unavailable( connect )
 	}
 }
 

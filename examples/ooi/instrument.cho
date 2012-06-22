@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by Fabrizio Montesi <famontesi@gmail.com>          *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Library General Public License as       *
+ *   published by the Free Software Foundation; either version 2 of the    *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU Library General Public     *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *                                                                         *
+ *   For details about the authors of this software, see the AUTHORS file. *
+ ***************************************************************************/
+
 program instrument;
 
 /**
@@ -7,8 +28,7 @@ protocol AuthCommand {
 	U -> A: username( string );
 	U -> A: password( string );
 	A -> U: {
-	valid(void);
-		Connect
+	valid(Connect@U)
 	,
 	fail(void)
 	}
@@ -20,7 +40,7 @@ protocol AuthCommand {
 protocol Connect {
 	U -> R: connect( string );
 	R -> U: {
-		ok( ExecCommand@U ),
+		ok( ExecCommand@C ),
 		unavailable( void )
 	} 
 }
@@ -38,6 +58,30 @@ protocol ExecCommand {
 }
 
 public a : AuthCommand
+public b : Connect
+public instrument1 : ExecCommand
+public instrument2 : ExecCommand
+
+define findAndExec( u, r )( connect[Connect: u[U], r[R]] )
+{
+	ask@u( "[u] What instrument do you want to connect to? (inst1/inst2)", name );
+	u.name -> r.name: connect( connect );
+	if ( name == "inst1" )@r {
+		r[C] start i[I]: instrument1( exec );
+		r -> u: ok( connect( exec ) );
+		u -> i: readTemperature( exec );
+		i."28 C" -> u.temp: result( exec )
+	} else {
+		if ( name == "inst2" )@r {
+			r[C] start i[I]: instrument2( exec );
+			r -> u: ok( connect( exec ) );
+			u -> i: readTemperature( exec );
+			i."2 C" -> u.temp: result( exec )
+		} else {
+			r -> u: unavailable( connect )
+		}
+	}
+}
 
 main
 {
@@ -47,9 +91,12 @@ main
 	u.username -> a.username: username( auth );
 	u.pwd -> a.pwd: password( auth );
 	ask@a( "[a] Confirm credentials? (yes/no) : " + username + " : " + password, confirm );
-	if ( confirm == "yes" ) {
+	if ( confirm == "yes" )@a {
+		a[U] start r[R]: b( connect );
+		a -> u: valid( auth( connect ) );
 		
+		findAndExec( u, r )( connect )
 	} else {
-		
+		a -> u: fail( auth )
 	}
 }

@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.chor.chor.BranchGType;
@@ -116,6 +117,17 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		Backup backup = new Backup( theta, delta );
 		theta = new HashMap< String, Map< String, String > >();
 		delta = new HashMap< String, GlobalType >();
+		return backup;
+	}
+	
+	private Backup backupAndCopy()
+	{
+		Backup backup = new Backup( theta, delta );
+		theta = new HashMap< String, Map< String, String > >();
+		for( Entry< String, Map< String, String > > e : backup.theta.entrySet() ) {
+			theta.put( e.getKey(), new HashMap< String, String > ( e.getValue() ) );
+		}
+		delta = new HashMap< String, GlobalType >( delta );
 		return backup;
 	}
 	
@@ -630,9 +642,9 @@ public class TypeChecker extends ChorSwitch< Boolean >
 
 	public Boolean caseIfThenElse( IfThenElse cond )
 	{
-		Map< String, GlobalType > deltaBackup = new HashMap< String, GlobalType >( delta );
+		Backup backup = backupAndCopy();
 		if ( doSwitchIfNotNull( cond.getThen() ) == false ) { return false; }
-		delta = deltaBackup;
+		restore( backup );
 		if ( doSwitchIfNotNull( cond.getElse() ) == false ) { return false; }
 		return true;
 	}

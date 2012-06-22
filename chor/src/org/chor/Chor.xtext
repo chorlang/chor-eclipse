@@ -58,10 +58,11 @@ Procedure:
 
 SessionProcedureParameter:
 	session=ID
-	LSQUARE type=GlobalTypeCall RSQUARE
-	COLON
-	(activeThreads+=ThreadWithRole)
-	(activeThreads+=ThreadWithRole)*
+	LSQUARE type=GlobalTypeCall 
+		COLON
+		(activeThreads+=ThreadWithRole)
+		(COMMA activeThreads+=ThreadWithRole)*
+	RSQUARE
 ;
 
 // Definition of a protocol, associating a name to a multiparty behavioural type.
@@ -235,6 +236,11 @@ LocalCode:
 	// Show some text, e.g. show@thr("Hello, world!")
 	{LocalShowCommand}
 	'show' AT thread=ID LPAREN expression=Expression RPAREN
+	(SEMICOLON continuation=Choreography)?  // Optional continuation
+	|
+	// Make an internal state assignment
+	{LocalAssignmentCommand}
+	'local' AT thread=ID LPAREN variable=ID ASSIGN expression=Expression RPAREN
 	(SEMICOLON continuation=Choreography)?  // Optional continuation
 ;
 

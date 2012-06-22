@@ -95,6 +95,10 @@ public class TypeUtils
 	 */
 	public static GlobalTypeInteraction unfold( GlobalType t )
 	{
+		if ( t == null ) {
+			return null;
+		}
+		
 		if ( t instanceof GlobalTypeInteraction ) {
 			return (GlobalTypeInteraction) t;
 		} else if ( t instanceof GlobalTypeCall ) {

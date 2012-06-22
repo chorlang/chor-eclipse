@@ -35,6 +35,7 @@ import org.chor.chor.Procedure;
 import org.chor.chor.Program;
 import org.chor.chor.Protocol;
 import org.chor.chor.SessionProcedureParameter;
+import org.chor.chor.ThreadWithRole;
 import org.chor.validation.impl.TypeChecker;
 import org.eclipse.xtext.validation.Check;
 
@@ -66,19 +67,28 @@ public class ChorJavaValidator extends AbstractChorJavaValidator
 	@Check
 	public void checkProcedure( Procedure proc )
 	{
+		Set< String > threadNames = new HashSet< String >();
+		for( String thread : proc.getThreadParameters() ) {
+			if ( threadNames.contains( thread ) ) {
+				error( "Duplicate thread name in procedure parameters: " + thread,
+						ChorPackage.Literals.PROCEDURE__THREAD_PARAMETERS );
+			}
+			threadNames.add( thread );
+		}
+		
 		Set< String > s = new HashSet< String >();
 		for( SessionProcedureParameter param : proc.getSessionParameters() ) {
 			if ( s.contains( param.getSession() ) ) {
 				error( "Duplicate session name in procedure parameters: " + param.getSession(),
 						ChorPackage.Literals.PROCEDURE__SESSION_PARAMETERS );
 			}
-		}
-		
-		s = new HashSet< String >();
-		for( String thread : proc.getThreadParameters() ) {
-			if ( s.contains( thread ) ) {
-				error( "Duplicate thread name in procedure parameters: " + thread,
-						ChorPackage.Literals.PROCEDURE__THREAD_PARAMETERS );
+			s.add( param.getSession() );
+			
+			for( ThreadWithRole twr : param.getActiveThreads() ) {
+				if ( !threadNames.contains( twr.getThread() ) ) {
+					error( "Thread " + twr.getThread() + " is not in the thread parameter list of this procedure",
+							ChorPackage.Literals.PROCEDURE__SESSION_PARAMETERS );
+				}
 			}
 		}
 	}

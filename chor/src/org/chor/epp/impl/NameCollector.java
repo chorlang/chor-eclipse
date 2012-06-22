@@ -189,6 +189,7 @@ public class NameCollector extends ChorSwitch< Boolean >
 	public Boolean caseLocalCode( LocalCode n )
 	{
 		doSwitchIfNotNull( n.getContinuation() );
+		activeThreads.add( n.getThread() );
 		return true;
 	}
 	
@@ -197,6 +198,9 @@ public class NameCollector extends ChorSwitch< Boolean >
 		doSwitchIfNotNull( n.getContinuation() );
 		threadOperations.checkInteraction( n );
 		//addTargetThread( n );
+		
+		activeThreads.add( n.getSender() );
+		activeThreads.add( n.getReceiver() );
 		return true;
 	}
 	
@@ -205,6 +209,9 @@ public class NameCollector extends ChorSwitch< Boolean >
 		doSwitchIfNotNull( n.getContinuation() );
 		threadOperations.checkDelegation( n );
 		//addTargetThread( n );
+		
+		activeThreads.add( n.getSender() );
+		activeThreads.add( n.getReceiver() );
 		return true;
 	}
 	
@@ -212,6 +219,7 @@ public class NameCollector extends ChorSwitch< Boolean >
 	{
 		doSwitchIfNotNull( n.getThen() );
 		doSwitchIfNotNull( n.getElse() );
+		activeThreads.add( n.getThread() );
 		return true;
 	}
 	

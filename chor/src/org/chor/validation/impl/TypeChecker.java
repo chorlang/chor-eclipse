@@ -25,6 +25,7 @@ package org.chor.validation.impl;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,6 +45,7 @@ import org.chor.chor.Site;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
 import org.chor.chor.util.ChorSwitch;
+import org.chor.epp.impl.NameCollector;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -150,6 +152,14 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		
 		doSwitchIfNotNull( proc.getChoreography() );
 		
+		NameCollector nameCollector = new NameCollector();
+		nameCollector.collect( proc.getChoreography() );
+		for( String thread : nameCollector.activeThreads() ) {
+			if ( !proc.getThreadParameters().contains( thread ) ) {
+				displayError( "Unknown thread: " + thread + " (maybe a forgotten procedure parameter or session start?)", proc );
+			}
+		}
+		
 		restore( backup );
 		return true;
 	}
@@ -173,7 +183,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		 * If so, we can safely remove it from delta and theta.
 		 */
 		if ( delta.remove( start.getSession() ) != null ) { // This also cleans delta if necessary
-			displayError( "Session " + start.getSession() + " must be completed correctly following its protocol, before its name" +
+			displayError( "Session " + start.getSession() + " must be completed correctly following its protocol, before its name " +
 					"can be reused for starting a new session", start );
 			return false;
 		} else {
@@ -326,6 +336,16 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		validator.acceptError( error, call, offset, len, null );
 	}
 	
+	private void displayError( String error, Procedure proc )
+	{
+		int offset;
+		int len;
+		INode node = NodeModelUtils.findActualNodeFor( proc );
+		offset = node.getOffset();
+		len = node.getLength();
+		validator.acceptError( error, proc, offset, len, null );
+	}
+	
 	public Boolean caseLocalCode( LocalCode localCode )
 	{
 		return doSwitchIfNotNull( localCode.getContinuation() );
@@ -339,15 +359,13 @@ public class TypeChecker extends ChorSwitch< Boolean >
 			return false;
 		}
 
-		GlobalType globalType = delta.get( delegation.getSession() );
-		if ( globalType == null ) {
+		GlobalTypeInteraction g = TypeUtils.unfold( delta.get( delegation.getSession() ) );
+		if ( g == null ) {
 			displayError( "The type for session " + delegation.getSession() +
 					" is finished, but the session is still performing communications",
 					delegation );
 			return false;
 		}
-		
-		GlobalTypeInteraction g = TypeUtils.unfold( globalType );
 
 		// Check that the sender thread exists
 		if ( !theta.containsKey( delegation.getSender() ) ) {
@@ -470,14 +488,56 @@ public class TypeChecker extends ChorSwitch< Boolean >
 			displayError( "Wrong number of session parameters for calling procedure " + proc.getName(), call );
 		}
 		
-		for( String session : call.getSessions() ) {
-			TypeUtils.checkEquivalent( delta.get( session ), getGlobalTypeForSessionParameter( session, call.getProcedure() ) );
+		List< SessionProcedureParameter > procParams = call.getProcedure().getSessionParameters();
+		int i = 0;
+		SessionProcedureParameter procSessionParam;
+		for( String session : call.getSessions() ) { // For each session passed in the call
+			procSessionParam = procParams.get( i++ ); // Get the corresponding session parameter in the called procedure
+
+			// Check that the remaining global type for the passed session will be implemented in the procedure 
+			TypeUtils.checkEquivalent( delta.get( session ), procSessionParam.getType() );
+
+			// Check that each thread in the session procedure parameter has the required role
+			String passedThread;
+			for( ThreadWithRole twr : procSessionParam.getActiveThreads() ) {
+				// Find the thread name in the procedure thread parameters
+				passedThread = findAssociatedThreadInCall( twr.getThread(), call, proc );
+				if ( passedThread == null ) {
+					displayError( "Internal type checking error", call );
+				}
+				
+				if ( !theta.containsKey( passedThread ) || !theta.get( passedThread ).containsKey( session ) ) {
+					displayError( "Thread " + passedThread + " is not in session " + session, call );
+				} else if ( !theta.get( passedThread ).get( session ).equals( twr.getRole() ) ) {
+					displayError( "Thread " + passedThread + " does not have role "
+							+ twr.getRole() + " in session " + session, call );
+				}
+			}
 		}
 		
 		return true;
 	}
 	
-	private GlobalType getGlobalTypeForSessionParameter( String session, Procedure proc )
+	private String findAssociatedThreadInCall( String threadNameInProcedure, Call call, Procedure proc )
+	{
+		int k = 0;
+
+		// Find the thread name in the procedure thread parameters
+		for( String threadParam : proc.getThreadParameters() ) {
+			if ( threadParam.equals( threadNameInProcedure ) ) {
+				break;
+			}
+			k++;
+		}
+
+		if ( k >= call.getThreads().size() ) {
+			return null;
+		}
+		
+		return call.getThreads().get( k );
+	}
+	
+	/*private SessionProcedureParameter getParameterForSession( String session, Procedure proc )
 	{
 		for( SessionProcedureParameter param : proc.getSessionParameters() ) {
 			if ( param.getSession().equals( session ) ) {
@@ -486,7 +546,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		}
 		
 		return null;
-	}
+	}*/
 
 	public Boolean caseInteraction( Interaction interaction )
 	{

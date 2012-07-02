@@ -36,22 +36,6 @@ protocol AudioVideoProcessing {
 public a : StreamingProtocol
 public b : AudioVideoProcessing
 
-define doStreaming( c, s )( k[StreamingProtocol: c[C], s[S]] )
-{
-	ask@s( "[s] Give me some data to send for packet number " + i, data );
-	
-	s.data -> c.data: packet( k );
-	local@c( result = result + data );
-	local@s( i = i + 1 );
-	if ( i < nPackets )@s {
-		s -> c: again( k );
-		doStreaming( c, s )( k )
-	} else {
-		s -> c: end( k );
-		show@c( "[c] Received data: " + result )
-	}
-}
-
 define doAVPStreaming( f, a, v, s, c )(
 	avp[AudioVideoProcessing: f[F], a[A], v[V], s[S] ],
 	stream[StreamingProtocol: c[C], s[S] ]

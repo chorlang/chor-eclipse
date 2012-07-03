@@ -1,0 +1,144 @@
+/***************************************************************************
+ *   Copyright (C) 2011-2012 by Fabrizio Montesi <famontesi@gmail.com>     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Library General Public License as       *
+ *   published by the Free Software Foundation; either version 2 of the    *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU Library General Public     *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *                                                                         *
+ *   For details about the authors of this software, see the AUTHORS file. *
+ ***************************************************************************/
+
+program openid_security;
+
+/**
+ * The OpenID protocol, from openid.cho.
+ */
+protocol OpenID {
+	U -> RP: username( string );
+	RP -> IP: username( string );
+	U -> IP: password( string );
+	IP -> RP: {
+	ok( void );
+		AuthSuccessful
+	,
+	fail(string);
+		RP -> U: fail( string )
+	}
+}
+
+protocol AuthSuccessful {
+	RP -> U: {
+		okHigh( void ); AuthSuccessfulHigh,
+		okLow( void ); AuthSuccessfulLow
+	}
+}
+
+protocol AuthSuccessfulHigh {
+	RP -> U: ok(ReadSecretLog@C)
+}
+
+protocol AuthSuccessfulLow {
+	RP -> U: ok(ReadPublicLog@C)
+}
+
+protocol ReadPublicLog {
+	S -> C: readPublicLog( string )
+}
+
+protocol ReadSecretLog {
+	S -> C: readSecretLog( string )
+}
+
+protocol ReadLog {
+	C -> S: {
+	requestPublic( void );
+		ReadPublicLog,
+
+	requestSecret( void );
+		ReadSecretLog
+	}
+}
+
+// The public site for starting authentication sessions
+public publicOpenID: OpenID
+
+// The public site for reading the log
+public publicLog: ReadLog
+
+
+/**
+ * Starts a session for reading the log between rp and the log server,
+ * and then delegates it to the user.
+ * 
+ * For simplicity, the log is a static string.
+ */
+define doLogRead( rp, u )( authSession[ AuthSuccessful:rp[RP], u[U] ] )
+{
+	rp[C] start s[S]: publicLog( logSession );
+	if ( user == "John" )@rp {
+		rp -> s: requestSecret( logSession );
+		rp -> u: okHigh( authSession );
+		rp -> u: ok( authSession(logSession) );
+		s."Secret Log!" -> u.logContent: readSecretLog( logSession );
+		show@u( logContent )
+	} else {
+		rp -> s: requestPublic( logSession );
+		rp -> u: okLow( authSession );
+		rp -> u: ok( authSession(logSession) );
+		s."Public Log" -> u.logContent: readPublicLog( logSession );
+		show@u( logContent )
+	}
+}
+
+
+/**
+ * Attempts to authenticate and, if successful, calls doLogRead
+ */
+define doAuth( rp, u )()
+{
+	rp[RP], u[U] start ip[IP]: publicOpenID( authSession );
+	ask@u( "Insert Username", user );
+	u.user -> rp.user: username( authSession );
+	rp.user -> ip.username: username( authSession );
+	ask@u( "Insert Password", pwd );
+	u.pwd -> ip.password: password( authSession );
+	if (username == "John")@ip {
+		if (password == "Pwd")@ip {
+			ip -> rp: ok( authSession );
+			doLogRead( rp, u )( authSession )
+		} else {
+			ip."Incorrect password" -> rp.error: fail( authSession );
+			rp.error -> u.error: fail( authSession );
+			show@u( error )
+		}
+	} else if ( username == "Joe" )@ip {
+		if ( password == "JoePwd" )@ip {
+			ip -> rp: ok( authSession );
+			doLogRead( rp, u )( authSession )
+		} else {
+			ip."Incorrect password" -> rp.error: fail( authSession );
+			rp.error -> u.error: fail( authSession );
+			show@u( error )
+		}
+	} else {
+		ip."Unknown username" -> rp.error: fail( authSession );
+		rp.error -> u.error: fail( authSession );
+		show@u( error )
+	}
+}
+
+main
+{
+	doAuth( rp, u )()
+}

@@ -32,6 +32,7 @@ import org.chor.chor.Expression;
 import org.chor.chor.ExpressionBasicTerm;
 import org.chor.chor.SumExpression;
 import org.chor.chor.SumExpressionAddTerm;
+import org.chor.chor.SumExpressionTerm;
 import org.chor.chor.util.ChorSwitch;
 import org.eclipse.emf.ecore.EObject;
 
@@ -62,6 +63,11 @@ public class ExpressionProjector extends ChorSwitch< OLSyntaxNode >
 			}
 		}
 		return jolieSumExpression;
+	}
+	
+	public OLSyntaxNode caseSumExpressionTerm( SumExpressionTerm n )
+	{
+		return doSwitch( n.getExpression() );
 	}
 
 	public OLSyntaxNode caseExpressionBasicTerm( ExpressionBasicTerm n )

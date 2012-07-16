@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JoliePluginSupport
 Bundle-SymbolicName: jolie.plugin.support
-Bundle-Version: 1.0.0
+Bundle-Version: 0.1
 Bundle-ClassPath: libjolie.jar
 Export-Package: jolie.lang,
  jolie.lang.parse,
@@ -15,3 +15,4 @@ Export-Package: jolie.lang,
  jolie.lang.parse.util.impl,
  jolie.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: Fabrizio Montesi

@@ -69,19 +69,25 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
     {
       case ChorPackage.PROGRAM: return createProgram();
       case ChorPackage.PREAMBLE: return createPreamble();
+      case ChorPackage.PROCEDURE: return createProcedure();
+      case ChorPackage.SESSION_PROCEDURE_PARAMETER: return createSessionProcedureParameter();
       case ChorPackage.PROTOCOL: return createProtocol();
       case ChorPackage.SITE: return createSite();
       case ChorPackage.GLOBAL_TYPE: return createGlobalType();
+      case ChorPackage.GLOBAL_TYPE_INTERACTION: return createGlobalTypeInteraction();
+      case ChorPackage.GLOBAL_TYPE_CALL: return createGlobalTypeCall();
       case ChorPackage.BRANCH_GTYPE: return createBranchGType();
       case ChorPackage.DATA_TYPE: return createDataType();
+      case ChorPackage.DELEGATION_TYPE: return createDelegationType();
       case ChorPackage.BASIC_TYPE: return createBasicType();
-      case ChorPackage.LOCAL_TYPE: return createLocalType();
-      case ChorPackage.BRANCH_TYPE: return createBranchType();
       case ChorPackage.CHOREOGRAPHY: return createChoreography();
       case ChorPackage.START: return createStart();
       case ChorPackage.THREAD_WITH_ROLE: return createThreadWithRole();
       case ChorPackage.INTERACTION: return createInteraction();
+      case ChorPackage.DELEGATION: return createDelegation();
+      case ChorPackage.CALL: return createCall();
       case ChorPackage.IF_THEN_ELSE: return createIfThenElse();
+      case ChorPackage.LOCAL_CODE: return createLocalCode();
       case ChorPackage.EXPRESSION: return createExpression();
       case ChorPackage.SUM_EXPRESSION: return createSumExpression();
       case ChorPackage.SUM_EXPRESSION_TERM: return createSumExpressionTerm();
@@ -89,10 +95,10 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
       case ChorPackage.CONSTANT: return createConstant();
       case ChorPackage.CONDITION: return createCondition();
       case ChorPackage.COMPARE_CONDITION: return createCompareCondition();
-      case ChorPackage.OUTPUT_TYPE: return createOutputType();
-      case ChorPackage.INPUT_TYPE: return createInputType();
-      case ChorPackage.BRANCHING_TYPE: return createBranchingType();
-      case ChorPackage.SELECTION_TYPE: return createSelectionType();
+      case ChorPackage.CONDITION_OPERATOR: return createConditionOperator();
+      case ChorPackage.LOCAL_ASK_COMMAND: return createLocalAskCommand();
+      case ChorPackage.LOCAL_SHOW_COMMAND: return createLocalShowCommand();
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND: return createLocalAssignmentCommand();
       case ChorPackage.SUM_EXPRESSION_ADD_TERM: return createSumExpressionAddTerm();
       case ChorPackage.SUM_EXPRESSION_SUBTRACT_TERM: return createSumExpressionSubtractTerm();
       default:
@@ -120,6 +126,28 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
   {
     PreambleImpl preamble = new PreambleImpl();
     return preamble;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Procedure createProcedure()
+  {
+    ProcedureImpl procedure = new ProcedureImpl();
+    return procedure;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public SessionProcedureParameter createSessionProcedureParameter()
+  {
+    SessionProcedureParameterImpl sessionProcedureParameter = new SessionProcedureParameterImpl();
+    return sessionProcedureParameter;
   }
 
   /**
@@ -160,6 +188,28 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public GlobalTypeInteraction createGlobalTypeInteraction()
+  {
+    GlobalTypeInteractionImpl globalTypeInteraction = new GlobalTypeInteractionImpl();
+    return globalTypeInteraction;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GlobalTypeCall createGlobalTypeCall()
+  {
+    GlobalTypeCallImpl globalTypeCall = new GlobalTypeCallImpl();
+    return globalTypeCall;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public BranchGType createBranchGType()
   {
     BranchGTypeImpl branchGType = new BranchGTypeImpl();
@@ -182,32 +232,21 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public DelegationType createDelegationType()
+  {
+    DelegationTypeImpl delegationType = new DelegationTypeImpl();
+    return delegationType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public BasicType createBasicType()
   {
     BasicTypeImpl basicType = new BasicTypeImpl();
     return basicType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public LocalType createLocalType()
-  {
-    LocalTypeImpl localType = new LocalTypeImpl();
-    return localType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public BranchType createBranchType()
-  {
-    BranchTypeImpl branchType = new BranchTypeImpl();
-    return branchType;
   }
 
   /**
@@ -259,10 +298,43 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public Delegation createDelegation()
+  {
+    DelegationImpl delegation = new DelegationImpl();
+    return delegation;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Call createCall()
+  {
+    CallImpl call = new CallImpl();
+    return call;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public IfThenElse createIfThenElse()
   {
     IfThenElseImpl ifThenElse = new IfThenElseImpl();
     return ifThenElse;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public LocalCode createLocalCode()
+  {
+    LocalCodeImpl localCode = new LocalCodeImpl();
+    return localCode;
   }
 
   /**
@@ -347,10 +419,10 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public OutputType createOutputType()
+  public ConditionOperator createConditionOperator()
   {
-    OutputTypeImpl outputType = new OutputTypeImpl();
-    return outputType;
+    ConditionOperatorImpl conditionOperator = new ConditionOperatorImpl();
+    return conditionOperator;
   }
 
   /**
@@ -358,10 +430,10 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public InputType createInputType()
+  public LocalAskCommand createLocalAskCommand()
   {
-    InputTypeImpl inputType = new InputTypeImpl();
-    return inputType;
+    LocalAskCommandImpl localAskCommand = new LocalAskCommandImpl();
+    return localAskCommand;
   }
 
   /**
@@ -369,10 +441,10 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public BranchingType createBranchingType()
+  public LocalShowCommand createLocalShowCommand()
   {
-    BranchingTypeImpl branchingType = new BranchingTypeImpl();
-    return branchingType;
+    LocalShowCommandImpl localShowCommand = new LocalShowCommandImpl();
+    return localShowCommand;
   }
 
   /**
@@ -380,10 +452,10 @@ public class ChorFactoryImpl extends EFactoryImpl implements ChorFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public SelectionType createSelectionType()
+  public LocalAssignmentCommand createLocalAssignmentCommand()
   {
-    SelectionTypeImpl selectionType = new SelectionTypeImpl();
-    return selectionType;
+    LocalAssignmentCommandImpl localAssignmentCommand = new LocalAssignmentCommandImpl();
+    return localAssignmentCommand;
   }
 
   /**

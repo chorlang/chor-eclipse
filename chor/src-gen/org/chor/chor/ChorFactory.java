@@ -44,6 +44,24 @@ public interface ChorFactory extends EFactory
   Preamble createPreamble();
 
   /**
+   * Returns a new object of class '<em>Procedure</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Procedure</em>'.
+   * @generated
+   */
+  Procedure createProcedure();
+
+  /**
+   * Returns a new object of class '<em>Session Procedure Parameter</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Session Procedure Parameter</em>'.
+   * @generated
+   */
+  SessionProcedureParameter createSessionProcedureParameter();
+
+  /**
    * Returns a new object of class '<em>Protocol</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -71,6 +89,24 @@ public interface ChorFactory extends EFactory
   GlobalType createGlobalType();
 
   /**
+   * Returns a new object of class '<em>Global Type Interaction</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Global Type Interaction</em>'.
+   * @generated
+   */
+  GlobalTypeInteraction createGlobalTypeInteraction();
+
+  /**
+   * Returns a new object of class '<em>Global Type Call</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Global Type Call</em>'.
+   * @generated
+   */
+  GlobalTypeCall createGlobalTypeCall();
+
+  /**
    * Returns a new object of class '<em>Branch GType</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -89,6 +125,15 @@ public interface ChorFactory extends EFactory
   DataType createDataType();
 
   /**
+   * Returns a new object of class '<em>Delegation Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Delegation Type</em>'.
+   * @generated
+   */
+  DelegationType createDelegationType();
+
+  /**
    * Returns a new object of class '<em>Basic Type</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -96,24 +141,6 @@ public interface ChorFactory extends EFactory
    * @generated
    */
   BasicType createBasicType();
-
-  /**
-   * Returns a new object of class '<em>Local Type</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Local Type</em>'.
-   * @generated
-   */
-  LocalType createLocalType();
-
-  /**
-   * Returns a new object of class '<em>Branch Type</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Branch Type</em>'.
-   * @generated
-   */
-  BranchType createBranchType();
 
   /**
    * Returns a new object of class '<em>Choreography</em>'.
@@ -152,6 +179,24 @@ public interface ChorFactory extends EFactory
   Interaction createInteraction();
 
   /**
+   * Returns a new object of class '<em>Delegation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Delegation</em>'.
+   * @generated
+   */
+  Delegation createDelegation();
+
+  /**
+   * Returns a new object of class '<em>Call</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Call</em>'.
+   * @generated
+   */
+  Call createCall();
+
+  /**
    * Returns a new object of class '<em>If Then Else</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -159,6 +204,15 @@ public interface ChorFactory extends EFactory
    * @generated
    */
   IfThenElse createIfThenElse();
+
+  /**
+   * Returns a new object of class '<em>Local Code</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Local Code</em>'.
+   * @generated
+   */
+  LocalCode createLocalCode();
 
   /**
    * Returns a new object of class '<em>Expression</em>'.
@@ -224,40 +278,40 @@ public interface ChorFactory extends EFactory
   CompareCondition createCompareCondition();
 
   /**
-   * Returns a new object of class '<em>Output Type</em>'.
+   * Returns a new object of class '<em>Condition Operator</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Output Type</em>'.
+   * @return a new object of class '<em>Condition Operator</em>'.
    * @generated
    */
-  OutputType createOutputType();
+  ConditionOperator createConditionOperator();
 
   /**
-   * Returns a new object of class '<em>Input Type</em>'.
+   * Returns a new object of class '<em>Local Ask Command</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Input Type</em>'.
+   * @return a new object of class '<em>Local Ask Command</em>'.
    * @generated
    */
-  InputType createInputType();
+  LocalAskCommand createLocalAskCommand();
 
   /**
-   * Returns a new object of class '<em>Branching Type</em>'.
+   * Returns a new object of class '<em>Local Show Command</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Branching Type</em>'.
+   * @return a new object of class '<em>Local Show Command</em>'.
    * @generated
    */
-  BranchingType createBranchingType();
+  LocalShowCommand createLocalShowCommand();
 
   /**
-   * Returns a new object of class '<em>Selection Type</em>'.
+   * Returns a new object of class '<em>Local Assignment Command</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Selection Type</em>'.
+   * @return a new object of class '<em>Local Assignment Command</em>'.
    * @generated
    */
-  SelectionType createSelectionType();
+  LocalAssignmentCommand createLocalAssignmentCommand();
 
   /**
    * Returns a new object of class '<em>Sum Expression Add Term</em>'.

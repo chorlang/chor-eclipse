@@ -54,30 +54,30 @@ public interface CompareCondition extends EObject
   void setLeftExpression(Expression value);
 
   /**
-   * Returns the value of the '<em><b>Operator</b></em>' attribute.
+   * Returns the value of the '<em><b>Operator</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Operator</em>' attribute isn't clear,
+   * If the meaning of the '<em>Operator</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Operator</em>' attribute.
-   * @see #setOperator(String)
+   * @return the value of the '<em>Operator</em>' containment reference.
+   * @see #setOperator(ConditionOperator)
    * @see org.chor.chor.ChorPackage#getCompareCondition_Operator()
-   * @model
+   * @model containment="true"
    * @generated
    */
-  String getOperator();
+  ConditionOperator getOperator();
 
   /**
-   * Sets the value of the '{@link org.chor.chor.CompareCondition#getOperator <em>Operator</em>}' attribute.
+   * Sets the value of the '{@link org.chor.chor.CompareCondition#getOperator <em>Operator</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Operator</em>' attribute.
+   * @param value the new value of the '<em>Operator</em>' containment reference.
    * @see #getOperator()
    * @generated
    */
-  void setOperator(String value);
+  void setOperator(ConditionOperator value);
 
   /**
    * Returns the value of the '<em><b>Right Expression</b></em>' containment reference.

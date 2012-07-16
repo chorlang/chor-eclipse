@@ -15,44 +15,48 @@ public class InternalChorLexer extends Lexer {
     public static final int RULE_ID=4;
     public static final int RULE_SEMICOLON=5;
     public static final int RULE_ANY_OTHER=33;
-    public static final int RULE_NOT_EQUAL=26;
-    public static final int RULE_RSQUARE=16;
+    public static final int RULE_NOT_EQUAL=25;
+    public static final int RULE_RSQUARE=13;
     public static final int EOF=-1;
-    public static final int RULE_ASSIGN=29;
-    public static final int RULE_DOT=17;
-    public static final int RULE_LPAREN=11;
-    public static final int RULE_INT=21;
-    public static final int RULE_VERT=28;
-    public static final int RULE_LSQUARE=15;
+    public static final int RULE_ASSIGN=17;
+    public static final int RULE_DOT=16;
+    public static final int RULE_LPAREN=8;
+    public static final int RULE_INT=20;
+    public static final int RULE_VERT=27;
+    public static final int RULE_LSQUARE=11;
     public static final int T__42=42;
     public static final int T__43=43;
-    public static final int RULE_GREATER=25;
-    public static final int RULE_BANG=13;
+    public static final int RULE_GREATER=24;
     public static final int T__40=40;
+    public static final int RULE_BANG=29;
     public static final int T__41=41;
+    public static final int T__46=46;
+    public static final int T__47=47;
     public static final int T__44=44;
-    public static final int RULE_PLUS=19;
-    public static final int RULE_COMMA=10;
-    public static final int RULE_EQUAL=24;
+    public static final int T__45=45;
+    public static final int T__48=48;
+    public static final int RULE_PLUS=18;
+    public static final int RULE_COMMA=9;
+    public static final int RULE_EQUAL=23;
     public static final int RULE_SL_COMMENT=31;
-    public static final int RULE_QUESTION_MARK=14;
-    public static final int RULE_TIMES=27;
+    public static final int RULE_QUESTION_MARK=28;
+    public static final int RULE_TIMES=26;
     public static final int RULE_ML_COMMENT=30;
-    public static final int RULE_COLON=8;
-    public static final int RULE_MINUS=20;
-    public static final int RULE_STRING=22;
+    public static final int RULE_COLON=12;
+    public static final int RULE_MINUS=19;
+    public static final int RULE_STRING=21;
     public static final int T__34=34;
     public static final int T__35=35;
     public static final int T__36=36;
     public static final int T__37=37;
     public static final int T__38=38;
     public static final int T__39=39;
-    public static final int RULE_ARROW=9;
-    public static final int RULE_LESS=23;
-    public static final int RULE_RPAREN=12;
+    public static final int RULE_ARROW=14;
+    public static final int RULE_LESS=22;
+    public static final int RULE_RPAREN=10;
     public static final int RULE_WS=32;
     public static final int RULE_RCURLY=7;
-    public static final int RULE_AT=18;
+    public static final int RULE_AT=15;
     public static final int RULE_LCURLY=6;
 
     // delegates
@@ -115,10 +119,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__36;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:13:7: ( 'protocol' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:13:9: 'protocol'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:13:7: ( 'define' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:13:9: 'define'
             {
-            match("protocol"); 
+            match("define"); 
 
 
             }
@@ -136,10 +140,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__37;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:14:7: ( 'site' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:14:9: 'site'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:14:7: ( 'protocol' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:14:9: 'protocol'
             {
-            match("site"); 
+            match("protocol"); 
 
 
             }
@@ -157,10 +161,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__38;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:15:7: ( 'int' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:15:9: 'int'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:15:7: ( 'public' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:15:9: 'public'
             {
-            match("int"); 
+            match("public"); 
 
 
             }
@@ -178,10 +182,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__39;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:16:7: ( 'string' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:16:9: 'string'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:16:7: ( 'int' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:16:9: 'int'
             {
-            match("string"); 
+            match("int"); 
 
 
             }
@@ -199,10 +203,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__40;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:17:7: ( 'bool' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:17:9: 'bool'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:17:7: ( 'string' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:17:9: 'string'
             {
-            match("bool"); 
+            match("string"); 
 
 
             }
@@ -220,10 +224,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__41;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:18:7: ( 'void' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:18:9: 'void'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:18:7: ( 'bool' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:18:9: 'bool'
             {
-            match("void"); 
+            match("bool"); 
 
 
             }
@@ -241,10 +245,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__42;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:19:7: ( 'start' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:19:9: 'start'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:19:7: ( 'void' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:19:9: 'void'
             {
-            match("start"); 
+            match("void"); 
 
 
             }
@@ -262,10 +266,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__43;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:20:7: ( 'if' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:20:9: 'if'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:20:7: ( 'start' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:20:9: 'start'
             {
-            match("if"); 
+            match("start"); 
 
 
             }
@@ -283,10 +287,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = T__44;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:21:7: ( 'else' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:21:9: 'else'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:21:7: ( 'if' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:21:9: 'if'
             {
-            match("else"); 
+            match("if"); 
 
 
             }
@@ -299,13 +303,97 @@ public class InternalChorLexer extends Lexer {
     }
     // $ANTLR end "T__44"
 
+    // $ANTLR start "T__45"
+    public final void mT__45() throws RecognitionException {
+        try {
+            int _type = T__45;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:22:7: ( 'else' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:22:9: 'else'
+            {
+            match("else"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__45"
+
+    // $ANTLR start "T__46"
+    public final void mT__46() throws RecognitionException {
+        try {
+            int _type = T__46;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:23:7: ( 'ask' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:23:9: 'ask'
+            {
+            match("ask"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__46"
+
+    // $ANTLR start "T__47"
+    public final void mT__47() throws RecognitionException {
+        try {
+            int _type = T__47;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:24:7: ( 'show' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:24:9: 'show'
+            {
+            match("show"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__47"
+
+    // $ANTLR start "T__48"
+    public final void mT__48() throws RecognitionException {
+        try {
+            int _type = T__48;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:25:7: ( 'local' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:25:9: 'local'
+            {
+            match("local"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__48"
+
     // $ANTLR start "RULE_LCURLY"
     public final void mRULE_LCURLY() throws RecognitionException {
         try {
             int _type = RULE_LCURLY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2066:13: ( '{' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2066:15: '{'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2872:13: ( '{' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2872:15: '{'
             {
             match('{'); 
 
@@ -324,8 +412,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_RCURLY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2068:13: ( '}' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2068:15: '}'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2874:13: ( '}' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2874:15: '}'
             {
             match('}'); 
 
@@ -344,8 +432,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_LSQUARE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2070:14: ( '[' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2070:16: '['
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2876:14: ( '[' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2876:16: '['
             {
             match('['); 
 
@@ -364,8 +452,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_RSQUARE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2072:14: ( ']' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2072:16: ']'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2878:14: ( ']' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2878:16: ']'
             {
             match(']'); 
 
@@ -384,8 +472,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_ARROW;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2074:12: ( '->' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2074:14: '->'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2880:12: ( '->' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2880:14: '->'
             {
             match("->"); 
 
@@ -405,8 +493,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_SEMICOLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2076:16: ( ';' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2076:18: ';'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2882:16: ( ';' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2882:18: ';'
             {
             match(';'); 
 
@@ -425,8 +513,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_COLON;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2078:12: ( ':' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2078:14: ':'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2884:12: ( ':' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2884:14: ':'
             {
             match(':'); 
 
@@ -445,8 +533,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_PLUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2080:11: ( '+' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2080:13: '+'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2886:11: ( '+' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2886:13: '+'
             {
             match('+'); 
 
@@ -465,8 +553,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_TIMES;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2082:12: ( '*' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2082:14: '*'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2888:12: ( '*' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2888:14: '*'
             {
             match('*'); 
 
@@ -485,8 +573,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_MINUS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2084:12: ( '-' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2084:14: '-'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2890:12: ( '-' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2890:14: '-'
             {
             match('-'); 
 
@@ -505,8 +593,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_VERT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2086:11: ( '|' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2086:13: '|'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2892:11: ( '|' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2892:13: '|'
             {
             match('|'); 
 
@@ -525,8 +613,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_QUESTION_MARK;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2088:20: ( '?' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2088:22: '?'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2894:20: ( '?' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2894:22: '?'
             {
             match('?'); 
 
@@ -545,8 +633,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_BANG;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2090:11: ( '!' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2090:13: '!'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2896:11: ( '!' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2896:13: '!'
             {
             match('!'); 
 
@@ -565,8 +653,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_AT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2092:9: ( '@' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2092:11: '@'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2898:9: ( '@' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2898:11: '@'
             {
             match('@'); 
 
@@ -585,8 +673,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_ASSIGN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2094:13: ( '=' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2094:15: '='
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2900:13: ( '=' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2900:15: '='
             {
             match('='); 
 
@@ -605,8 +693,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_DOT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2096:10: ( '.' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2096:12: '.'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2902:10: ( '.' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2902:12: '.'
             {
             match('.'); 
 
@@ -625,8 +713,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_LPAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2098:13: ( '(' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2098:15: '('
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2904:13: ( '(' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2904:15: '('
             {
             match('('); 
 
@@ -645,8 +733,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_RPAREN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2100:13: ( ')' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2100:15: ')'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2906:13: ( ')' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2906:15: ')'
             {
             match(')'); 
 
@@ -665,8 +753,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_COMMA;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2102:12: ( ',' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2102:14: ','
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2908:12: ( ',' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2908:14: ','
             {
             match(','); 
 
@@ -685,8 +773,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_LESS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2104:11: ( '<' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2104:13: '<'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2910:11: ( '<' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2910:13: '<'
             {
             match('<'); 
 
@@ -705,8 +793,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_EQUAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2106:12: ( '==' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2106:14: '=='
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2912:12: ( '==' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2912:14: '=='
             {
             match("=="); 
 
@@ -726,8 +814,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_GREATER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2108:14: ( '>' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2108:16: '>'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2914:14: ( '>' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2914:16: '>'
             {
             match('>'); 
 
@@ -746,8 +834,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_NOT_EQUAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2110:16: ( '!=' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2110:18: '!='
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2916:16: ( '!=' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2916:18: '!='
             {
             match("!="); 
 
@@ -767,10 +855,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2112:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2112:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2918:9: ( ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2918:11: ( '^' )? ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             {
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2112:11: ( '^' )?
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2918:11: ( '^' )?
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -779,7 +867,7 @@ public class InternalChorLexer extends Lexer {
             }
             switch (alt1) {
                 case 1 :
-                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2112:11: '^'
+                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2918:11: '^'
                     {
                     match('^'); 
 
@@ -797,7 +885,7 @@ public class InternalChorLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2112:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2918:40: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
             loop2:
             do {
                 int alt2=2;
@@ -846,10 +934,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2114:10: ( ( '0' .. '9' )+ )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2114:12: ( '0' .. '9' )+
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2920:10: ( ( '0' .. '9' )+ )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2920:12: ( '0' .. '9' )+
             {
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2114:12: ( '0' .. '9' )+
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2920:12: ( '0' .. '9' )+
             int cnt3=0;
             loop3:
             do {
@@ -863,7 +951,7 @@ public class InternalChorLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2114:13: '0' .. '9'
+            	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2920:13: '0' .. '9'
             	    {
             	    matchRange('0','9'); 
 
@@ -895,10 +983,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:13: ( ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' ) )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             {
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:15: ( '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"' | '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\'' )
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -916,10 +1004,10 @@ public class InternalChorLexer extends Lexer {
             }
             switch (alt6) {
                 case 1 :
-                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
+                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:16: '\"' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )* '\"'
                     {
                     match('\"'); 
-                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
+                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:20: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\"' ) ) )*
                     loop4:
                     do {
                         int alt4=3;
@@ -935,7 +1023,7 @@ public class InternalChorLexer extends Lexer {
 
                         switch (alt4) {
                     	case 1 :
-                    	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:21: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -951,7 +1039,7 @@ public class InternalChorLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:66: ~ ( ( '\\\\' | '\"' ) )
+                    	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:66: ~ ( ( '\\\\' | '\"' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -976,10 +1064,10 @@ public class InternalChorLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
+                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:86: '\\'' ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )* '\\''
                     {
                     match('\''); 
-                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
+                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:91: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' ) | ~ ( ( '\\\\' | '\\'' ) ) )*
                     loop5:
                     do {
                         int alt5=3;
@@ -995,7 +1083,7 @@ public class InternalChorLexer extends Lexer {
 
                         switch (alt5) {
                     	case 1 :
-                    	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
+                    	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:92: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | 'u' | '\"' | '\\'' | '\\\\' )
                     	    {
                     	    match('\\'); 
                     	    if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||(input.LA(1)>='t' && input.LA(1)<='u') ) {
@@ -1011,7 +1099,7 @@ public class InternalChorLexer extends Lexer {
                     	    }
                     	    break;
                     	case 2 :
-                    	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2116:137: ~ ( ( '\\\\' | '\\'' ) )
+                    	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2922:137: ~ ( ( '\\\\' | '\\'' ) )
                     	    {
                     	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
                     	        input.consume();
@@ -1054,12 +1142,12 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2118:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2118:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2924:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2924:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2118:24: ( options {greedy=false; } : . )*
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2924:24: ( options {greedy=false; } : . )*
             loop7:
             do {
                 int alt7=2;
@@ -1084,7 +1172,7 @@ public class InternalChorLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2118:52: .
+            	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2924:52: .
             	    {
             	    matchAny(); 
 
@@ -1114,12 +1202,12 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2120:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2120:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2926:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )? )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2926:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )? '\\n' )?
             {
             match("//"); 
 
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2120:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2926:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop8:
             do {
                 int alt8=2;
@@ -1132,7 +1220,7 @@ public class InternalChorLexer extends Lexer {
 
                 switch (alt8) {
             	case 1 :
-            	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2120:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2926:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -1152,7 +1240,7 @@ public class InternalChorLexer extends Lexer {
                 }
             } while (true);
 
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2120:40: ( ( '\\r' )? '\\n' )?
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2926:40: ( ( '\\r' )? '\\n' )?
             int alt10=2;
             int LA10_0 = input.LA(1);
 
@@ -1161,9 +1249,9 @@ public class InternalChorLexer extends Lexer {
             }
             switch (alt10) {
                 case 1 :
-                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2120:41: ( '\\r' )? '\\n'
+                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2926:41: ( '\\r' )? '\\n'
                     {
-                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2120:41: ( '\\r' )?
+                    // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2926:41: ( '\\r' )?
                     int alt9=2;
                     int LA9_0 = input.LA(1);
 
@@ -1172,7 +1260,7 @@ public class InternalChorLexer extends Lexer {
                     }
                     switch (alt9) {
                         case 1 :
-                            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2120:41: '\\r'
+                            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2926:41: '\\r'
                             {
                             match('\r'); 
 
@@ -1204,10 +1292,10 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2122:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2122:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2928:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2928:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2122:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2928:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt11=0;
             loop11:
             do {
@@ -1261,8 +1349,8 @@ public class InternalChorLexer extends Lexer {
         try {
             int _type = RULE_ANY_OTHER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2124:16: ( . )
-            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2124:18: .
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2930:16: ( . )
+            // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:2930:18: .
             {
             matchAny(); 
 
@@ -1277,8 +1365,8 @@ public class InternalChorLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:8: ( T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | RULE_LCURLY | RULE_RCURLY | RULE_LSQUARE | RULE_RSQUARE | RULE_ARROW | RULE_SEMICOLON | RULE_COLON | RULE_PLUS | RULE_TIMES | RULE_MINUS | RULE_VERT | RULE_QUESTION_MARK | RULE_BANG | RULE_AT | RULE_ASSIGN | RULE_DOT | RULE_LPAREN | RULE_RPAREN | RULE_COMMA | RULE_LESS | RULE_EQUAL | RULE_GREATER | RULE_NOT_EQUAL | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
-        int alt12=41;
+        // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:8: ( T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | RULE_LCURLY | RULE_RCURLY | RULE_LSQUARE | RULE_RSQUARE | RULE_ARROW | RULE_SEMICOLON | RULE_COLON | RULE_PLUS | RULE_TIMES | RULE_MINUS | RULE_VERT | RULE_QUESTION_MARK | RULE_BANG | RULE_AT | RULE_ASSIGN | RULE_DOT | RULE_LPAREN | RULE_RPAREN | RULE_COMMA | RULE_LESS | RULE_EQUAL | RULE_GREATER | RULE_NOT_EQUAL | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        int alt12=45;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
@@ -1359,210 +1447,238 @@ public class InternalChorLexer extends Lexer {
                 }
                 break;
             case 12 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:76: RULE_LCURLY
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:76: T__45
+                {
+                mT__45(); 
+
+                }
+                break;
+            case 13 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:82: T__46
+                {
+                mT__46(); 
+
+                }
+                break;
+            case 14 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:88: T__47
+                {
+                mT__47(); 
+
+                }
+                break;
+            case 15 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:94: T__48
+                {
+                mT__48(); 
+
+                }
+                break;
+            case 16 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:100: RULE_LCURLY
                 {
                 mRULE_LCURLY(); 
 
                 }
                 break;
-            case 13 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:88: RULE_RCURLY
+            case 17 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:112: RULE_RCURLY
                 {
                 mRULE_RCURLY(); 
 
                 }
                 break;
-            case 14 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:100: RULE_LSQUARE
+            case 18 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:124: RULE_LSQUARE
                 {
                 mRULE_LSQUARE(); 
 
                 }
                 break;
-            case 15 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:113: RULE_RSQUARE
+            case 19 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:137: RULE_RSQUARE
                 {
                 mRULE_RSQUARE(); 
 
                 }
                 break;
-            case 16 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:126: RULE_ARROW
+            case 20 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:150: RULE_ARROW
                 {
                 mRULE_ARROW(); 
 
                 }
                 break;
-            case 17 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:137: RULE_SEMICOLON
+            case 21 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:161: RULE_SEMICOLON
                 {
                 mRULE_SEMICOLON(); 
 
                 }
                 break;
-            case 18 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:152: RULE_COLON
+            case 22 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:176: RULE_COLON
                 {
                 mRULE_COLON(); 
 
                 }
                 break;
-            case 19 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:163: RULE_PLUS
+            case 23 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:187: RULE_PLUS
                 {
                 mRULE_PLUS(); 
 
                 }
                 break;
-            case 20 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:173: RULE_TIMES
+            case 24 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:197: RULE_TIMES
                 {
                 mRULE_TIMES(); 
 
                 }
                 break;
-            case 21 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:184: RULE_MINUS
+            case 25 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:208: RULE_MINUS
                 {
                 mRULE_MINUS(); 
 
                 }
                 break;
-            case 22 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:195: RULE_VERT
+            case 26 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:219: RULE_VERT
                 {
                 mRULE_VERT(); 
 
                 }
                 break;
-            case 23 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:205: RULE_QUESTION_MARK
+            case 27 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:229: RULE_QUESTION_MARK
                 {
                 mRULE_QUESTION_MARK(); 
 
                 }
                 break;
-            case 24 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:224: RULE_BANG
+            case 28 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:248: RULE_BANG
                 {
                 mRULE_BANG(); 
 
                 }
                 break;
-            case 25 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:234: RULE_AT
+            case 29 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:258: RULE_AT
                 {
                 mRULE_AT(); 
 
                 }
                 break;
-            case 26 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:242: RULE_ASSIGN
+            case 30 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:266: RULE_ASSIGN
                 {
                 mRULE_ASSIGN(); 
 
                 }
                 break;
-            case 27 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:254: RULE_DOT
+            case 31 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:278: RULE_DOT
                 {
                 mRULE_DOT(); 
 
                 }
                 break;
-            case 28 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:263: RULE_LPAREN
+            case 32 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:287: RULE_LPAREN
                 {
                 mRULE_LPAREN(); 
 
                 }
                 break;
-            case 29 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:275: RULE_RPAREN
+            case 33 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:299: RULE_RPAREN
                 {
                 mRULE_RPAREN(); 
 
                 }
                 break;
-            case 30 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:287: RULE_COMMA
+            case 34 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:311: RULE_COMMA
                 {
                 mRULE_COMMA(); 
 
                 }
                 break;
-            case 31 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:298: RULE_LESS
+            case 35 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:322: RULE_LESS
                 {
                 mRULE_LESS(); 
 
                 }
                 break;
-            case 32 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:308: RULE_EQUAL
+            case 36 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:332: RULE_EQUAL
                 {
                 mRULE_EQUAL(); 
 
                 }
                 break;
-            case 33 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:319: RULE_GREATER
+            case 37 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:343: RULE_GREATER
                 {
                 mRULE_GREATER(); 
 
                 }
                 break;
-            case 34 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:332: RULE_NOT_EQUAL
+            case 38 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:356: RULE_NOT_EQUAL
                 {
                 mRULE_NOT_EQUAL(); 
 
                 }
                 break;
-            case 35 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:347: RULE_ID
+            case 39 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:371: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
-            case 36 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:355: RULE_INT
+            case 40 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:379: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
-            case 37 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:364: RULE_STRING
+            case 41 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:388: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
-            case 38 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:376: RULE_ML_COMMENT
+            case 42 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:400: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
-            case 39 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:392: RULE_SL_COMMENT
+            case 43 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:416: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
-            case 40 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:408: RULE_WS
+            case 44 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:432: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
-            case 41 :
-                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:416: RULE_ANY_OTHER
+            case 45 :
+                // ../chor/src-gen/org/chor/parser/antlr/internal/InternalChor.g:1:440: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -1576,155 +1692,182 @@ public class InternalChorLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\7\45\4\uffff\1\63\6\uffff\1\73\1\uffff\1\76\6\uffff\1\43"+
-        "\2\uffff\3\43\2\uffff\1\45\1\uffff\4\45\1\120\3\45\34\uffff\5\45"+
-        "\1\132\1\uffff\5\45\1\140\1\141\2\45\1\uffff\1\144\1\145\1\146\2"+
-        "\45\2\uffff\1\45\1\152\3\uffff\2\45\1\155\1\uffff\1\156\1\45\2\uffff"+
-        "\1\160\1\uffff";
+        "\1\uffff\12\51\4\uffff\1\72\6\uffff\1\102\1\uffff\1\105\6\uffff"+
+        "\1\46\2\uffff\3\46\2\uffff\2\51\1\uffff\3\51\1\126\7\51\34\uffff"+
+        "\4\51\1\144\1\uffff\6\51\1\153\4\51\1\160\1\51\1\uffff\2\51\1\164"+
+        "\1\165\1\166\1\167\1\uffff\4\51\1\uffff\2\51\1\176\4\uffff\1\177"+
+        "\2\51\1\u0082\1\u0083\1\u0084\2\uffff\1\u0085\1\51\4\uffff\1\u0087"+
+        "\1\uffff";
     static final String DFA12_eofS =
-        "\161\uffff";
+        "\u0088\uffff";
     static final String DFA12_minS =
-        "\1\0\1\162\1\141\1\151\1\146\2\157\1\154\4\uffff\1\76\6\uffff\1"+
-        "\75\1\uffff\1\75\6\uffff\1\101\2\uffff\2\0\1\52\2\uffff\1\157\1"+
-        "\uffff\1\151\1\164\1\141\1\164\1\60\1\157\1\151\1\163\34\uffff\1"+
-        "\147\1\156\1\145\1\151\1\162\1\60\1\uffff\1\154\1\144\1\145\1\162"+
-        "\1\157\2\60\1\156\1\164\1\uffff\3\60\1\141\1\143\2\uffff\1\147\1"+
-        "\60\3\uffff\1\155\1\157\1\60\1\uffff\1\60\1\154\2\uffff\1\60\1\uffff";
+        "\1\0\1\162\1\141\1\145\1\146\1\150\2\157\1\154\1\163\1\157\4\uffff"+
+        "\1\76\6\uffff\1\75\1\uffff\1\75\6\uffff\1\101\2\uffff\2\0\1\52\2"+
+        "\uffff\1\157\1\142\1\uffff\1\151\1\146\1\164\1\60\1\141\2\157\1"+
+        "\151\1\163\1\153\1\143\34\uffff\1\147\1\154\1\156\1\151\1\60\1\uffff"+
+        "\1\151\1\162\1\167\1\154\1\144\1\145\1\60\1\141\1\162\1\157\1\151"+
+        "\1\60\1\156\1\uffff\1\156\1\164\4\60\1\uffff\1\154\1\141\2\143\1"+
+        "\uffff\1\145\1\147\1\60\4\uffff\1\60\1\155\1\157\3\60\2\uffff\1"+
+        "\60\1\154\4\uffff\1\60\1\uffff";
     static final String DFA12_maxS =
-        "\1\uffff\1\162\1\141\1\164\1\156\2\157\1\154\4\uffff\1\76\6\uffff"+
-        "\1\75\1\uffff\1\75\6\uffff\1\172\2\uffff\2\uffff\1\57\2\uffff\1"+
-        "\157\1\uffff\1\151\1\164\1\162\1\164\1\172\1\157\1\151\1\163\34"+
-        "\uffff\1\164\1\156\1\145\1\151\1\162\1\172\1\uffff\1\154\1\144\1"+
-        "\145\1\162\1\157\2\172\1\156\1\164\1\uffff\3\172\1\141\1\143\2\uffff"+
-        "\1\147\1\172\3\uffff\1\155\1\157\1\172\1\uffff\1\172\1\154\2\uffff"+
-        "\1\172\1\uffff";
+        "\1\uffff\1\165\1\141\1\145\1\156\1\164\2\157\1\154\1\163\1\157\4"+
+        "\uffff\1\76\6\uffff\1\75\1\uffff\1\75\6\uffff\1\172\2\uffff\2\uffff"+
+        "\1\57\2\uffff\1\157\1\142\1\uffff\1\151\1\146\1\164\1\172\1\162"+
+        "\2\157\1\151\1\163\1\153\1\143\34\uffff\1\164\1\154\1\156\1\151"+
+        "\1\172\1\uffff\1\151\1\162\1\167\1\154\1\144\1\145\1\172\1\141\1"+
+        "\162\1\157\1\151\1\172\1\156\1\uffff\1\156\1\164\4\172\1\uffff\1"+
+        "\154\1\141\2\143\1\uffff\1\145\1\147\1\172\4\uffff\1\172\1\155\1"+
+        "\157\3\172\2\uffff\1\172\1\154\4\uffff\1\172\1\uffff";
     static final String DFA12_acceptS =
-        "\10\uffff\1\14\1\15\1\16\1\17\1\uffff\1\21\1\22\1\23\1\24\1\26\1"+
-        "\27\1\uffff\1\31\1\uffff\1\33\1\34\1\35\1\36\1\37\1\41\1\uffff\1"+
-        "\43\1\44\3\uffff\1\50\1\51\1\uffff\1\43\10\uffff\1\14\1\15\1\16"+
-        "\1\17\1\20\1\25\1\21\1\22\1\23\1\24\1\26\1\27\1\42\1\30\1\31\1\40"+
-        "\1\32\1\33\1\34\1\35\1\36\1\37\1\41\1\44\1\45\1\46\1\47\1\50\6\uffff"+
-        "\1\12\11\uffff\1\5\5\uffff\1\2\1\4\2\uffff\1\7\1\10\1\13\3\uffff"+
-        "\1\11\2\uffff\1\6\1\1\1\uffff\1\3";
+        "\13\uffff\1\20\1\21\1\22\1\23\1\uffff\1\25\1\26\1\27\1\30\1\32\1"+
+        "\33\1\uffff\1\35\1\uffff\1\37\1\40\1\41\1\42\1\43\1\45\1\uffff\1"+
+        "\47\1\50\3\uffff\1\54\1\55\2\uffff\1\47\13\uffff\1\20\1\21\1\22"+
+        "\1\23\1\24\1\31\1\25\1\26\1\27\1\30\1\32\1\33\1\46\1\34\1\35\1\44"+
+        "\1\36\1\37\1\40\1\41\1\42\1\43\1\45\1\50\1\51\1\52\1\53\1\54\5\uffff"+
+        "\1\13\15\uffff\1\6\6\uffff\1\15\4\uffff\1\2\3\uffff\1\16\1\10\1"+
+        "\11\1\14\6\uffff\1\12\1\17\2\uffff\1\5\1\3\1\7\1\1\1\uffff\1\4";
     static final String DFA12_specialS =
-        "\1\1\36\uffff\1\2\1\0\120\uffff}>";
+        "\1\1\41\uffff\1\0\1\2\144\uffff}>";
     static final String[] DFA12_transitionS = {
-            "\11\43\2\42\2\43\1\42\22\43\1\42\1\23\1\37\4\43\1\40\1\27\1"+
-            "\30\1\20\1\17\1\31\1\14\1\26\1\41\12\36\1\16\1\15\1\32\1\25"+
-            "\1\33\1\22\1\24\32\35\1\12\1\43\1\13\1\34\1\35\1\43\1\35\1\5"+
-            "\2\35\1\7\3\35\1\4\3\35\1\2\2\35\1\1\2\35\1\3\2\35\1\6\4\35"+
-            "\1\10\1\21\1\11\uff82\43",
-            "\1\44",
-            "\1\46",
-            "\1\47\12\uffff\1\50",
-            "\1\52\7\uffff\1\51",
+            "\11\46\2\45\2\46\1\45\22\46\1\45\1\26\1\42\4\46\1\43\1\32\1"+
+            "\33\1\23\1\22\1\34\1\17\1\31\1\44\12\41\1\21\1\20\1\35\1\30"+
+            "\1\36\1\25\1\27\32\40\1\15\1\46\1\16\1\37\1\40\1\46\1\11\1\6"+
+            "\1\40\1\3\1\10\3\40\1\4\2\40\1\12\1\2\2\40\1\1\2\40\1\5\2\40"+
+            "\1\7\4\40\1\13\1\24\1\14\uff82\46",
+            "\1\47\2\uffff\1\50",
+            "\1\52",
             "\1\53",
-            "\1\54",
-            "\1\55",
-            "",
-            "",
-            "",
-            "",
+            "\1\55\7\uffff\1\54",
+            "\1\57\13\uffff\1\56",
+            "\1\60",
+            "\1\61",
             "\1\62",
+            "\1\63",
+            "\1\64",
+            "",
+            "",
+            "",
+            "",
+            "\1\71",
             "",
             "",
             "",
             "",
             "",
             "",
-            "\1\72",
+            "\1\101",
             "",
-            "\1\75",
-            "",
-            "",
+            "\1\104",
             "",
             "",
             "",
             "",
-            "\32\45\4\uffff\1\45\1\uffff\32\45",
             "",
             "",
-            "\0\106",
-            "\0\106",
-            "\1\107\4\uffff\1\110",
+            "\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
             "",
-            "\1\112",
+            "\0\115",
+            "\0\115",
+            "\1\116\4\uffff\1\117",
             "",
-            "\1\113",
-            "\1\114",
-            "\1\116\20\uffff\1\115",
-            "\1\117",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "",
             "\1\121",
             "\1\122",
+            "",
             "\1\123",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "\1\124\14\uffff\1\125",
-            "\1\126",
-            "\1\127",
-            "\1\130",
+            "\1\124",
+            "\1\125",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\130\20\uffff\1\127",
             "\1\131",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
-            "",
+            "\1\132",
             "\1\133",
             "\1\134",
             "\1\135",
             "\1\136",
-            "\1\137",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "\1\137\14\uffff\1\140",
+            "\1\141",
             "\1\142",
             "\1\143",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\1\145",
+            "\1\146",
             "\1\147",
             "\1\150",
-            "",
-            "",
             "\1\151",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
-            "",
-            "",
-            "",
-            "\1\153",
+            "\1\152",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "\1\154",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
-            "",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "\1\155",
+            "\1\156",
             "\1\157",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\161",
+            "",
+            "\1\162",
+            "\1\163",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "",
+            "\1\170",
+            "\1\171",
+            "\1\172",
+            "\1\173",
+            "",
+            "\1\174",
+            "\1\175",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             "",
             "",
-            "\12\45\7\uffff\32\45\4\uffff\1\45\1\uffff\32\45",
+            "",
+            "",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u0080",
+            "\1\u0081",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "",
+            "",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
+            "\1\u0086",
+            "",
+            "",
+            "",
+            "",
+            "\12\51\7\uffff\32\51\4\uffff\1\51\1\uffff\32\51",
             ""
     };
 
@@ -1758,19 +1901,19 @@ public class InternalChorLexer extends Lexer {
             this.transition = DFA12_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | RULE_LCURLY | RULE_RCURLY | RULE_LSQUARE | RULE_RSQUARE | RULE_ARROW | RULE_SEMICOLON | RULE_COLON | RULE_PLUS | RULE_TIMES | RULE_MINUS | RULE_VERT | RULE_QUESTION_MARK | RULE_BANG | RULE_AT | RULE_ASSIGN | RULE_DOT | RULE_LPAREN | RULE_RPAREN | RULE_COMMA | RULE_LESS | RULE_EQUAL | RULE_GREATER | RULE_NOT_EQUAL | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | RULE_LCURLY | RULE_RCURLY | RULE_LSQUARE | RULE_RSQUARE | RULE_ARROW | RULE_SEMICOLON | RULE_COLON | RULE_PLUS | RULE_TIMES | RULE_MINUS | RULE_VERT | RULE_QUESTION_MARK | RULE_BANG | RULE_AT | RULE_ASSIGN | RULE_DOT | RULE_LPAREN | RULE_RPAREN | RULE_COMMA | RULE_LESS | RULE_EQUAL | RULE_GREATER | RULE_NOT_EQUAL | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
         	int _s = s;
             switch ( s ) {
                     case 0 : 
-                        int LA12_32 = input.LA(1);
+                        int LA12_34 = input.LA(1);
 
                         s = -1;
-                        if ( ((LA12_32>='\u0000' && LA12_32<='\uFFFF')) ) {s = 70;}
+                        if ( ((LA12_34>='\u0000' && LA12_34<='\uFFFF')) ) {s = 77;}
 
-                        else s = 35;
+                        else s = 38;
 
                         if ( s>=0 ) return s;
                         break;
@@ -1782,81 +1925,87 @@ public class InternalChorLexer extends Lexer {
 
                         else if ( (LA12_0=='m') ) {s = 2;}
 
-                        else if ( (LA12_0=='s') ) {s = 3;}
+                        else if ( (LA12_0=='d') ) {s = 3;}
 
                         else if ( (LA12_0=='i') ) {s = 4;}
 
-                        else if ( (LA12_0=='b') ) {s = 5;}
+                        else if ( (LA12_0=='s') ) {s = 5;}
 
-                        else if ( (LA12_0=='v') ) {s = 6;}
+                        else if ( (LA12_0=='b') ) {s = 6;}
 
-                        else if ( (LA12_0=='e') ) {s = 7;}
+                        else if ( (LA12_0=='v') ) {s = 7;}
 
-                        else if ( (LA12_0=='{') ) {s = 8;}
+                        else if ( (LA12_0=='e') ) {s = 8;}
 
-                        else if ( (LA12_0=='}') ) {s = 9;}
+                        else if ( (LA12_0=='a') ) {s = 9;}
 
-                        else if ( (LA12_0=='[') ) {s = 10;}
+                        else if ( (LA12_0=='l') ) {s = 10;}
 
-                        else if ( (LA12_0==']') ) {s = 11;}
+                        else if ( (LA12_0=='{') ) {s = 11;}
 
-                        else if ( (LA12_0=='-') ) {s = 12;}
+                        else if ( (LA12_0=='}') ) {s = 12;}
 
-                        else if ( (LA12_0==';') ) {s = 13;}
+                        else if ( (LA12_0=='[') ) {s = 13;}
 
-                        else if ( (LA12_0==':') ) {s = 14;}
+                        else if ( (LA12_0==']') ) {s = 14;}
 
-                        else if ( (LA12_0=='+') ) {s = 15;}
+                        else if ( (LA12_0=='-') ) {s = 15;}
 
-                        else if ( (LA12_0=='*') ) {s = 16;}
+                        else if ( (LA12_0==';') ) {s = 16;}
 
-                        else if ( (LA12_0=='|') ) {s = 17;}
+                        else if ( (LA12_0==':') ) {s = 17;}
 
-                        else if ( (LA12_0=='?') ) {s = 18;}
+                        else if ( (LA12_0=='+') ) {s = 18;}
 
-                        else if ( (LA12_0=='!') ) {s = 19;}
+                        else if ( (LA12_0=='*') ) {s = 19;}
 
-                        else if ( (LA12_0=='@') ) {s = 20;}
+                        else if ( (LA12_0=='|') ) {s = 20;}
 
-                        else if ( (LA12_0=='=') ) {s = 21;}
+                        else if ( (LA12_0=='?') ) {s = 21;}
 
-                        else if ( (LA12_0=='.') ) {s = 22;}
+                        else if ( (LA12_0=='!') ) {s = 22;}
 
-                        else if ( (LA12_0=='(') ) {s = 23;}
+                        else if ( (LA12_0=='@') ) {s = 23;}
 
-                        else if ( (LA12_0==')') ) {s = 24;}
+                        else if ( (LA12_0=='=') ) {s = 24;}
 
-                        else if ( (LA12_0==',') ) {s = 25;}
+                        else if ( (LA12_0=='.') ) {s = 25;}
 
-                        else if ( (LA12_0=='<') ) {s = 26;}
+                        else if ( (LA12_0=='(') ) {s = 26;}
 
-                        else if ( (LA12_0=='>') ) {s = 27;}
+                        else if ( (LA12_0==')') ) {s = 27;}
 
-                        else if ( (LA12_0=='^') ) {s = 28;}
+                        else if ( (LA12_0==',') ) {s = 28;}
 
-                        else if ( ((LA12_0>='A' && LA12_0<='Z')||LA12_0=='_'||LA12_0=='a'||(LA12_0>='c' && LA12_0<='d')||(LA12_0>='f' && LA12_0<='h')||(LA12_0>='j' && LA12_0<='l')||(LA12_0>='n' && LA12_0<='o')||(LA12_0>='q' && LA12_0<='r')||(LA12_0>='t' && LA12_0<='u')||(LA12_0>='w' && LA12_0<='z')) ) {s = 29;}
+                        else if ( (LA12_0=='<') ) {s = 29;}
 
-                        else if ( ((LA12_0>='0' && LA12_0<='9')) ) {s = 30;}
+                        else if ( (LA12_0=='>') ) {s = 30;}
 
-                        else if ( (LA12_0=='\"') ) {s = 31;}
+                        else if ( (LA12_0=='^') ) {s = 31;}
 
-                        else if ( (LA12_0=='\'') ) {s = 32;}
+                        else if ( ((LA12_0>='A' && LA12_0<='Z')||LA12_0=='_'||LA12_0=='c'||(LA12_0>='f' && LA12_0<='h')||(LA12_0>='j' && LA12_0<='k')||(LA12_0>='n' && LA12_0<='o')||(LA12_0>='q' && LA12_0<='r')||(LA12_0>='t' && LA12_0<='u')||(LA12_0>='w' && LA12_0<='z')) ) {s = 32;}
 
-                        else if ( (LA12_0=='/') ) {s = 33;}
+                        else if ( ((LA12_0>='0' && LA12_0<='9')) ) {s = 33;}
 
-                        else if ( ((LA12_0>='\t' && LA12_0<='\n')||LA12_0=='\r'||LA12_0==' ') ) {s = 34;}
+                        else if ( (LA12_0=='\"') ) {s = 34;}
 
-                        else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||(LA12_0>='#' && LA12_0<='&')||LA12_0=='\\'||LA12_0=='`'||(LA12_0>='~' && LA12_0<='\uFFFF')) ) {s = 35;}
+                        else if ( (LA12_0=='\'') ) {s = 35;}
+
+                        else if ( (LA12_0=='/') ) {s = 36;}
+
+                        else if ( ((LA12_0>='\t' && LA12_0<='\n')||LA12_0=='\r'||LA12_0==' ') ) {s = 37;}
+
+                        else if ( ((LA12_0>='\u0000' && LA12_0<='\b')||(LA12_0>='\u000B' && LA12_0<='\f')||(LA12_0>='\u000E' && LA12_0<='\u001F')||(LA12_0>='#' && LA12_0<='&')||LA12_0=='\\'||LA12_0=='`'||(LA12_0>='~' && LA12_0<='\uFFFF')) ) {s = 38;}
 
                         if ( s>=0 ) return s;
                         break;
                     case 2 : 
-                        int LA12_31 = input.LA(1);
+                        int LA12_35 = input.LA(1);
 
                         s = -1;
-                        if ( ((LA12_31>='\u0000' && LA12_31<='\uFFFF')) ) {s = 70;}
+                        if ( ((LA12_35>='\u0000' && LA12_35<='\uFFFF')) ) {s = 77;}
 
-                        else s = 35;
+                        else s = 38;
 
                         if ( s>=0 ) return s;
                         break;

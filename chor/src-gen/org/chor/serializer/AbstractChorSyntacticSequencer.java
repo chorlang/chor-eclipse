@@ -17,22 +17,22 @@ import org.eclipse.xtext.serializer.sequencer.AbstractSyntacticSequencer;
 public class AbstractChorSyntacticSequencer extends AbstractSyntacticSequencer {
 
 	protected ChorGrammarAccess grammarAccess;
-	protected AbstractElementAlias match_Choreography_LCURLYTerminalRuleCall_3_0_a;
+	protected AbstractElementAlias match_Choreography_LCURLYTerminalRuleCall_6_0_a;
 	
 	@Inject
 	protected void init(IGrammarAccess access) {
 		grammarAccess = (ChorGrammarAccess) access;
-		match_Choreography_LCURLYTerminalRuleCall_3_0_a = new TokenAlias(true, true, grammarAccess.getChoreographyAccess().getLCURLYTerminalRuleCall_3_0());
+		match_Choreography_LCURLYTerminalRuleCall_6_0_a = new TokenAlias(true, true, grammarAccess.getChoreographyAccess().getLCURLYTerminalRuleCall_6_0());
 	}
 	
 	@Override
 	protected String getUnassignedRuleCallToken(EObject semanticObject, RuleCall ruleCall, INode node) {
 		if(ruleCall.getRule() == grammarAccess.getARROWRule())
 			return getARROWToken(semanticObject, ruleCall, node);
+		else if(ruleCall.getRule() == grammarAccess.getASSIGNRule())
+			return getASSIGNToken(semanticObject, ruleCall, node);
 		else if(ruleCall.getRule() == grammarAccess.getATRule())
 			return getATToken(semanticObject, ruleCall, node);
-		else if(ruleCall.getRule() == grammarAccess.getBANGRule())
-			return getBANGToken(semanticObject, ruleCall, node);
 		else if(ruleCall.getRule() == grammarAccess.getCOLONRule())
 			return getCOLONToken(semanticObject, ruleCall, node);
 		else if(ruleCall.getRule() == grammarAccess.getCOMMARule())
@@ -49,8 +49,6 @@ public class AbstractChorSyntacticSequencer extends AbstractSyntacticSequencer {
 			return getMINUSToken(semanticObject, ruleCall, node);
 		else if(ruleCall.getRule() == grammarAccess.getPLUSRule())
 			return getPLUSToken(semanticObject, ruleCall, node);
-		else if(ruleCall.getRule() == grammarAccess.getQUESTION_MARKRule())
-			return getQUESTION_MARKToken(semanticObject, ruleCall, node);
 		else if(ruleCall.getRule() == grammarAccess.getRCURLYRule())
 			return getRCURLYToken(semanticObject, ruleCall, node);
 		else if(ruleCall.getRule() == grammarAccess.getRPARENRule())
@@ -67,15 +65,15 @@ public class AbstractChorSyntacticSequencer extends AbstractSyntacticSequencer {
 			return getTokenText(node);
 		return "->";
 	}
+	protected String getASSIGNToken(EObject semanticObject, RuleCall ruleCall, INode node) {
+		if (node != null)
+			return getTokenText(node);
+		return "=";
+	}
 	protected String getATToken(EObject semanticObject, RuleCall ruleCall, INode node) {
 		if (node != null)
 			return getTokenText(node);
 		return "@";
-	}
-	protected String getBANGToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (node != null)
-			return getTokenText(node);
-		return "!";
 	}
 	protected String getCOLONToken(EObject semanticObject, RuleCall ruleCall, INode node) {
 		if (node != null)
@@ -117,11 +115,6 @@ public class AbstractChorSyntacticSequencer extends AbstractSyntacticSequencer {
 			return getTokenText(node);
 		return "+";
 	}
-	protected String getQUESTION_MARKToken(EObject semanticObject, RuleCall ruleCall, INode node) {
-		if (node != null)
-			return getTokenText(node);
-		return "?";
-	}
 	protected String getRCURLYToken(EObject semanticObject, RuleCall ruleCall, INode node) {
 		if (node != null)
 			return getTokenText(node);
@@ -149,8 +142,8 @@ public class AbstractChorSyntacticSequencer extends AbstractSyntacticSequencer {
 		List<INode> transitionNodes = collectNodes(fromNode, toNode);
 		for (AbstractElementAlias syntax : transition.getAmbiguousSyntaxes()) {
 			List<INode> syntaxNodes = getNodesFor(transitionNodes, syntax);
-			if(match_Choreography_LCURLYTerminalRuleCall_3_0_a.equals(syntax))
-				emit_Choreography_LCURLYTerminalRuleCall_3_0_a(semanticObject, getLastNavigableState(), syntaxNodes);
+			if(match_Choreography_LCURLYTerminalRuleCall_6_0_a.equals(syntax))
+				emit_Choreography_LCURLYTerminalRuleCall_6_0_a(semanticObject, getLastNavigableState(), syntaxNodes);
 			else acceptNodes(getLastNavigableState(), syntaxNodes);
 		}
 	}
@@ -159,7 +152,7 @@ public class AbstractChorSyntacticSequencer extends AbstractSyntacticSequencer {
 	 * Syntax:
 	 *     LCURLY*
 	 */
-	protected void emit_Choreography_LCURLYTerminalRuleCall_3_0_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
+	protected void emit_Choreography_LCURLYTerminalRuleCall_6_0_a(EObject semanticObject, ISynNavigable transition, List<INode> nodes) {
 		acceptNodes(transition, nodes);
 	}
 	

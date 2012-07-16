@@ -88,6 +88,16 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
         return createPreambleAdapter();
       }
       @Override
+      public Adapter caseProcedure(Procedure object)
+      {
+        return createProcedureAdapter();
+      }
+      @Override
+      public Adapter caseSessionProcedureParameter(SessionProcedureParameter object)
+      {
+        return createSessionProcedureParameterAdapter();
+      }
+      @Override
       public Adapter caseProtocol(Protocol object)
       {
         return createProtocolAdapter();
@@ -103,6 +113,16 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
         return createGlobalTypeAdapter();
       }
       @Override
+      public Adapter caseGlobalTypeInteraction(GlobalTypeInteraction object)
+      {
+        return createGlobalTypeInteractionAdapter();
+      }
+      @Override
+      public Adapter caseGlobalTypeCall(GlobalTypeCall object)
+      {
+        return createGlobalTypeCallAdapter();
+      }
+      @Override
       public Adapter caseBranchGType(BranchGType object)
       {
         return createBranchGTypeAdapter();
@@ -113,19 +133,14 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
         return createDataTypeAdapter();
       }
       @Override
+      public Adapter caseDelegationType(DelegationType object)
+      {
+        return createDelegationTypeAdapter();
+      }
+      @Override
       public Adapter caseBasicType(BasicType object)
       {
         return createBasicTypeAdapter();
-      }
-      @Override
-      public Adapter caseLocalType(LocalType object)
-      {
-        return createLocalTypeAdapter();
-      }
-      @Override
-      public Adapter caseBranchType(BranchType object)
-      {
-        return createBranchTypeAdapter();
       }
       @Override
       public Adapter caseChoreography(Choreography object)
@@ -148,9 +163,24 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
         return createInteractionAdapter();
       }
       @Override
+      public Adapter caseDelegation(Delegation object)
+      {
+        return createDelegationAdapter();
+      }
+      @Override
+      public Adapter caseCall(Call object)
+      {
+        return createCallAdapter();
+      }
+      @Override
       public Adapter caseIfThenElse(IfThenElse object)
       {
         return createIfThenElseAdapter();
+      }
+      @Override
+      public Adapter caseLocalCode(LocalCode object)
+      {
+        return createLocalCodeAdapter();
       }
       @Override
       public Adapter caseExpression(Expression object)
@@ -188,24 +218,24 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
         return createCompareConditionAdapter();
       }
       @Override
-      public Adapter caseOutputType(OutputType object)
+      public Adapter caseConditionOperator(ConditionOperator object)
       {
-        return createOutputTypeAdapter();
+        return createConditionOperatorAdapter();
       }
       @Override
-      public Adapter caseInputType(InputType object)
+      public Adapter caseLocalAskCommand(LocalAskCommand object)
       {
-        return createInputTypeAdapter();
+        return createLocalAskCommandAdapter();
       }
       @Override
-      public Adapter caseBranchingType(BranchingType object)
+      public Adapter caseLocalShowCommand(LocalShowCommand object)
       {
-        return createBranchingTypeAdapter();
+        return createLocalShowCommandAdapter();
       }
       @Override
-      public Adapter caseSelectionType(SelectionType object)
+      public Adapter caseLocalAssignmentCommand(LocalAssignmentCommand object)
       {
-        return createSelectionTypeAdapter();
+        return createLocalAssignmentCommandAdapter();
       }
       @Override
       public Adapter caseSumExpressionAddTerm(SumExpressionAddTerm object)
@@ -270,6 +300,36 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.chor.chor.Procedure <em>Procedure</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.chor.chor.Procedure
+   * @generated
+   */
+  public Adapter createProcedureAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.chor.chor.SessionProcedureParameter <em>Session Procedure Parameter</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.chor.chor.SessionProcedureParameter
+   * @generated
+   */
+  public Adapter createSessionProcedureParameterAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.chor.chor.Protocol <em>Protocol</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -315,6 +375,36 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.chor.chor.GlobalTypeInteraction <em>Global Type Interaction</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.chor.chor.GlobalTypeInteraction
+   * @generated
+   */
+  public Adapter createGlobalTypeInteractionAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.chor.chor.GlobalTypeCall <em>Global Type Call</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.chor.chor.GlobalTypeCall
+   * @generated
+   */
+  public Adapter createGlobalTypeCallAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.chor.chor.BranchGType <em>Branch GType</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -345,6 +435,21 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.chor.chor.DelegationType <em>Delegation Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.chor.chor.DelegationType
+   * @generated
+   */
+  public Adapter createDelegationTypeAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.chor.chor.BasicType <em>Basic Type</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -355,36 +460,6 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createBasicTypeAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.chor.chor.LocalType <em>Local Type</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.chor.chor.LocalType
-   * @generated
-   */
-  public Adapter createLocalTypeAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link org.chor.chor.BranchType <em>Branch Type</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see org.chor.chor.BranchType
-   * @generated
-   */
-  public Adapter createBranchTypeAdapter()
   {
     return null;
   }
@@ -450,6 +525,36 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.chor.chor.Delegation <em>Delegation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.chor.chor.Delegation
+   * @generated
+   */
+  public Adapter createDelegationAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.chor.chor.Call <em>Call</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.chor.chor.Call
+   * @generated
+   */
+  public Adapter createCallAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.chor.chor.IfThenElse <em>If Then Else</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -460,6 +565,21 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createIfThenElseAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.chor.chor.LocalCode <em>Local Code</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.chor.chor.LocalCode
+   * @generated
+   */
+  public Adapter createLocalCodeAdapter()
   {
     return null;
   }
@@ -570,61 +690,61 @@ public class ChorAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.chor.chor.OutputType <em>Output Type</em>}'.
+   * Creates a new adapter for an object of class '{@link org.chor.chor.ConditionOperator <em>Condition Operator</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.chor.chor.OutputType
+   * @see org.chor.chor.ConditionOperator
    * @generated
    */
-  public Adapter createOutputTypeAdapter()
+  public Adapter createConditionOperatorAdapter()
   {
     return null;
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.chor.chor.InputType <em>Input Type</em>}'.
+   * Creates a new adapter for an object of class '{@link org.chor.chor.LocalAskCommand <em>Local Ask Command</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.chor.chor.InputType
+   * @see org.chor.chor.LocalAskCommand
    * @generated
    */
-  public Adapter createInputTypeAdapter()
+  public Adapter createLocalAskCommandAdapter()
   {
     return null;
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.chor.chor.BranchingType <em>Branching Type</em>}'.
+   * Creates a new adapter for an object of class '{@link org.chor.chor.LocalShowCommand <em>Local Show Command</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.chor.chor.BranchingType
+   * @see org.chor.chor.LocalShowCommand
    * @generated
    */
-  public Adapter createBranchingTypeAdapter()
+  public Adapter createLocalShowCommandAdapter()
   {
     return null;
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.chor.chor.SelectionType <em>Selection Type</em>}'.
+   * Creates a new adapter for an object of class '{@link org.chor.chor.LocalAssignmentCommand <em>Local Assignment Command</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.chor.chor.SelectionType
+   * @see org.chor.chor.LocalAssignmentCommand
    * @generated
    */
-  public Adapter createSelectionTypeAdapter()
+  public Adapter createLocalAssignmentCommandAdapter()
   {
     return null;
   }

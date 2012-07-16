@@ -6,9 +6,8 @@
 package org.chor.chor.impl;
 
 import org.chor.chor.ChorPackage;
-import org.chor.chor.Constant;
 import org.chor.chor.Expression;
-import org.chor.chor.ExpressionBasicTerm;
+import org.chor.chor.LocalAssignmentCommand;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -17,24 +16,22 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Expression Basic Term</b></em>'.
+ * An implementation of the model object '<em><b>Local Assignment Command</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.chor.chor.impl.ExpressionBasicTermImpl#getVariable <em>Variable</em>}</li>
- *   <li>{@link org.chor.chor.impl.ExpressionBasicTermImpl#getConstant <em>Constant</em>}</li>
- *   <li>{@link org.chor.chor.impl.ExpressionBasicTermImpl#getExpression <em>Expression</em>}</li>
+ *   <li>{@link org.chor.chor.impl.LocalAssignmentCommandImpl#getVariable <em>Variable</em>}</li>
+ *   <li>{@link org.chor.chor.impl.LocalAssignmentCommandImpl#getExpression <em>Expression</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implements ExpressionBasicTerm
+public class LocalAssignmentCommandImpl extends LocalCodeImpl implements LocalAssignmentCommand
 {
   /**
    * The default value of the '{@link #getVariable() <em>Variable</em>}' attribute.
@@ -57,16 +54,6 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
   protected String variable = VARIABLE_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getConstant() <em>Constant</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getConstant()
-   * @generated
-   * @ordered
-   */
-  protected Constant constant;
-
-  /**
    * The cached value of the '{@link #getExpression() <em>Expression</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -81,7 +68,7 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ExpressionBasicTermImpl()
+  protected LocalAssignmentCommandImpl()
   {
     super();
   }
@@ -94,7 +81,7 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
   @Override
   protected EClass eStaticClass()
   {
-    return ChorPackage.Literals.EXPRESSION_BASIC_TERM;
+    return ChorPackage.Literals.LOCAL_ASSIGNMENT_COMMAND;
   }
 
   /**
@@ -117,55 +104,7 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
     String oldVariable = variable;
     variable = newVariable;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.EXPRESSION_BASIC_TERM__VARIABLE, oldVariable, variable));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Constant getConstant()
-  {
-    return constant;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetConstant(Constant newConstant, NotificationChain msgs)
-  {
-    Constant oldConstant = constant;
-    constant = newConstant;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT, oldConstant, newConstant);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setConstant(Constant newConstant)
-  {
-    if (newConstant != constant)
-    {
-      NotificationChain msgs = null;
-      if (constant != null)
-        msgs = ((InternalEObject)constant).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT, null, msgs);
-      if (newConstant != null)
-        msgs = ((InternalEObject)newConstant).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT, null, msgs);
-      msgs = basicSetConstant(newConstant, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT, newConstant, newConstant));
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.LOCAL_ASSIGNMENT_COMMAND__VARIABLE, oldVariable, variable));
   }
 
   /**
@@ -189,7 +128,7 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
     expression = newExpression;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION, oldExpression, newExpression);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION, oldExpression, newExpression);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -206,14 +145,14 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
     {
       NotificationChain msgs = null;
       if (expression != null)
-        msgs = ((InternalEObject)expression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION, null, msgs);
+        msgs = ((InternalEObject)expression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION, null, msgs);
       if (newExpression != null)
-        msgs = ((InternalEObject)newExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION, null, msgs);
+        msgs = ((InternalEObject)newExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION, null, msgs);
       msgs = basicSetExpression(newExpression, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION, newExpression, newExpression));
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION, newExpression, newExpression));
   }
 
   /**
@@ -226,9 +165,7 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
   {
     switch (featureID)
     {
-      case ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT:
-        return basicSetConstant(null, msgs);
-      case ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION:
         return basicSetExpression(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -244,11 +181,9 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
   {
     switch (featureID)
     {
-      case ChorPackage.EXPRESSION_BASIC_TERM__VARIABLE:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__VARIABLE:
         return getVariable();
-      case ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT:
-        return getConstant();
-      case ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION:
         return getExpression();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -264,13 +199,10 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
   {
     switch (featureID)
     {
-      case ChorPackage.EXPRESSION_BASIC_TERM__VARIABLE:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__VARIABLE:
         setVariable((String)newValue);
         return;
-      case ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT:
-        setConstant((Constant)newValue);
-        return;
-      case ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION:
         setExpression((Expression)newValue);
         return;
     }
@@ -287,13 +219,10 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
   {
     switch (featureID)
     {
-      case ChorPackage.EXPRESSION_BASIC_TERM__VARIABLE:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__VARIABLE:
         setVariable(VARIABLE_EDEFAULT);
         return;
-      case ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT:
-        setConstant((Constant)null);
-        return;
-      case ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION:
         setExpression((Expression)null);
         return;
     }
@@ -310,11 +239,9 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
   {
     switch (featureID)
     {
-      case ChorPackage.EXPRESSION_BASIC_TERM__VARIABLE:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__VARIABLE:
         return VARIABLE_EDEFAULT == null ? variable != null : !VARIABLE_EDEFAULT.equals(variable);
-      case ChorPackage.EXPRESSION_BASIC_TERM__CONSTANT:
-        return constant != null;
-      case ChorPackage.EXPRESSION_BASIC_TERM__EXPRESSION:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND__EXPRESSION:
         return expression != null;
     }
     return super.eIsSet(featureID);
@@ -337,4 +264,4 @@ public class ExpressionBasicTermImpl extends MinimalEObjectImpl.Container implem
     return result.toString();
   }
 
-} //ExpressionBasicTermImpl
+} //LocalAssignmentCommandImpl

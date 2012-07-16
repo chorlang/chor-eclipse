@@ -4,22 +4,28 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.chor.chor.BasicType;
 import org.chor.chor.BranchGType;
-import org.chor.chor.BranchingType;
+import org.chor.chor.Call;
 import org.chor.chor.ChorPackage;
 import org.chor.chor.CompareCondition;
 import org.chor.chor.Condition;
+import org.chor.chor.ConditionOperator;
 import org.chor.chor.Constant;
+import org.chor.chor.Delegation;
+import org.chor.chor.DelegationType;
 import org.chor.chor.Expression;
 import org.chor.chor.ExpressionBasicTerm;
-import org.chor.chor.GlobalType;
+import org.chor.chor.GlobalTypeCall;
+import org.chor.chor.GlobalTypeInteraction;
 import org.chor.chor.IfThenElse;
-import org.chor.chor.InputType;
 import org.chor.chor.Interaction;
-import org.chor.chor.OutputType;
+import org.chor.chor.LocalAskCommand;
+import org.chor.chor.LocalAssignmentCommand;
+import org.chor.chor.LocalShowCommand;
 import org.chor.chor.Preamble;
+import org.chor.chor.Procedure;
 import org.chor.chor.Program;
 import org.chor.chor.Protocol;
-import org.chor.chor.SelectionType;
+import org.chor.chor.SessionProcedureParameter;
 import org.chor.chor.Site;
 import org.chor.chor.Start;
 import org.chor.chor.SumExpression;
@@ -80,14 +86,10 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 					return; 
 				}
 				else break;
-			case ChorPackage.BRANCHING_TYPE:
-				if(context == grammarAccess.getBranchTypeRule()) {
-					sequence_BranchType(context, (BranchingType) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getDataTypeRule() ||
-				   context == grammarAccess.getLocalTypeRule()) {
-					sequence_LocalType(context, (BranchingType) semanticObject); 
+			case ChorPackage.CALL:
+				if(context == grammarAccess.getCallRule() ||
+				   context == grammarAccess.getChoreographyRule()) {
+					sequence_Call(context, (Call) semanticObject); 
 					return; 
 				}
 				else break;
@@ -103,9 +105,29 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 					return; 
 				}
 				else break;
+			case ChorPackage.CONDITION_OPERATOR:
+				if(context == grammarAccess.getConditionOperatorRule()) {
+					sequence_ConditionOperator(context, (ConditionOperator) semanticObject); 
+					return; 
+				}
+				else break;
 			case ChorPackage.CONSTANT:
 				if(context == grammarAccess.getConstantRule()) {
 					sequence_Constant(context, (Constant) semanticObject); 
+					return; 
+				}
+				else break;
+			case ChorPackage.DELEGATION:
+				if(context == grammarAccess.getChoreographyRule() ||
+				   context == grammarAccess.getDelegationRule()) {
+					sequence_Delegation(context, (Delegation) semanticObject); 
+					return; 
+				}
+				else break;
+			case ChorPackage.DELEGATION_TYPE:
+				if(context == grammarAccess.getDataTypeRule() ||
+				   context == grammarAccess.getDelegationTypeRule()) {
+					sequence_DelegationType(context, (DelegationType) semanticObject); 
 					return; 
 				}
 				else break;
@@ -121,9 +143,17 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 					return; 
 				}
 				else break;
-			case ChorPackage.GLOBAL_TYPE:
-				if(context == grammarAccess.getGlobalTypeRule()) {
-					sequence_GlobalType(context, (GlobalType) semanticObject); 
+			case ChorPackage.GLOBAL_TYPE_CALL:
+				if(context == grammarAccess.getGlobalTypeRule() ||
+				   context == grammarAccess.getGlobalTypeCallRule()) {
+					sequence_GlobalTypeCall(context, (GlobalTypeCall) semanticObject); 
+					return; 
+				}
+				else break;
+			case ChorPackage.GLOBAL_TYPE_INTERACTION:
+				if(context == grammarAccess.getGlobalTypeRule() ||
+				   context == grammarAccess.getGlobalTypeInteractionRule()) {
+					sequence_GlobalTypeInteraction(context, (GlobalTypeInteraction) semanticObject); 
 					return; 
 				}
 				else break;
@@ -134,17 +164,6 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 					return; 
 				}
 				else break;
-			case ChorPackage.INPUT_TYPE:
-				if(context == grammarAccess.getBranchTypeRule()) {
-					sequence_BranchType(context, (InputType) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getDataTypeRule() ||
-				   context == grammarAccess.getLocalTypeRule()) {
-					sequence_LocalType(context, (InputType) semanticObject); 
-					return; 
-				}
-				else break;
 			case ChorPackage.INTERACTION:
 				if(context == grammarAccess.getChoreographyRule() ||
 				   context == grammarAccess.getInteractionRule()) {
@@ -152,20 +171,36 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 					return; 
 				}
 				else break;
-			case ChorPackage.OUTPUT_TYPE:
-				if(context == grammarAccess.getBranchTypeRule()) {
-					sequence_BranchType(context, (OutputType) semanticObject); 
+			case ChorPackage.LOCAL_ASK_COMMAND:
+				if(context == grammarAccess.getChoreographyRule() ||
+				   context == grammarAccess.getLocalCodeRule()) {
+					sequence_LocalCode(context, (LocalAskCommand) semanticObject); 
 					return; 
 				}
-				else if(context == grammarAccess.getDataTypeRule() ||
-				   context == grammarAccess.getLocalTypeRule()) {
-					sequence_LocalType(context, (OutputType) semanticObject); 
+				else break;
+			case ChorPackage.LOCAL_ASSIGNMENT_COMMAND:
+				if(context == grammarAccess.getChoreographyRule() ||
+				   context == grammarAccess.getLocalCodeRule()) {
+					sequence_LocalCode(context, (LocalAssignmentCommand) semanticObject); 
+					return; 
+				}
+				else break;
+			case ChorPackage.LOCAL_SHOW_COMMAND:
+				if(context == grammarAccess.getChoreographyRule() ||
+				   context == grammarAccess.getLocalCodeRule()) {
+					sequence_LocalCode(context, (LocalShowCommand) semanticObject); 
 					return; 
 				}
 				else break;
 			case ChorPackage.PREAMBLE:
 				if(context == grammarAccess.getPreambleRule()) {
 					sequence_Preamble(context, (Preamble) semanticObject); 
+					return; 
+				}
+				else break;
+			case ChorPackage.PROCEDURE:
+				if(context == grammarAccess.getProcedureRule()) {
+					sequence_Procedure(context, (Procedure) semanticObject); 
 					return; 
 				}
 				else break;
@@ -181,14 +216,9 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 					return; 
 				}
 				else break;
-			case ChorPackage.SELECTION_TYPE:
-				if(context == grammarAccess.getBranchTypeRule()) {
-					sequence_BranchType(context, (SelectionType) semanticObject); 
-					return; 
-				}
-				else if(context == grammarAccess.getDataTypeRule() ||
-				   context == grammarAccess.getLocalTypeRule()) {
-					sequence_LocalType(context, (SelectionType) semanticObject); 
+			case ChorPackage.SESSION_PROCEDURE_PARAMETER:
+				if(context == grammarAccess.getSessionProcedureParameterRule()) {
+					sequence_SessionProcedureParameter(context, (SessionProcedureParameter) semanticObject); 
 					return; 
 				}
 				else break;
@@ -260,62 +290,9 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (label=ID branches+=BranchType branches+=BranchType*)
+	 *     (procedure=[Procedure|ID] threads+=ID threads+=ID* (sessions+=ID sessions+=ID*)?)
 	 */
-	protected void sequence_BranchType(EObject context, BranchingType semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     (label=ID datatype=DataType continuation=LocalType)
-	 */
-	protected void sequence_BranchType(EObject context, InputType semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.BRANCH_TYPE__LABEL) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.BRANCH_TYPE__LABEL));
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.INPUT_TYPE__DATATYPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.INPUT_TYPE__DATATYPE));
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.INPUT_TYPE__CONTINUATION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.INPUT_TYPE__CONTINUATION));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getBranchTypeAccess().getLabelIDTerminalRuleCall_0_0(), semanticObject.getLabel());
-		feeder.accept(grammarAccess.getLocalTypeAccess().getDatatypeDataTypeParserRuleCall_1_3_0(), semanticObject.getDatatype());
-		feeder.accept(grammarAccess.getLocalTypeAccess().getContinuationLocalTypeParserRuleCall_1_6_0(), semanticObject.getContinuation());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     (label=ID datatype=DataType continuation=LocalType)
-	 */
-	protected void sequence_BranchType(EObject context, OutputType semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.BRANCH_TYPE__LABEL) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.BRANCH_TYPE__LABEL));
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.OUTPUT_TYPE__DATATYPE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.OUTPUT_TYPE__DATATYPE));
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.OUTPUT_TYPE__CONTINUATION) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.OUTPUT_TYPE__CONTINUATION));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getBranchTypeAccess().getLabelIDTerminalRuleCall_0_0(), semanticObject.getLabel());
-		feeder.accept(grammarAccess.getLocalTypeAccess().getDatatypeDataTypeParserRuleCall_0_3_0(), semanticObject.getDatatype());
-		feeder.accept(grammarAccess.getLocalTypeAccess().getContinuationLocalTypeParserRuleCall_0_6_0(), semanticObject.getContinuation());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     (label=ID branches+=BranchType branches+=BranchType*)
-	 */
-	protected void sequence_BranchType(EObject context, SelectionType semanticObject) {
+	protected void sequence_Call(EObject context, Call semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -339,6 +316,15 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 		feeder.accept(grammarAccess.getCompareConditionAccess().getOperatorConditionOperatorParserRuleCall_1_0(), semanticObject.getOperator());
 		feeder.accept(grammarAccess.getCompareConditionAccess().getRightExpressionExpressionParserRuleCall_2_0(), semanticObject.getRightExpression());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (less?=LESS | equal?=EQUAL | greater?=GREATER | not_equal?=NOT_EQUAL)
+	 */
+	protected void sequence_ConditionOperator(EObject context, ConditionOperator semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -369,7 +355,42 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (variable=ID | constant=Constant)
+	 *     (type=GlobalTypeCall role=ID)
+	 */
+	protected void sequence_DelegationType(EObject context, DelegationType semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.DELEGATION_TYPE__TYPE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.DELEGATION_TYPE__TYPE));
+			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.DELEGATION_TYPE__ROLE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.DELEGATION_TYPE__ROLE));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getDelegationTypeAccess().getTypeGlobalTypeCallParserRuleCall_0_0(), semanticObject.getType());
+		feeder.accept(grammarAccess.getDelegationTypeAccess().getRoleIDTerminalRuleCall_2_0(), semanticObject.getRole());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (
+	 *         sender=ID 
+	 *         receiver=ID 
+	 *         operation=ID 
+	 *         session=ID 
+	 *         delegatedSession=ID 
+	 *         continuation=Choreography?
+	 *     )
+	 */
+	protected void sequence_Delegation(EObject context, Delegation semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (variable=ID | constant=Constant | expression=Expression)
 	 */
 	protected void sequence_ExpressionBasicTerm(EObject context, ExpressionBasicTerm semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -394,9 +415,25 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 	
 	/**
 	 * Constraint:
+	 *     protocol=[Protocol|ID]
+	 */
+	protected void sequence_GlobalTypeCall(EObject context, GlobalTypeCall semanticObject) {
+		if(errorAcceptor != null) {
+			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.GLOBAL_TYPE_CALL__PROTOCOL) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.GLOBAL_TYPE_CALL__PROTOCOL));
+		}
+		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
+		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
+		feeder.accept(grammarAccess.getGlobalTypeCallAccess().getProtocolProtocolIDTerminalRuleCall_0_1(), semanticObject.getProtocol());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
 	 *     (sender=ID receiver=ID (branches+=BranchGType | (branches+=BranchGType branches+=BranchGType*)))
 	 */
-	protected void sequence_GlobalType(EObject context, GlobalType semanticObject) {
+	protected void sequence_GlobalTypeInteraction(EObject context, GlobalTypeInteraction semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -414,7 +451,7 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 	 * Constraint:
 	 *     (
 	 *         sender=ID 
-	 *         senderExpression=Expression? 
+	 *         senderExpression=ExpressionBasicTerm? 
 	 *         receiver=ID 
 	 *         receiverVariable=ID? 
 	 *         operation=ID 
@@ -429,36 +466,27 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (branches+=BranchType branches+=BranchType*)
+	 *     (thread=ID question=Expression resultVariable=ID continuation=Choreography?)
 	 */
-	protected void sequence_LocalType(EObject context, BranchingType semanticObject) {
+	protected void sequence_LocalCode(EObject context, LocalAskCommand semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (datatype=DataType continuation=LocalType)
+	 *     (thread=ID variable=ID expression=Expression continuation=Choreography?)
 	 */
-	protected void sequence_LocalType(EObject context, InputType semanticObject) {
+	protected void sequence_LocalCode(EObject context, LocalAssignmentCommand semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
 	/**
 	 * Constraint:
-	 *     (datatype=DataType continuation=LocalType)
+	 *     (thread=ID expression=Expression continuation=Choreography?)
 	 */
-	protected void sequence_LocalType(EObject context, OutputType semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * Constraint:
-	 *     (branches+=BranchType branches+=BranchType*)
-	 */
-	protected void sequence_LocalType(EObject context, SelectionType semanticObject) {
+	protected void sequence_LocalCode(EObject context, LocalShowCommand semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -474,23 +502,25 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 	
 	/**
 	 * Constraint:
-	 *     (name=ID preamble=Preamble choreography=Choreography)
+	 *     (
+	 *         name=ID 
+	 *         threadParameters+=ID 
+	 *         threadParameters+=ID* 
+	 *         (sessionParameters+=SessionProcedureParameter sessionParameters+=SessionProcedureParameter*)? 
+	 *         choreography=Choreography
+	 *     )
+	 */
+	protected void sequence_Procedure(EObject context, Procedure semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (name=ID preamble=Preamble procedures+=Procedure* choreography=Choreography)
 	 */
 	protected void sequence_Program(EObject context, Program semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.PROGRAM__NAME) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.PROGRAM__NAME));
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.PROGRAM__PREAMBLE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.PROGRAM__PREAMBLE));
-			if(transientValues.isValueTransient(semanticObject, ChorPackage.Literals.PROGRAM__CHOREOGRAPHY) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, ChorPackage.Literals.PROGRAM__CHOREOGRAPHY));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getProgramAccess().getNameIDTerminalRuleCall_1_0(), semanticObject.getName());
-		feeder.accept(grammarAccess.getProgramAccess().getPreamblePreambleParserRuleCall_3_0(), semanticObject.getPreamble());
-		feeder.accept(grammarAccess.getProgramAccess().getChoreographyChoreographyParserRuleCall_6_0(), semanticObject.getChoreography());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -510,6 +540,15 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 		feeder.accept(grammarAccess.getProtocolAccess().getNameIDTerminalRuleCall_1_0(), semanticObject.getName());
 		feeder.accept(grammarAccess.getProtocolAccess().getTypeGlobalTypeParserRuleCall_3_0(), semanticObject.getType());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (session=ID type=GlobalTypeCall activeThreads+=ThreadWithRole activeThreads+=ThreadWithRole*)
+	 */
+	protected void sequence_SessionProcedureParameter(EObject context, SessionProcedureParameter semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -537,8 +576,7 @@ public class AbstractChorSemanticSequencer extends AbstractSemanticSequencer {
 	 *     (
 	 *         activeThreads+=ThreadWithRole 
 	 *         activeThreads+=ThreadWithRole* 
-	 *         serviceThreads+=ThreadWithRole 
-	 *         serviceThreads+=ThreadWithRole* 
+	 *         (serviceThreads+=ThreadWithRole serviceThreads+=ThreadWithRole*)? 
 	 *         publicChannel=[Site|ID] 
 	 *         session=ID 
 	 *         continuation=Choreography?

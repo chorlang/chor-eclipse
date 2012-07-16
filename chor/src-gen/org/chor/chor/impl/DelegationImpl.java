@@ -7,8 +7,7 @@ package org.chor.chor.impl;
 
 import org.chor.chor.ChorPackage;
 import org.chor.chor.Choreography;
-import org.chor.chor.ExpressionBasicTerm;
-import org.chor.chor.Interaction;
+import org.chor.chor.Delegation;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -20,24 +19,23 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Interaction</b></em>'.
+ * An implementation of the model object '<em><b>Delegation</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.chor.chor.impl.InteractionImpl#getSender <em>Sender</em>}</li>
- *   <li>{@link org.chor.chor.impl.InteractionImpl#getSenderExpression <em>Sender Expression</em>}</li>
- *   <li>{@link org.chor.chor.impl.InteractionImpl#getReceiver <em>Receiver</em>}</li>
- *   <li>{@link org.chor.chor.impl.InteractionImpl#getReceiverVariable <em>Receiver Variable</em>}</li>
- *   <li>{@link org.chor.chor.impl.InteractionImpl#getOperation <em>Operation</em>}</li>
- *   <li>{@link org.chor.chor.impl.InteractionImpl#getSession <em>Session</em>}</li>
- *   <li>{@link org.chor.chor.impl.InteractionImpl#getContinuation <em>Continuation</em>}</li>
+ *   <li>{@link org.chor.chor.impl.DelegationImpl#getSender <em>Sender</em>}</li>
+ *   <li>{@link org.chor.chor.impl.DelegationImpl#getReceiver <em>Receiver</em>}</li>
+ *   <li>{@link org.chor.chor.impl.DelegationImpl#getOperation <em>Operation</em>}</li>
+ *   <li>{@link org.chor.chor.impl.DelegationImpl#getSession <em>Session</em>}</li>
+ *   <li>{@link org.chor.chor.impl.DelegationImpl#getDelegatedSession <em>Delegated Session</em>}</li>
+ *   <li>{@link org.chor.chor.impl.DelegationImpl#getContinuation <em>Continuation</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class InteractionImpl extends ChoreographyImpl implements Interaction
+public class DelegationImpl extends ChoreographyImpl implements Delegation
 {
   /**
    * The default value of the '{@link #getSender() <em>Sender</em>}' attribute.
@@ -60,16 +58,6 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
   protected String sender = SENDER_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getSenderExpression() <em>Sender Expression</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getSenderExpression()
-   * @generated
-   * @ordered
-   */
-  protected ExpressionBasicTerm senderExpression;
-
-  /**
    * The default value of the '{@link #getReceiver() <em>Receiver</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -88,26 +76,6 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
    * @ordered
    */
   protected String receiver = RECEIVER_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #getReceiverVariable() <em>Receiver Variable</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getReceiverVariable()
-   * @generated
-   * @ordered
-   */
-  protected static final String RECEIVER_VARIABLE_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getReceiverVariable() <em>Receiver Variable</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getReceiverVariable()
-   * @generated
-   * @ordered
-   */
-  protected String receiverVariable = RECEIVER_VARIABLE_EDEFAULT;
 
   /**
    * The default value of the '{@link #getOperation() <em>Operation</em>}' attribute.
@@ -150,6 +118,26 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
   protected String session = SESSION_EDEFAULT;
 
   /**
+   * The default value of the '{@link #getDelegatedSession() <em>Delegated Session</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDelegatedSession()
+   * @generated
+   * @ordered
+   */
+  protected static final String DELEGATED_SESSION_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getDelegatedSession() <em>Delegated Session</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDelegatedSession()
+   * @generated
+   * @ordered
+   */
+  protected String delegatedSession = DELEGATED_SESSION_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getContinuation() <em>Continuation</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -164,7 +152,7 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
    * <!-- end-user-doc -->
    * @generated
    */
-  protected InteractionImpl()
+  protected DelegationImpl()
   {
     super();
   }
@@ -177,7 +165,7 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
   @Override
   protected EClass eStaticClass()
   {
-    return ChorPackage.Literals.INTERACTION;
+    return ChorPackage.Literals.DELEGATION;
   }
 
   /**
@@ -200,55 +188,7 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
     String oldSender = sender;
     sender = newSender;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__SENDER, oldSender, sender));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ExpressionBasicTerm getSenderExpression()
-  {
-    return senderExpression;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetSenderExpression(ExpressionBasicTerm newSenderExpression, NotificationChain msgs)
-  {
-    ExpressionBasicTerm oldSenderExpression = senderExpression;
-    senderExpression = newSenderExpression;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__SENDER_EXPRESSION, oldSenderExpression, newSenderExpression);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setSenderExpression(ExpressionBasicTerm newSenderExpression)
-  {
-    if (newSenderExpression != senderExpression)
-    {
-      NotificationChain msgs = null;
-      if (senderExpression != null)
-        msgs = ((InternalEObject)senderExpression).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ChorPackage.INTERACTION__SENDER_EXPRESSION, null, msgs);
-      if (newSenderExpression != null)
-        msgs = ((InternalEObject)newSenderExpression).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ChorPackage.INTERACTION__SENDER_EXPRESSION, null, msgs);
-      msgs = basicSetSenderExpression(newSenderExpression, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__SENDER_EXPRESSION, newSenderExpression, newSenderExpression));
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.DELEGATION__SENDER, oldSender, sender));
   }
 
   /**
@@ -271,30 +211,7 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
     String oldReceiver = receiver;
     receiver = newReceiver;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__RECEIVER, oldReceiver, receiver));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getReceiverVariable()
-  {
-    return receiverVariable;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setReceiverVariable(String newReceiverVariable)
-  {
-    String oldReceiverVariable = receiverVariable;
-    receiverVariable = newReceiverVariable;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__RECEIVER_VARIABLE, oldReceiverVariable, receiverVariable));
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.DELEGATION__RECEIVER, oldReceiver, receiver));
   }
 
   /**
@@ -317,7 +234,7 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
     String oldOperation = operation;
     operation = newOperation;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__OPERATION, oldOperation, operation));
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.DELEGATION__OPERATION, oldOperation, operation));
   }
 
   /**
@@ -340,7 +257,30 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
     String oldSession = session;
     session = newSession;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__SESSION, oldSession, session));
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.DELEGATION__SESSION, oldSession, session));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getDelegatedSession()
+  {
+    return delegatedSession;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDelegatedSession(String newDelegatedSession)
+  {
+    String oldDelegatedSession = delegatedSession;
+    delegatedSession = newDelegatedSession;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.DELEGATION__DELEGATED_SESSION, oldDelegatedSession, delegatedSession));
   }
 
   /**
@@ -364,7 +304,7 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
     continuation = newContinuation;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__CONTINUATION, oldContinuation, newContinuation);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ChorPackage.DELEGATION__CONTINUATION, oldContinuation, newContinuation);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -381,14 +321,14 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
     {
       NotificationChain msgs = null;
       if (continuation != null)
-        msgs = ((InternalEObject)continuation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ChorPackage.INTERACTION__CONTINUATION, null, msgs);
+        msgs = ((InternalEObject)continuation).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ChorPackage.DELEGATION__CONTINUATION, null, msgs);
       if (newContinuation != null)
-        msgs = ((InternalEObject)newContinuation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ChorPackage.INTERACTION__CONTINUATION, null, msgs);
+        msgs = ((InternalEObject)newContinuation).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ChorPackage.DELEGATION__CONTINUATION, null, msgs);
       msgs = basicSetContinuation(newContinuation, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.INTERACTION__CONTINUATION, newContinuation, newContinuation));
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.DELEGATION__CONTINUATION, newContinuation, newContinuation));
   }
 
   /**
@@ -401,9 +341,7 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
   {
     switch (featureID)
     {
-      case ChorPackage.INTERACTION__SENDER_EXPRESSION:
-        return basicSetSenderExpression(null, msgs);
-      case ChorPackage.INTERACTION__CONTINUATION:
+      case ChorPackage.DELEGATION__CONTINUATION:
         return basicSetContinuation(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -419,19 +357,17 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
   {
     switch (featureID)
     {
-      case ChorPackage.INTERACTION__SENDER:
+      case ChorPackage.DELEGATION__SENDER:
         return getSender();
-      case ChorPackage.INTERACTION__SENDER_EXPRESSION:
-        return getSenderExpression();
-      case ChorPackage.INTERACTION__RECEIVER:
+      case ChorPackage.DELEGATION__RECEIVER:
         return getReceiver();
-      case ChorPackage.INTERACTION__RECEIVER_VARIABLE:
-        return getReceiverVariable();
-      case ChorPackage.INTERACTION__OPERATION:
+      case ChorPackage.DELEGATION__OPERATION:
         return getOperation();
-      case ChorPackage.INTERACTION__SESSION:
+      case ChorPackage.DELEGATION__SESSION:
         return getSession();
-      case ChorPackage.INTERACTION__CONTINUATION:
+      case ChorPackage.DELEGATION__DELEGATED_SESSION:
+        return getDelegatedSession();
+      case ChorPackage.DELEGATION__CONTINUATION:
         return getContinuation();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -447,25 +383,22 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
   {
     switch (featureID)
     {
-      case ChorPackage.INTERACTION__SENDER:
+      case ChorPackage.DELEGATION__SENDER:
         setSender((String)newValue);
         return;
-      case ChorPackage.INTERACTION__SENDER_EXPRESSION:
-        setSenderExpression((ExpressionBasicTerm)newValue);
-        return;
-      case ChorPackage.INTERACTION__RECEIVER:
+      case ChorPackage.DELEGATION__RECEIVER:
         setReceiver((String)newValue);
         return;
-      case ChorPackage.INTERACTION__RECEIVER_VARIABLE:
-        setReceiverVariable((String)newValue);
-        return;
-      case ChorPackage.INTERACTION__OPERATION:
+      case ChorPackage.DELEGATION__OPERATION:
         setOperation((String)newValue);
         return;
-      case ChorPackage.INTERACTION__SESSION:
+      case ChorPackage.DELEGATION__SESSION:
         setSession((String)newValue);
         return;
-      case ChorPackage.INTERACTION__CONTINUATION:
+      case ChorPackage.DELEGATION__DELEGATED_SESSION:
+        setDelegatedSession((String)newValue);
+        return;
+      case ChorPackage.DELEGATION__CONTINUATION:
         setContinuation((Choreography)newValue);
         return;
     }
@@ -482,25 +415,22 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
   {
     switch (featureID)
     {
-      case ChorPackage.INTERACTION__SENDER:
+      case ChorPackage.DELEGATION__SENDER:
         setSender(SENDER_EDEFAULT);
         return;
-      case ChorPackage.INTERACTION__SENDER_EXPRESSION:
-        setSenderExpression((ExpressionBasicTerm)null);
-        return;
-      case ChorPackage.INTERACTION__RECEIVER:
+      case ChorPackage.DELEGATION__RECEIVER:
         setReceiver(RECEIVER_EDEFAULT);
         return;
-      case ChorPackage.INTERACTION__RECEIVER_VARIABLE:
-        setReceiverVariable(RECEIVER_VARIABLE_EDEFAULT);
-        return;
-      case ChorPackage.INTERACTION__OPERATION:
+      case ChorPackage.DELEGATION__OPERATION:
         setOperation(OPERATION_EDEFAULT);
         return;
-      case ChorPackage.INTERACTION__SESSION:
+      case ChorPackage.DELEGATION__SESSION:
         setSession(SESSION_EDEFAULT);
         return;
-      case ChorPackage.INTERACTION__CONTINUATION:
+      case ChorPackage.DELEGATION__DELEGATED_SESSION:
+        setDelegatedSession(DELEGATED_SESSION_EDEFAULT);
+        return;
+      case ChorPackage.DELEGATION__CONTINUATION:
         setContinuation((Choreography)null);
         return;
     }
@@ -517,19 +447,17 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
   {
     switch (featureID)
     {
-      case ChorPackage.INTERACTION__SENDER:
+      case ChorPackage.DELEGATION__SENDER:
         return SENDER_EDEFAULT == null ? sender != null : !SENDER_EDEFAULT.equals(sender);
-      case ChorPackage.INTERACTION__SENDER_EXPRESSION:
-        return senderExpression != null;
-      case ChorPackage.INTERACTION__RECEIVER:
+      case ChorPackage.DELEGATION__RECEIVER:
         return RECEIVER_EDEFAULT == null ? receiver != null : !RECEIVER_EDEFAULT.equals(receiver);
-      case ChorPackage.INTERACTION__RECEIVER_VARIABLE:
-        return RECEIVER_VARIABLE_EDEFAULT == null ? receiverVariable != null : !RECEIVER_VARIABLE_EDEFAULT.equals(receiverVariable);
-      case ChorPackage.INTERACTION__OPERATION:
+      case ChorPackage.DELEGATION__OPERATION:
         return OPERATION_EDEFAULT == null ? operation != null : !OPERATION_EDEFAULT.equals(operation);
-      case ChorPackage.INTERACTION__SESSION:
+      case ChorPackage.DELEGATION__SESSION:
         return SESSION_EDEFAULT == null ? session != null : !SESSION_EDEFAULT.equals(session);
-      case ChorPackage.INTERACTION__CONTINUATION:
+      case ChorPackage.DELEGATION__DELEGATED_SESSION:
+        return DELEGATED_SESSION_EDEFAULT == null ? delegatedSession != null : !DELEGATED_SESSION_EDEFAULT.equals(delegatedSession);
+      case ChorPackage.DELEGATION__CONTINUATION:
         return continuation != null;
     }
     return super.eIsSet(featureID);
@@ -550,14 +478,14 @@ public class InteractionImpl extends ChoreographyImpl implements Interaction
     result.append(sender);
     result.append(", receiver: ");
     result.append(receiver);
-    result.append(", receiverVariable: ");
-    result.append(receiverVariable);
     result.append(", operation: ");
     result.append(operation);
     result.append(", session: ");
     result.append(session);
+    result.append(", delegatedSession: ");
+    result.append(delegatedSession);
     result.append(')');
     return result.toString();
   }
 
-} //InteractionImpl
+} //DelegationImpl

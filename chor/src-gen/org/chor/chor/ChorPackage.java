@@ -88,13 +88,22 @@ public interface ChorPackage extends EPackage
   int PROGRAM__PREAMBLE = 1;
 
   /**
+   * The feature id for the '<em><b>Procedures</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROGRAM__PROCEDURES = 2;
+
+  /**
    * The feature id for the '<em><b>Choreography</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PROGRAM__CHOREOGRAPHY = 2;
+  int PROGRAM__CHOREOGRAPHY = 3;
 
   /**
    * The number of structural features of the '<em>Program</em>' class.
@@ -103,7 +112,7 @@ public interface ChorPackage extends EPackage
    * @generated
    * @ordered
    */
-  int PROGRAM_FEATURE_COUNT = 3;
+  int PROGRAM_FEATURE_COUNT = 4;
 
   /**
    * The meta object id for the '{@link org.chor.chor.impl.PreambleImpl <em>Preamble</em>}' class.
@@ -143,6 +152,107 @@ public interface ChorPackage extends EPackage
   int PREAMBLE_FEATURE_COUNT = 2;
 
   /**
+   * The meta object id for the '{@link org.chor.chor.impl.ProcedureImpl <em>Procedure</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.ProcedureImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getProcedure()
+   * @generated
+   */
+  int PROCEDURE = 2;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCEDURE__NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Thread Parameters</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCEDURE__THREAD_PARAMETERS = 1;
+
+  /**
+   * The feature id for the '<em><b>Session Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCEDURE__SESSION_PARAMETERS = 2;
+
+  /**
+   * The feature id for the '<em><b>Choreography</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCEDURE__CHOREOGRAPHY = 3;
+
+  /**
+   * The number of structural features of the '<em>Procedure</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCEDURE_FEATURE_COUNT = 4;
+
+  /**
+   * The meta object id for the '{@link org.chor.chor.impl.SessionProcedureParameterImpl <em>Session Procedure Parameter</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.SessionProcedureParameterImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getSessionProcedureParameter()
+   * @generated
+   */
+  int SESSION_PROCEDURE_PARAMETER = 3;
+
+  /**
+   * The feature id for the '<em><b>Session</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SESSION_PROCEDURE_PARAMETER__SESSION = 0;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SESSION_PROCEDURE_PARAMETER__TYPE = 1;
+
+  /**
+   * The feature id for the '<em><b>Active Threads</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SESSION_PROCEDURE_PARAMETER__ACTIVE_THREADS = 2;
+
+  /**
+   * The number of structural features of the '<em>Session Procedure Parameter</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SESSION_PROCEDURE_PARAMETER_FEATURE_COUNT = 3;
+
+  /**
    * The meta object id for the '{@link org.chor.chor.impl.ProtocolImpl <em>Protocol</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -150,7 +260,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getProtocol()
    * @generated
    */
-  int PROTOCOL = 2;
+  int PROTOCOL = 4;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -187,7 +297,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getSite()
    * @generated
    */
-  int SITE = 3;
+  int SITE = 5;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -224,34 +334,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getGlobalType()
    * @generated
    */
-  int GLOBAL_TYPE = 4;
-
-  /**
-   * The feature id for the '<em><b>Sender</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GLOBAL_TYPE__SENDER = 0;
-
-  /**
-   * The feature id for the '<em><b>Receiver</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GLOBAL_TYPE__RECEIVER = 1;
-
-  /**
-   * The feature id for the '<em><b>Branches</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int GLOBAL_TYPE__BRANCHES = 2;
+  int GLOBAL_TYPE = 6;
 
   /**
    * The number of structural features of the '<em>Global Type</em>' class.
@@ -260,7 +343,81 @@ public interface ChorPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GLOBAL_TYPE_FEATURE_COUNT = 3;
+  int GLOBAL_TYPE_FEATURE_COUNT = 0;
+
+  /**
+   * The meta object id for the '{@link org.chor.chor.impl.GlobalTypeInteractionImpl <em>Global Type Interaction</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.GlobalTypeInteractionImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getGlobalTypeInteraction()
+   * @generated
+   */
+  int GLOBAL_TYPE_INTERACTION = 7;
+
+  /**
+   * The feature id for the '<em><b>Sender</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GLOBAL_TYPE_INTERACTION__SENDER = GLOBAL_TYPE_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Receiver</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GLOBAL_TYPE_INTERACTION__RECEIVER = GLOBAL_TYPE_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Branches</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GLOBAL_TYPE_INTERACTION__BRANCHES = GLOBAL_TYPE_FEATURE_COUNT + 2;
+
+  /**
+   * The number of structural features of the '<em>Global Type Interaction</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GLOBAL_TYPE_INTERACTION_FEATURE_COUNT = GLOBAL_TYPE_FEATURE_COUNT + 3;
+
+  /**
+   * The meta object id for the '{@link org.chor.chor.impl.GlobalTypeCallImpl <em>Global Type Call</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.GlobalTypeCallImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getGlobalTypeCall()
+   * @generated
+   */
+  int GLOBAL_TYPE_CALL = 8;
+
+  /**
+   * The feature id for the '<em><b>Protocol</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GLOBAL_TYPE_CALL__PROTOCOL = GLOBAL_TYPE_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Global Type Call</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GLOBAL_TYPE_CALL_FEATURE_COUNT = GLOBAL_TYPE_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link org.chor.chor.impl.BranchGTypeImpl <em>Branch GType</em>}' class.
@@ -270,7 +427,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getBranchGType()
    * @generated
    */
-  int BRANCH_GTYPE = 5;
+  int BRANCH_GTYPE = 9;
 
   /**
    * The feature id for the '<em><b>Operation</b></em>' attribute.
@@ -316,7 +473,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getDataType()
    * @generated
    */
-  int DATA_TYPE = 6;
+  int DATA_TYPE = 10;
 
   /**
    * The number of structural features of the '<em>Data Type</em>' class.
@@ -328,6 +485,43 @@ public interface ChorPackage extends EPackage
   int DATA_TYPE_FEATURE_COUNT = 0;
 
   /**
+   * The meta object id for the '{@link org.chor.chor.impl.DelegationTypeImpl <em>Delegation Type</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.DelegationTypeImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getDelegationType()
+   * @generated
+   */
+  int DELEGATION_TYPE = 11;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION_TYPE__TYPE = DATA_TYPE_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Role</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION_TYPE__ROLE = DATA_TYPE_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Delegation Type</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION_TYPE_FEATURE_COUNT = DATA_TYPE_FEATURE_COUNT + 2;
+
+  /**
    * The meta object id for the '{@link org.chor.chor.impl.BasicTypeImpl <em>Basic Type</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -335,7 +529,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getBasicType()
    * @generated
    */
-  int BASIC_TYPE = 7;
+  int BASIC_TYPE = 12;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -356,62 +550,6 @@ public interface ChorPackage extends EPackage
   int BASIC_TYPE_FEATURE_COUNT = DATA_TYPE_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link org.chor.chor.impl.LocalTypeImpl <em>Local Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.chor.chor.impl.LocalTypeImpl
-   * @see org.chor.chor.impl.ChorPackageImpl#getLocalType()
-   * @generated
-   */
-  int LOCAL_TYPE = 8;
-
-  /**
-   * The feature id for the '<em><b>Label</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int LOCAL_TYPE__LABEL = DATA_TYPE_FEATURE_COUNT + 0;
-
-  /**
-   * The number of structural features of the '<em>Local Type</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int LOCAL_TYPE_FEATURE_COUNT = DATA_TYPE_FEATURE_COUNT + 1;
-
-  /**
-   * The meta object id for the '{@link org.chor.chor.impl.BranchTypeImpl <em>Branch Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.chor.chor.impl.BranchTypeImpl
-   * @see org.chor.chor.impl.ChorPackageImpl#getBranchType()
-   * @generated
-   */
-  int BRANCH_TYPE = 9;
-
-  /**
-   * The feature id for the '<em><b>Label</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BRANCH_TYPE__LABEL = 0;
-
-  /**
-   * The number of structural features of the '<em>Branch Type</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BRANCH_TYPE_FEATURE_COUNT = 1;
-
-  /**
    * The meta object id for the '{@link org.chor.chor.impl.ChoreographyImpl <em>Choreography</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -419,7 +557,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getChoreography()
    * @generated
    */
-  int CHOREOGRAPHY = 10;
+  int CHOREOGRAPHY = 13;
 
   /**
    * The number of structural features of the '<em>Choreography</em>' class.
@@ -438,7 +576,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getStart()
    * @generated
    */
-  int START = 11;
+  int START = 14;
 
   /**
    * The feature id for the '<em><b>Active Threads</b></em>' containment reference list.
@@ -502,7 +640,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getThreadWithRole()
    * @generated
    */
-  int THREAD_WITH_ROLE = 12;
+  int THREAD_WITH_ROLE = 15;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -539,7 +677,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getInteraction()
    * @generated
    */
-  int INTERACTION = 13;
+  int INTERACTION = 16;
 
   /**
    * The feature id for the '<em><b>Sender</b></em>' attribute.
@@ -614,6 +752,125 @@ public interface ChorPackage extends EPackage
   int INTERACTION_FEATURE_COUNT = CHOREOGRAPHY_FEATURE_COUNT + 7;
 
   /**
+   * The meta object id for the '{@link org.chor.chor.impl.DelegationImpl <em>Delegation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.DelegationImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getDelegation()
+   * @generated
+   */
+  int DELEGATION = 17;
+
+  /**
+   * The feature id for the '<em><b>Sender</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION__SENDER = CHOREOGRAPHY_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Receiver</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION__RECEIVER = CHOREOGRAPHY_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Operation</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION__OPERATION = CHOREOGRAPHY_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>Session</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION__SESSION = CHOREOGRAPHY_FEATURE_COUNT + 3;
+
+  /**
+   * The feature id for the '<em><b>Delegated Session</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION__DELEGATED_SESSION = CHOREOGRAPHY_FEATURE_COUNT + 4;
+
+  /**
+   * The feature id for the '<em><b>Continuation</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION__CONTINUATION = CHOREOGRAPHY_FEATURE_COUNT + 5;
+
+  /**
+   * The number of structural features of the '<em>Delegation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DELEGATION_FEATURE_COUNT = CHOREOGRAPHY_FEATURE_COUNT + 6;
+
+  /**
+   * The meta object id for the '{@link org.chor.chor.impl.CallImpl <em>Call</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.CallImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getCall()
+   * @generated
+   */
+  int CALL = 18;
+
+  /**
+   * The feature id for the '<em><b>Procedure</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CALL__PROCEDURE = CHOREOGRAPHY_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Threads</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CALL__THREADS = CHOREOGRAPHY_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Sessions</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CALL__SESSIONS = CHOREOGRAPHY_FEATURE_COUNT + 2;
+
+  /**
+   * The number of structural features of the '<em>Call</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CALL_FEATURE_COUNT = CHOREOGRAPHY_FEATURE_COUNT + 3;
+
+  /**
    * The meta object id for the '{@link org.chor.chor.impl.IfThenElseImpl <em>If Then Else</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -621,7 +878,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getIfThenElse()
    * @generated
    */
-  int IF_THEN_ELSE = 14;
+  int IF_THEN_ELSE = 19;
 
   /**
    * The feature id for the '<em><b>Condition</b></em>' containment reference.
@@ -669,6 +926,43 @@ public interface ChorPackage extends EPackage
   int IF_THEN_ELSE_FEATURE_COUNT = CHOREOGRAPHY_FEATURE_COUNT + 4;
 
   /**
+   * The meta object id for the '{@link org.chor.chor.impl.LocalCodeImpl <em>Local Code</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.LocalCodeImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getLocalCode()
+   * @generated
+   */
+  int LOCAL_CODE = 20;
+
+  /**
+   * The feature id for the '<em><b>Thread</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LOCAL_CODE__THREAD = CHOREOGRAPHY_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Continuation</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LOCAL_CODE__CONTINUATION = CHOREOGRAPHY_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Local Code</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LOCAL_CODE_FEATURE_COUNT = CHOREOGRAPHY_FEATURE_COUNT + 2;
+
+  /**
    * The meta object id for the '{@link org.chor.chor.impl.ExpressionImpl <em>Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -676,7 +970,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getExpression()
    * @generated
    */
-  int EXPRESSION = 15;
+  int EXPRESSION = 21;
 
   /**
    * The feature id for the '<em><b>Sum Expression</b></em>' containment reference.
@@ -704,7 +998,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getSumExpression()
    * @generated
    */
-  int SUM_EXPRESSION = 16;
+  int SUM_EXPRESSION = 22;
 
   /**
    * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -732,7 +1026,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getSumExpressionTerm()
    * @generated
    */
-  int SUM_EXPRESSION_TERM = 17;
+  int SUM_EXPRESSION_TERM = 23;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -760,7 +1054,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getExpressionBasicTerm()
    * @generated
    */
-  int EXPRESSION_BASIC_TERM = 18;
+  int EXPRESSION_BASIC_TERM = 24;
 
   /**
    * The feature id for the '<em><b>Variable</b></em>' attribute.
@@ -781,13 +1075,22 @@ public interface ChorPackage extends EPackage
   int EXPRESSION_BASIC_TERM__CONSTANT = 1;
 
   /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EXPRESSION_BASIC_TERM__EXPRESSION = 2;
+
+  /**
    * The number of structural features of the '<em>Expression Basic Term</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXPRESSION_BASIC_TERM_FEATURE_COUNT = 2;
+  int EXPRESSION_BASIC_TERM_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.chor.chor.impl.ConstantImpl <em>Constant</em>}' class.
@@ -797,7 +1100,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getConstant()
    * @generated
    */
-  int CONSTANT = 19;
+  int CONSTANT = 25;
 
   /**
    * The feature id for the '<em><b>Int Value</b></em>' attribute.
@@ -834,7 +1137,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getCondition()
    * @generated
    */
-  int CONDITION = 20;
+  int CONDITION = 26;
 
   /**
    * The feature id for the '<em><b>Compare Condition</b></em>' containment reference.
@@ -862,7 +1165,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getCompareCondition()
    * @generated
    */
-  int COMPARE_CONDITION = 21;
+  int COMPARE_CONDITION = 27;
 
   /**
    * The feature id for the '<em><b>Left Expression</b></em>' containment reference.
@@ -874,7 +1177,7 @@ public interface ChorPackage extends EPackage
   int COMPARE_CONDITION__LEFT_EXPRESSION = 0;
 
   /**
-   * The feature id for the '<em><b>Operator</b></em>' attribute.
+   * The feature id for the '<em><b>Operator</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -901,32 +1204,78 @@ public interface ChorPackage extends EPackage
   int COMPARE_CONDITION_FEATURE_COUNT = 3;
 
   /**
-   * The meta object id for the '{@link org.chor.chor.impl.OutputTypeImpl <em>Output Type</em>}' class.
+   * The meta object id for the '{@link org.chor.chor.impl.ConditionOperatorImpl <em>Condition Operator</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.chor.chor.impl.OutputTypeImpl
-   * @see org.chor.chor.impl.ChorPackageImpl#getOutputType()
+   * @see org.chor.chor.impl.ConditionOperatorImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getConditionOperator()
    * @generated
    */
-  int OUTPUT_TYPE = 22;
+  int CONDITION_OPERATOR = 28;
 
   /**
-   * The feature id for the '<em><b>Label</b></em>' attribute.
+   * The feature id for the '<em><b>Less</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OUTPUT_TYPE__LABEL = LOCAL_TYPE__LABEL;
+  int CONDITION_OPERATOR__LESS = 0;
 
   /**
-   * The feature id for the '<em><b>Datatype</b></em>' containment reference.
+   * The feature id for the '<em><b>Equal</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OUTPUT_TYPE__DATATYPE = LOCAL_TYPE_FEATURE_COUNT + 0;
+  int CONDITION_OPERATOR__EQUAL = 1;
+
+  /**
+   * The feature id for the '<em><b>Greater</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONDITION_OPERATOR__GREATER = 2;
+
+  /**
+   * The feature id for the '<em><b>Not equal</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONDITION_OPERATOR__NOT_EQUAL = 3;
+
+  /**
+   * The number of structural features of the '<em>Condition Operator</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONDITION_OPERATOR_FEATURE_COUNT = 4;
+
+  /**
+   * The meta object id for the '{@link org.chor.chor.impl.LocalAskCommandImpl <em>Local Ask Command</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.LocalAskCommandImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getLocalAskCommand()
+   * @generated
+   */
+  int LOCAL_ASK_COMMAND = 29;
+
+  /**
+   * The feature id for the '<em><b>Thread</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LOCAL_ASK_COMMAND__THREAD = LOCAL_CODE__THREAD;
 
   /**
    * The feature id for the '<em><b>Continuation</b></em>' containment reference.
@@ -935,44 +1284,53 @@ public interface ChorPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OUTPUT_TYPE__CONTINUATION = LOCAL_TYPE_FEATURE_COUNT + 1;
+  int LOCAL_ASK_COMMAND__CONTINUATION = LOCAL_CODE__CONTINUATION;
 
   /**
-   * The number of structural features of the '<em>Output Type</em>' class.
+   * The feature id for the '<em><b>Question</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OUTPUT_TYPE_FEATURE_COUNT = LOCAL_TYPE_FEATURE_COUNT + 2;
+  int LOCAL_ASK_COMMAND__QUESTION = LOCAL_CODE_FEATURE_COUNT + 0;
 
   /**
-   * The meta object id for the '{@link org.chor.chor.impl.InputTypeImpl <em>Input Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.chor.chor.impl.InputTypeImpl
-   * @see org.chor.chor.impl.ChorPackageImpl#getInputType()
-   * @generated
-   */
-  int INPUT_TYPE = 23;
-
-  /**
-   * The feature id for the '<em><b>Label</b></em>' attribute.
+   * The feature id for the '<em><b>Result Variable</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int INPUT_TYPE__LABEL = LOCAL_TYPE__LABEL;
+  int LOCAL_ASK_COMMAND__RESULT_VARIABLE = LOCAL_CODE_FEATURE_COUNT + 1;
 
   /**
-   * The feature id for the '<em><b>Datatype</b></em>' containment reference.
+   * The number of structural features of the '<em>Local Ask Command</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int INPUT_TYPE__DATATYPE = LOCAL_TYPE_FEATURE_COUNT + 0;
+  int LOCAL_ASK_COMMAND_FEATURE_COUNT = LOCAL_CODE_FEATURE_COUNT + 2;
+
+  /**
+   * The meta object id for the '{@link org.chor.chor.impl.LocalShowCommandImpl <em>Local Show Command</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.LocalShowCommandImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getLocalShowCommand()
+   * @generated
+   */
+  int LOCAL_SHOW_COMMAND = 30;
+
+  /**
+   * The feature id for the '<em><b>Thread</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int LOCAL_SHOW_COMMAND__THREAD = LOCAL_CODE__THREAD;
 
   /**
    * The feature id for the '<em><b>Continuation</b></em>' containment reference.
@@ -981,90 +1339,80 @@ public interface ChorPackage extends EPackage
    * @generated
    * @ordered
    */
-  int INPUT_TYPE__CONTINUATION = LOCAL_TYPE_FEATURE_COUNT + 1;
+  int LOCAL_SHOW_COMMAND__CONTINUATION = LOCAL_CODE__CONTINUATION;
 
   /**
-   * The number of structural features of the '<em>Input Type</em>' class.
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int INPUT_TYPE_FEATURE_COUNT = LOCAL_TYPE_FEATURE_COUNT + 2;
+  int LOCAL_SHOW_COMMAND__EXPRESSION = LOCAL_CODE_FEATURE_COUNT + 0;
 
   /**
-   * The meta object id for the '{@link org.chor.chor.impl.BranchingTypeImpl <em>Branching Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.chor.chor.impl.BranchingTypeImpl
-   * @see org.chor.chor.impl.ChorPackageImpl#getBranchingType()
-   * @generated
-   */
-  int BRANCHING_TYPE = 24;
-
-  /**
-   * The feature id for the '<em><b>Label</b></em>' attribute.
+   * The number of structural features of the '<em>Local Show Command</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int BRANCHING_TYPE__LABEL = LOCAL_TYPE__LABEL;
+  int LOCAL_SHOW_COMMAND_FEATURE_COUNT = LOCAL_CODE_FEATURE_COUNT + 1;
 
   /**
-   * The feature id for the '<em><b>Branches</b></em>' containment reference list.
+   * The meta object id for the '{@link org.chor.chor.impl.LocalAssignmentCommandImpl <em>Local Assignment Command</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.chor.chor.impl.LocalAssignmentCommandImpl
+   * @see org.chor.chor.impl.ChorPackageImpl#getLocalAssignmentCommand()
+   * @generated
+   */
+  int LOCAL_ASSIGNMENT_COMMAND = 31;
+
+  /**
+   * The feature id for the '<em><b>Thread</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int BRANCHING_TYPE__BRANCHES = LOCAL_TYPE_FEATURE_COUNT + 0;
+  int LOCAL_ASSIGNMENT_COMMAND__THREAD = LOCAL_CODE__THREAD;
 
   /**
-   * The number of structural features of the '<em>Branching Type</em>' class.
+   * The feature id for the '<em><b>Continuation</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int BRANCHING_TYPE_FEATURE_COUNT = LOCAL_TYPE_FEATURE_COUNT + 1;
+  int LOCAL_ASSIGNMENT_COMMAND__CONTINUATION = LOCAL_CODE__CONTINUATION;
 
   /**
-   * The meta object id for the '{@link org.chor.chor.impl.SelectionTypeImpl <em>Selection Type</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.chor.chor.impl.SelectionTypeImpl
-   * @see org.chor.chor.impl.ChorPackageImpl#getSelectionType()
-   * @generated
-   */
-  int SELECTION_TYPE = 25;
-
-  /**
-   * The feature id for the '<em><b>Label</b></em>' attribute.
+   * The feature id for the '<em><b>Variable</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SELECTION_TYPE__LABEL = LOCAL_TYPE__LABEL;
+  int LOCAL_ASSIGNMENT_COMMAND__VARIABLE = LOCAL_CODE_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>Branches</b></em>' containment reference list.
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SELECTION_TYPE__BRANCHES = LOCAL_TYPE_FEATURE_COUNT + 0;
+  int LOCAL_ASSIGNMENT_COMMAND__EXPRESSION = LOCAL_CODE_FEATURE_COUNT + 1;
 
   /**
-   * The number of structural features of the '<em>Selection Type</em>' class.
+   * The number of structural features of the '<em>Local Assignment Command</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int SELECTION_TYPE_FEATURE_COUNT = LOCAL_TYPE_FEATURE_COUNT + 1;
+  int LOCAL_ASSIGNMENT_COMMAND_FEATURE_COUNT = LOCAL_CODE_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.chor.chor.impl.SumExpressionAddTermImpl <em>Sum Expression Add Term</em>}' class.
@@ -1074,7 +1422,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getSumExpressionAddTerm()
    * @generated
    */
-  int SUM_EXPRESSION_ADD_TERM = 26;
+  int SUM_EXPRESSION_ADD_TERM = 32;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1102,7 +1450,7 @@ public interface ChorPackage extends EPackage
    * @see org.chor.chor.impl.ChorPackageImpl#getSumExpressionSubtractTerm()
    * @generated
    */
-  int SUM_EXPRESSION_SUBTRACT_TERM = 27;
+  int SUM_EXPRESSION_SUBTRACT_TERM = 33;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1156,6 +1504,17 @@ public interface ChorPackage extends EPackage
   EReference getProgram_Preamble();
 
   /**
+   * Returns the meta object for the containment reference list '{@link org.chor.chor.Program#getProcedures <em>Procedures</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Procedures</em>'.
+   * @see org.chor.chor.Program#getProcedures()
+   * @see #getProgram()
+   * @generated
+   */
+  EReference getProgram_Procedures();
+
+  /**
    * Returns the meta object for the containment reference '{@link org.chor.chor.Program#getChoreography <em>Choreography</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1197,6 +1556,103 @@ public interface ChorPackage extends EPackage
    * @generated
    */
   EReference getPreamble_Site();
+
+  /**
+   * Returns the meta object for class '{@link org.chor.chor.Procedure <em>Procedure</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Procedure</em>'.
+   * @see org.chor.chor.Procedure
+   * @generated
+   */
+  EClass getProcedure();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.Procedure#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see org.chor.chor.Procedure#getName()
+   * @see #getProcedure()
+   * @generated
+   */
+  EAttribute getProcedure_Name();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.chor.chor.Procedure#getThreadParameters <em>Thread Parameters</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Thread Parameters</em>'.
+   * @see org.chor.chor.Procedure#getThreadParameters()
+   * @see #getProcedure()
+   * @generated
+   */
+  EAttribute getProcedure_ThreadParameters();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.chor.chor.Procedure#getSessionParameters <em>Session Parameters</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Session Parameters</em>'.
+   * @see org.chor.chor.Procedure#getSessionParameters()
+   * @see #getProcedure()
+   * @generated
+   */
+  EReference getProcedure_SessionParameters();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.chor.chor.Procedure#getChoreography <em>Choreography</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Choreography</em>'.
+   * @see org.chor.chor.Procedure#getChoreography()
+   * @see #getProcedure()
+   * @generated
+   */
+  EReference getProcedure_Choreography();
+
+  /**
+   * Returns the meta object for class '{@link org.chor.chor.SessionProcedureParameter <em>Session Procedure Parameter</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Session Procedure Parameter</em>'.
+   * @see org.chor.chor.SessionProcedureParameter
+   * @generated
+   */
+  EClass getSessionProcedureParameter();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.SessionProcedureParameter#getSession <em>Session</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Session</em>'.
+   * @see org.chor.chor.SessionProcedureParameter#getSession()
+   * @see #getSessionProcedureParameter()
+   * @generated
+   */
+  EAttribute getSessionProcedureParameter_Session();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.chor.chor.SessionProcedureParameter#getType <em>Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Type</em>'.
+   * @see org.chor.chor.SessionProcedureParameter#getType()
+   * @see #getSessionProcedureParameter()
+   * @generated
+   */
+  EReference getSessionProcedureParameter_Type();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.chor.chor.SessionProcedureParameter#getActiveThreads <em>Active Threads</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Active Threads</em>'.
+   * @see org.chor.chor.SessionProcedureParameter#getActiveThreads()
+   * @see #getSessionProcedureParameter()
+   * @generated
+   */
+  EReference getSessionProcedureParameter_ActiveThreads();
 
   /**
    * Returns the meta object for class '{@link org.chor.chor.Protocol <em>Protocol</em>}'.
@@ -1273,37 +1729,68 @@ public interface ChorPackage extends EPackage
   EClass getGlobalType();
 
   /**
-   * Returns the meta object for the attribute '{@link org.chor.chor.GlobalType#getSender <em>Sender</em>}'.
+   * Returns the meta object for class '{@link org.chor.chor.GlobalTypeInteraction <em>Global Type Interaction</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Global Type Interaction</em>'.
+   * @see org.chor.chor.GlobalTypeInteraction
+   * @generated
+   */
+  EClass getGlobalTypeInteraction();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.GlobalTypeInteraction#getSender <em>Sender</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Sender</em>'.
-   * @see org.chor.chor.GlobalType#getSender()
-   * @see #getGlobalType()
+   * @see org.chor.chor.GlobalTypeInteraction#getSender()
+   * @see #getGlobalTypeInteraction()
    * @generated
    */
-  EAttribute getGlobalType_Sender();
+  EAttribute getGlobalTypeInteraction_Sender();
 
   /**
-   * Returns the meta object for the attribute '{@link org.chor.chor.GlobalType#getReceiver <em>Receiver</em>}'.
+   * Returns the meta object for the attribute '{@link org.chor.chor.GlobalTypeInteraction#getReceiver <em>Receiver</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Receiver</em>'.
-   * @see org.chor.chor.GlobalType#getReceiver()
-   * @see #getGlobalType()
+   * @see org.chor.chor.GlobalTypeInteraction#getReceiver()
+   * @see #getGlobalTypeInteraction()
    * @generated
    */
-  EAttribute getGlobalType_Receiver();
+  EAttribute getGlobalTypeInteraction_Receiver();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.chor.chor.GlobalType#getBranches <em>Branches</em>}'.
+   * Returns the meta object for the containment reference list '{@link org.chor.chor.GlobalTypeInteraction#getBranches <em>Branches</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference list '<em>Branches</em>'.
-   * @see org.chor.chor.GlobalType#getBranches()
-   * @see #getGlobalType()
+   * @see org.chor.chor.GlobalTypeInteraction#getBranches()
+   * @see #getGlobalTypeInteraction()
    * @generated
    */
-  EReference getGlobalType_Branches();
+  EReference getGlobalTypeInteraction_Branches();
+
+  /**
+   * Returns the meta object for class '{@link org.chor.chor.GlobalTypeCall <em>Global Type Call</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Global Type Call</em>'.
+   * @see org.chor.chor.GlobalTypeCall
+   * @generated
+   */
+  EClass getGlobalTypeCall();
+
+  /**
+   * Returns the meta object for the reference '{@link org.chor.chor.GlobalTypeCall#getProtocol <em>Protocol</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Protocol</em>'.
+   * @see org.chor.chor.GlobalTypeCall#getProtocol()
+   * @see #getGlobalTypeCall()
+   * @generated
+   */
+  EReference getGlobalTypeCall_Protocol();
 
   /**
    * Returns the meta object for class '{@link org.chor.chor.BranchGType <em>Branch GType</em>}'.
@@ -1359,6 +1846,38 @@ public interface ChorPackage extends EPackage
   EClass getDataType();
 
   /**
+   * Returns the meta object for class '{@link org.chor.chor.DelegationType <em>Delegation Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Delegation Type</em>'.
+   * @see org.chor.chor.DelegationType
+   * @generated
+   */
+  EClass getDelegationType();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.chor.chor.DelegationType#getType <em>Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Type</em>'.
+   * @see org.chor.chor.DelegationType#getType()
+   * @see #getDelegationType()
+   * @generated
+   */
+  EReference getDelegationType_Type();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.DelegationType#getRole <em>Role</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Role</em>'.
+   * @see org.chor.chor.DelegationType#getRole()
+   * @see #getDelegationType()
+   * @generated
+   */
+  EAttribute getDelegationType_Role();
+
+  /**
    * Returns the meta object for class '{@link org.chor.chor.BasicType <em>Basic Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1378,37 +1897,6 @@ public interface ChorPackage extends EPackage
    * @generated
    */
   EAttribute getBasicType_Name();
-
-  /**
-   * Returns the meta object for class '{@link org.chor.chor.LocalType <em>Local Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Local Type</em>'.
-   * @see org.chor.chor.LocalType
-   * @generated
-   */
-  EClass getLocalType();
-
-  /**
-   * Returns the meta object for class '{@link org.chor.chor.BranchType <em>Branch Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Branch Type</em>'.
-   * @see org.chor.chor.BranchType
-   * @generated
-   */
-  EClass getBranchType();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.chor.chor.BranchType#getLabel <em>Label</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Label</em>'.
-   * @see org.chor.chor.BranchType#getLabel()
-   * @see #getBranchType()
-   * @generated
-   */
-  EAttribute getBranchType_Label();
 
   /**
    * Returns the meta object for class '{@link org.chor.chor.Choreography <em>Choreography</em>}'.
@@ -1605,6 +2093,125 @@ public interface ChorPackage extends EPackage
   EReference getInteraction_Continuation();
 
   /**
+   * Returns the meta object for class '{@link org.chor.chor.Delegation <em>Delegation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Delegation</em>'.
+   * @see org.chor.chor.Delegation
+   * @generated
+   */
+  EClass getDelegation();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.Delegation#getSender <em>Sender</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Sender</em>'.
+   * @see org.chor.chor.Delegation#getSender()
+   * @see #getDelegation()
+   * @generated
+   */
+  EAttribute getDelegation_Sender();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.Delegation#getReceiver <em>Receiver</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Receiver</em>'.
+   * @see org.chor.chor.Delegation#getReceiver()
+   * @see #getDelegation()
+   * @generated
+   */
+  EAttribute getDelegation_Receiver();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.Delegation#getOperation <em>Operation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Operation</em>'.
+   * @see org.chor.chor.Delegation#getOperation()
+   * @see #getDelegation()
+   * @generated
+   */
+  EAttribute getDelegation_Operation();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.Delegation#getSession <em>Session</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Session</em>'.
+   * @see org.chor.chor.Delegation#getSession()
+   * @see #getDelegation()
+   * @generated
+   */
+  EAttribute getDelegation_Session();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.Delegation#getDelegatedSession <em>Delegated Session</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Delegated Session</em>'.
+   * @see org.chor.chor.Delegation#getDelegatedSession()
+   * @see #getDelegation()
+   * @generated
+   */
+  EAttribute getDelegation_DelegatedSession();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.chor.chor.Delegation#getContinuation <em>Continuation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Continuation</em>'.
+   * @see org.chor.chor.Delegation#getContinuation()
+   * @see #getDelegation()
+   * @generated
+   */
+  EReference getDelegation_Continuation();
+
+  /**
+   * Returns the meta object for class '{@link org.chor.chor.Call <em>Call</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Call</em>'.
+   * @see org.chor.chor.Call
+   * @generated
+   */
+  EClass getCall();
+
+  /**
+   * Returns the meta object for the reference '{@link org.chor.chor.Call#getProcedure <em>Procedure</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Procedure</em>'.
+   * @see org.chor.chor.Call#getProcedure()
+   * @see #getCall()
+   * @generated
+   */
+  EReference getCall_Procedure();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.chor.chor.Call#getThreads <em>Threads</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Threads</em>'.
+   * @see org.chor.chor.Call#getThreads()
+   * @see #getCall()
+   * @generated
+   */
+  EAttribute getCall_Threads();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.chor.chor.Call#getSessions <em>Sessions</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Sessions</em>'.
+   * @see org.chor.chor.Call#getSessions()
+   * @see #getCall()
+   * @generated
+   */
+  EAttribute getCall_Sessions();
+
+  /**
    * Returns the meta object for class '{@link org.chor.chor.IfThenElse <em>If Then Else</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1657,6 +2264,38 @@ public interface ChorPackage extends EPackage
    * @generated
    */
   EReference getIfThenElse_Else();
+
+  /**
+   * Returns the meta object for class '{@link org.chor.chor.LocalCode <em>Local Code</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Local Code</em>'.
+   * @see org.chor.chor.LocalCode
+   * @generated
+   */
+  EClass getLocalCode();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.LocalCode#getThread <em>Thread</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Thread</em>'.
+   * @see org.chor.chor.LocalCode#getThread()
+   * @see #getLocalCode()
+   * @generated
+   */
+  EAttribute getLocalCode_Thread();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.chor.chor.LocalCode#getContinuation <em>Continuation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Continuation</em>'.
+   * @see org.chor.chor.LocalCode#getContinuation()
+   * @see #getLocalCode()
+   * @generated
+   */
+  EReference getLocalCode_Continuation();
 
   /**
    * Returns the meta object for class '{@link org.chor.chor.Expression <em>Expression</em>}'.
@@ -1754,6 +2393,17 @@ public interface ChorPackage extends EPackage
   EReference getExpressionBasicTerm_Constant();
 
   /**
+   * Returns the meta object for the containment reference '{@link org.chor.chor.ExpressionBasicTerm#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see org.chor.chor.ExpressionBasicTerm#getExpression()
+   * @see #getExpressionBasicTerm()
+   * @generated
+   */
+  EReference getExpressionBasicTerm_Expression();
+
+  /**
    * Returns the meta object for class '{@link org.chor.chor.Constant <em>Constant</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1828,15 +2478,15 @@ public interface ChorPackage extends EPackage
   EReference getCompareCondition_LeftExpression();
 
   /**
-   * Returns the meta object for the attribute '{@link org.chor.chor.CompareCondition#getOperator <em>Operator</em>}'.
+   * Returns the meta object for the containment reference '{@link org.chor.chor.CompareCondition#getOperator <em>Operator</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Operator</em>'.
+   * @return the meta object for the containment reference '<em>Operator</em>'.
    * @see org.chor.chor.CompareCondition#getOperator()
    * @see #getCompareCondition()
    * @generated
    */
-  EAttribute getCompareCondition_Operator();
+  EReference getCompareCondition_Operator();
 
   /**
    * Returns the meta object for the containment reference '{@link org.chor.chor.CompareCondition#getRightExpression <em>Right Expression</em>}'.
@@ -1850,110 +2500,143 @@ public interface ChorPackage extends EPackage
   EReference getCompareCondition_RightExpression();
 
   /**
-   * Returns the meta object for class '{@link org.chor.chor.OutputType <em>Output Type</em>}'.
+   * Returns the meta object for class '{@link org.chor.chor.ConditionOperator <em>Condition Operator</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Output Type</em>'.
-   * @see org.chor.chor.OutputType
+   * @return the meta object for class '<em>Condition Operator</em>'.
+   * @see org.chor.chor.ConditionOperator
    * @generated
    */
-  EClass getOutputType();
+  EClass getConditionOperator();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.chor.chor.OutputType#getDatatype <em>Datatype</em>}'.
+   * Returns the meta object for the attribute '{@link org.chor.chor.ConditionOperator#isLess <em>Less</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Datatype</em>'.
-   * @see org.chor.chor.OutputType#getDatatype()
-   * @see #getOutputType()
+   * @return the meta object for the attribute '<em>Less</em>'.
+   * @see org.chor.chor.ConditionOperator#isLess()
+   * @see #getConditionOperator()
    * @generated
    */
-  EReference getOutputType_Datatype();
+  EAttribute getConditionOperator_Less();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.chor.chor.OutputType#getContinuation <em>Continuation</em>}'.
+   * Returns the meta object for the attribute '{@link org.chor.chor.ConditionOperator#isEqual <em>Equal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Continuation</em>'.
-   * @see org.chor.chor.OutputType#getContinuation()
-   * @see #getOutputType()
+   * @return the meta object for the attribute '<em>Equal</em>'.
+   * @see org.chor.chor.ConditionOperator#isEqual()
+   * @see #getConditionOperator()
    * @generated
    */
-  EReference getOutputType_Continuation();
+  EAttribute getConditionOperator_Equal();
 
   /**
-   * Returns the meta object for class '{@link org.chor.chor.InputType <em>Input Type</em>}'.
+   * Returns the meta object for the attribute '{@link org.chor.chor.ConditionOperator#isGreater <em>Greater</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Input Type</em>'.
-   * @see org.chor.chor.InputType
+   * @return the meta object for the attribute '<em>Greater</em>'.
+   * @see org.chor.chor.ConditionOperator#isGreater()
+   * @see #getConditionOperator()
    * @generated
    */
-  EClass getInputType();
+  EAttribute getConditionOperator_Greater();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.chor.chor.InputType#getDatatype <em>Datatype</em>}'.
+   * Returns the meta object for the attribute '{@link org.chor.chor.ConditionOperator#isNot_equal <em>Not equal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Datatype</em>'.
-   * @see org.chor.chor.InputType#getDatatype()
-   * @see #getInputType()
+   * @return the meta object for the attribute '<em>Not equal</em>'.
+   * @see org.chor.chor.ConditionOperator#isNot_equal()
+   * @see #getConditionOperator()
    * @generated
    */
-  EReference getInputType_Datatype();
+  EAttribute getConditionOperator_Not_equal();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.chor.chor.InputType#getContinuation <em>Continuation</em>}'.
+   * Returns the meta object for class '{@link org.chor.chor.LocalAskCommand <em>Local Ask Command</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Continuation</em>'.
-   * @see org.chor.chor.InputType#getContinuation()
-   * @see #getInputType()
+   * @return the meta object for class '<em>Local Ask Command</em>'.
+   * @see org.chor.chor.LocalAskCommand
    * @generated
    */
-  EReference getInputType_Continuation();
+  EClass getLocalAskCommand();
 
   /**
-   * Returns the meta object for class '{@link org.chor.chor.BranchingType <em>Branching Type</em>}'.
+   * Returns the meta object for the containment reference '{@link org.chor.chor.LocalAskCommand#getQuestion <em>Question</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Branching Type</em>'.
-   * @see org.chor.chor.BranchingType
+   * @return the meta object for the containment reference '<em>Question</em>'.
+   * @see org.chor.chor.LocalAskCommand#getQuestion()
+   * @see #getLocalAskCommand()
    * @generated
    */
-  EClass getBranchingType();
+  EReference getLocalAskCommand_Question();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.chor.chor.BranchingType#getBranches <em>Branches</em>}'.
+   * Returns the meta object for the attribute '{@link org.chor.chor.LocalAskCommand#getResultVariable <em>Result Variable</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Branches</em>'.
-   * @see org.chor.chor.BranchingType#getBranches()
-   * @see #getBranchingType()
+   * @return the meta object for the attribute '<em>Result Variable</em>'.
+   * @see org.chor.chor.LocalAskCommand#getResultVariable()
+   * @see #getLocalAskCommand()
    * @generated
    */
-  EReference getBranchingType_Branches();
+  EAttribute getLocalAskCommand_ResultVariable();
 
   /**
-   * Returns the meta object for class '{@link org.chor.chor.SelectionType <em>Selection Type</em>}'.
+   * Returns the meta object for class '{@link org.chor.chor.LocalShowCommand <em>Local Show Command</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Selection Type</em>'.
-   * @see org.chor.chor.SelectionType
+   * @return the meta object for class '<em>Local Show Command</em>'.
+   * @see org.chor.chor.LocalShowCommand
    * @generated
    */
-  EClass getSelectionType();
+  EClass getLocalShowCommand();
 
   /**
-   * Returns the meta object for the containment reference list '{@link org.chor.chor.SelectionType#getBranches <em>Branches</em>}'.
+   * Returns the meta object for the containment reference '{@link org.chor.chor.LocalShowCommand#getExpression <em>Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Branches</em>'.
-   * @see org.chor.chor.SelectionType#getBranches()
-   * @see #getSelectionType()
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see org.chor.chor.LocalShowCommand#getExpression()
+   * @see #getLocalShowCommand()
    * @generated
    */
-  EReference getSelectionType_Branches();
+  EReference getLocalShowCommand_Expression();
+
+  /**
+   * Returns the meta object for class '{@link org.chor.chor.LocalAssignmentCommand <em>Local Assignment Command</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Local Assignment Command</em>'.
+   * @see org.chor.chor.LocalAssignmentCommand
+   * @generated
+   */
+  EClass getLocalAssignmentCommand();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.chor.chor.LocalAssignmentCommand#getVariable <em>Variable</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Variable</em>'.
+   * @see org.chor.chor.LocalAssignmentCommand#getVariable()
+   * @see #getLocalAssignmentCommand()
+   * @generated
+   */
+  EAttribute getLocalAssignmentCommand_Variable();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.chor.chor.LocalAssignmentCommand#getExpression <em>Expression</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expression</em>'.
+   * @see org.chor.chor.LocalAssignmentCommand#getExpression()
+   * @see #getLocalAssignmentCommand()
+   * @generated
+   */
+  EReference getLocalAssignmentCommand_Expression();
 
   /**
    * Returns the meta object for class '{@link org.chor.chor.SumExpressionAddTerm <em>Sum Expression Add Term</em>}'.
@@ -2025,6 +2708,14 @@ public interface ChorPackage extends EPackage
     EReference PROGRAM__PREAMBLE = eINSTANCE.getProgram_Preamble();
 
     /**
+     * The meta object literal for the '<em><b>Procedures</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PROGRAM__PROCEDURES = eINSTANCE.getProgram_Procedures();
+
+    /**
      * The meta object literal for the '<em><b>Choreography</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2057,6 +2748,82 @@ public interface ChorPackage extends EPackage
      * @generated
      */
     EReference PREAMBLE__SITE = eINSTANCE.getPreamble_Site();
+
+    /**
+     * The meta object literal for the '{@link org.chor.chor.impl.ProcedureImpl <em>Procedure</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.ProcedureImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getProcedure()
+     * @generated
+     */
+    EClass PROCEDURE = eINSTANCE.getProcedure();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PROCEDURE__NAME = eINSTANCE.getProcedure_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Thread Parameters</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PROCEDURE__THREAD_PARAMETERS = eINSTANCE.getProcedure_ThreadParameters();
+
+    /**
+     * The meta object literal for the '<em><b>Session Parameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PROCEDURE__SESSION_PARAMETERS = eINSTANCE.getProcedure_SessionParameters();
+
+    /**
+     * The meta object literal for the '<em><b>Choreography</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PROCEDURE__CHOREOGRAPHY = eINSTANCE.getProcedure_Choreography();
+
+    /**
+     * The meta object literal for the '{@link org.chor.chor.impl.SessionProcedureParameterImpl <em>Session Procedure Parameter</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.SessionProcedureParameterImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getSessionProcedureParameter()
+     * @generated
+     */
+    EClass SESSION_PROCEDURE_PARAMETER = eINSTANCE.getSessionProcedureParameter();
+
+    /**
+     * The meta object literal for the '<em><b>Session</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute SESSION_PROCEDURE_PARAMETER__SESSION = eINSTANCE.getSessionProcedureParameter_Session();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SESSION_PROCEDURE_PARAMETER__TYPE = eINSTANCE.getSessionProcedureParameter_Type();
+
+    /**
+     * The meta object literal for the '<em><b>Active Threads</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SESSION_PROCEDURE_PARAMETER__ACTIVE_THREADS = eINSTANCE.getSessionProcedureParameter_ActiveThreads();
 
     /**
      * The meta object literal for the '{@link org.chor.chor.impl.ProtocolImpl <em>Protocol</em>}' class.
@@ -2121,12 +2888,22 @@ public interface ChorPackage extends EPackage
     EClass GLOBAL_TYPE = eINSTANCE.getGlobalType();
 
     /**
+     * The meta object literal for the '{@link org.chor.chor.impl.GlobalTypeInteractionImpl <em>Global Type Interaction</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.GlobalTypeInteractionImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getGlobalTypeInteraction()
+     * @generated
+     */
+    EClass GLOBAL_TYPE_INTERACTION = eINSTANCE.getGlobalTypeInteraction();
+
+    /**
      * The meta object literal for the '<em><b>Sender</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute GLOBAL_TYPE__SENDER = eINSTANCE.getGlobalType_Sender();
+    EAttribute GLOBAL_TYPE_INTERACTION__SENDER = eINSTANCE.getGlobalTypeInteraction_Sender();
 
     /**
      * The meta object literal for the '<em><b>Receiver</b></em>' attribute feature.
@@ -2134,7 +2911,7 @@ public interface ChorPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute GLOBAL_TYPE__RECEIVER = eINSTANCE.getGlobalType_Receiver();
+    EAttribute GLOBAL_TYPE_INTERACTION__RECEIVER = eINSTANCE.getGlobalTypeInteraction_Receiver();
 
     /**
      * The meta object literal for the '<em><b>Branches</b></em>' containment reference list feature.
@@ -2142,7 +2919,25 @@ public interface ChorPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference GLOBAL_TYPE__BRANCHES = eINSTANCE.getGlobalType_Branches();
+    EReference GLOBAL_TYPE_INTERACTION__BRANCHES = eINSTANCE.getGlobalTypeInteraction_Branches();
+
+    /**
+     * The meta object literal for the '{@link org.chor.chor.impl.GlobalTypeCallImpl <em>Global Type Call</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.GlobalTypeCallImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getGlobalTypeCall()
+     * @generated
+     */
+    EClass GLOBAL_TYPE_CALL = eINSTANCE.getGlobalTypeCall();
+
+    /**
+     * The meta object literal for the '<em><b>Protocol</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GLOBAL_TYPE_CALL__PROTOCOL = eINSTANCE.getGlobalTypeCall_Protocol();
 
     /**
      * The meta object literal for the '{@link org.chor.chor.impl.BranchGTypeImpl <em>Branch GType</em>}' class.
@@ -2189,6 +2984,32 @@ public interface ChorPackage extends EPackage
     EClass DATA_TYPE = eINSTANCE.getDataType();
 
     /**
+     * The meta object literal for the '{@link org.chor.chor.impl.DelegationTypeImpl <em>Delegation Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.DelegationTypeImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getDelegationType()
+     * @generated
+     */
+    EClass DELEGATION_TYPE = eINSTANCE.getDelegationType();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DELEGATION_TYPE__TYPE = eINSTANCE.getDelegationType_Type();
+
+    /**
+     * The meta object literal for the '<em><b>Role</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DELEGATION_TYPE__ROLE = eINSTANCE.getDelegationType_Role();
+
+    /**
      * The meta object literal for the '{@link org.chor.chor.impl.BasicTypeImpl <em>Basic Type</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2205,34 +3026,6 @@ public interface ChorPackage extends EPackage
      * @generated
      */
     EAttribute BASIC_TYPE__NAME = eINSTANCE.getBasicType_Name();
-
-    /**
-     * The meta object literal for the '{@link org.chor.chor.impl.LocalTypeImpl <em>Local Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.chor.chor.impl.LocalTypeImpl
-     * @see org.chor.chor.impl.ChorPackageImpl#getLocalType()
-     * @generated
-     */
-    EClass LOCAL_TYPE = eINSTANCE.getLocalType();
-
-    /**
-     * The meta object literal for the '{@link org.chor.chor.impl.BranchTypeImpl <em>Branch Type</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.chor.chor.impl.BranchTypeImpl
-     * @see org.chor.chor.impl.ChorPackageImpl#getBranchType()
-     * @generated
-     */
-    EClass BRANCH_TYPE = eINSTANCE.getBranchType();
-
-    /**
-     * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute BRANCH_TYPE__LABEL = eINSTANCE.getBranchType_Label();
 
     /**
      * The meta object literal for the '{@link org.chor.chor.impl.ChoreographyImpl <em>Choreography</em>}' class.
@@ -2387,6 +3180,98 @@ public interface ChorPackage extends EPackage
     EReference INTERACTION__CONTINUATION = eINSTANCE.getInteraction_Continuation();
 
     /**
+     * The meta object literal for the '{@link org.chor.chor.impl.DelegationImpl <em>Delegation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.DelegationImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getDelegation()
+     * @generated
+     */
+    EClass DELEGATION = eINSTANCE.getDelegation();
+
+    /**
+     * The meta object literal for the '<em><b>Sender</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DELEGATION__SENDER = eINSTANCE.getDelegation_Sender();
+
+    /**
+     * The meta object literal for the '<em><b>Receiver</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DELEGATION__RECEIVER = eINSTANCE.getDelegation_Receiver();
+
+    /**
+     * The meta object literal for the '<em><b>Operation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DELEGATION__OPERATION = eINSTANCE.getDelegation_Operation();
+
+    /**
+     * The meta object literal for the '<em><b>Session</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DELEGATION__SESSION = eINSTANCE.getDelegation_Session();
+
+    /**
+     * The meta object literal for the '<em><b>Delegated Session</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute DELEGATION__DELEGATED_SESSION = eINSTANCE.getDelegation_DelegatedSession();
+
+    /**
+     * The meta object literal for the '<em><b>Continuation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference DELEGATION__CONTINUATION = eINSTANCE.getDelegation_Continuation();
+
+    /**
+     * The meta object literal for the '{@link org.chor.chor.impl.CallImpl <em>Call</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.CallImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getCall()
+     * @generated
+     */
+    EClass CALL = eINSTANCE.getCall();
+
+    /**
+     * The meta object literal for the '<em><b>Procedure</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CALL__PROCEDURE = eINSTANCE.getCall_Procedure();
+
+    /**
+     * The meta object literal for the '<em><b>Threads</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CALL__THREADS = eINSTANCE.getCall_Threads();
+
+    /**
+     * The meta object literal for the '<em><b>Sessions</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute CALL__SESSIONS = eINSTANCE.getCall_Sessions();
+
+    /**
      * The meta object literal for the '{@link org.chor.chor.impl.IfThenElseImpl <em>If Then Else</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2427,6 +3312,32 @@ public interface ChorPackage extends EPackage
      * @generated
      */
     EReference IF_THEN_ELSE__ELSE = eINSTANCE.getIfThenElse_Else();
+
+    /**
+     * The meta object literal for the '{@link org.chor.chor.impl.LocalCodeImpl <em>Local Code</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.LocalCodeImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getLocalCode()
+     * @generated
+     */
+    EClass LOCAL_CODE = eINSTANCE.getLocalCode();
+
+    /**
+     * The meta object literal for the '<em><b>Thread</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LOCAL_CODE__THREAD = eINSTANCE.getLocalCode_Thread();
+
+    /**
+     * The meta object literal for the '<em><b>Continuation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LOCAL_CODE__CONTINUATION = eINSTANCE.getLocalCode_Continuation();
 
     /**
      * The meta object literal for the '{@link org.chor.chor.impl.ExpressionImpl <em>Expression</em>}' class.
@@ -2509,6 +3420,14 @@ public interface ChorPackage extends EPackage
     EReference EXPRESSION_BASIC_TERM__CONSTANT = eINSTANCE.getExpressionBasicTerm_Constant();
 
     /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EXPRESSION_BASIC_TERM__EXPRESSION = eINSTANCE.getExpressionBasicTerm_Expression();
+
+    /**
      * The meta object literal for the '{@link org.chor.chor.impl.ConstantImpl <em>Constant</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2571,12 +3490,12 @@ public interface ChorPackage extends EPackage
     EReference COMPARE_CONDITION__LEFT_EXPRESSION = eINSTANCE.getCompareCondition_LeftExpression();
 
     /**
-     * The meta object literal for the '<em><b>Operator</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Operator</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute COMPARE_CONDITION__OPERATOR = eINSTANCE.getCompareCondition_Operator();
+    EReference COMPARE_CONDITION__OPERATOR = eINSTANCE.getCompareCondition_Operator();
 
     /**
      * The meta object literal for the '<em><b>Right Expression</b></em>' containment reference feature.
@@ -2587,92 +3506,116 @@ public interface ChorPackage extends EPackage
     EReference COMPARE_CONDITION__RIGHT_EXPRESSION = eINSTANCE.getCompareCondition_RightExpression();
 
     /**
-     * The meta object literal for the '{@link org.chor.chor.impl.OutputTypeImpl <em>Output Type</em>}' class.
+     * The meta object literal for the '{@link org.chor.chor.impl.ConditionOperatorImpl <em>Condition Operator</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.chor.chor.impl.OutputTypeImpl
-     * @see org.chor.chor.impl.ChorPackageImpl#getOutputType()
+     * @see org.chor.chor.impl.ConditionOperatorImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getConditionOperator()
      * @generated
      */
-    EClass OUTPUT_TYPE = eINSTANCE.getOutputType();
+    EClass CONDITION_OPERATOR = eINSTANCE.getConditionOperator();
 
     /**
-     * The meta object literal for the '<em><b>Datatype</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Less</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference OUTPUT_TYPE__DATATYPE = eINSTANCE.getOutputType_Datatype();
+    EAttribute CONDITION_OPERATOR__LESS = eINSTANCE.getConditionOperator_Less();
 
     /**
-     * The meta object literal for the '<em><b>Continuation</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Equal</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference OUTPUT_TYPE__CONTINUATION = eINSTANCE.getOutputType_Continuation();
+    EAttribute CONDITION_OPERATOR__EQUAL = eINSTANCE.getConditionOperator_Equal();
 
     /**
-     * The meta object literal for the '{@link org.chor.chor.impl.InputTypeImpl <em>Input Type</em>}' class.
+     * The meta object literal for the '<em><b>Greater</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.chor.chor.impl.InputTypeImpl
-     * @see org.chor.chor.impl.ChorPackageImpl#getInputType()
      * @generated
      */
-    EClass INPUT_TYPE = eINSTANCE.getInputType();
+    EAttribute CONDITION_OPERATOR__GREATER = eINSTANCE.getConditionOperator_Greater();
 
     /**
-     * The meta object literal for the '<em><b>Datatype</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Not equal</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference INPUT_TYPE__DATATYPE = eINSTANCE.getInputType_Datatype();
+    EAttribute CONDITION_OPERATOR__NOT_EQUAL = eINSTANCE.getConditionOperator_Not_equal();
 
     /**
-     * The meta object literal for the '<em><b>Continuation</b></em>' containment reference feature.
+     * The meta object literal for the '{@link org.chor.chor.impl.LocalAskCommandImpl <em>Local Ask Command</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.LocalAskCommandImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getLocalAskCommand()
      * @generated
      */
-    EReference INPUT_TYPE__CONTINUATION = eINSTANCE.getInputType_Continuation();
+    EClass LOCAL_ASK_COMMAND = eINSTANCE.getLocalAskCommand();
 
     /**
-     * The meta object literal for the '{@link org.chor.chor.impl.BranchingTypeImpl <em>Branching Type</em>}' class.
+     * The meta object literal for the '<em><b>Question</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.chor.chor.impl.BranchingTypeImpl
-     * @see org.chor.chor.impl.ChorPackageImpl#getBranchingType()
      * @generated
      */
-    EClass BRANCHING_TYPE = eINSTANCE.getBranchingType();
+    EReference LOCAL_ASK_COMMAND__QUESTION = eINSTANCE.getLocalAskCommand_Question();
 
     /**
-     * The meta object literal for the '<em><b>Branches</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Result Variable</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference BRANCHING_TYPE__BRANCHES = eINSTANCE.getBranchingType_Branches();
+    EAttribute LOCAL_ASK_COMMAND__RESULT_VARIABLE = eINSTANCE.getLocalAskCommand_ResultVariable();
 
     /**
-     * The meta object literal for the '{@link org.chor.chor.impl.SelectionTypeImpl <em>Selection Type</em>}' class.
+     * The meta object literal for the '{@link org.chor.chor.impl.LocalShowCommandImpl <em>Local Show Command</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.chor.chor.impl.SelectionTypeImpl
-     * @see org.chor.chor.impl.ChorPackageImpl#getSelectionType()
+     * @see org.chor.chor.impl.LocalShowCommandImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getLocalShowCommand()
      * @generated
      */
-    EClass SELECTION_TYPE = eINSTANCE.getSelectionType();
+    EClass LOCAL_SHOW_COMMAND = eINSTANCE.getLocalShowCommand();
 
     /**
-     * The meta object literal for the '<em><b>Branches</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference SELECTION_TYPE__BRANCHES = eINSTANCE.getSelectionType_Branches();
+    EReference LOCAL_SHOW_COMMAND__EXPRESSION = eINSTANCE.getLocalShowCommand_Expression();
+
+    /**
+     * The meta object literal for the '{@link org.chor.chor.impl.LocalAssignmentCommandImpl <em>Local Assignment Command</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.chor.chor.impl.LocalAssignmentCommandImpl
+     * @see org.chor.chor.impl.ChorPackageImpl#getLocalAssignmentCommand()
+     * @generated
+     */
+    EClass LOCAL_ASSIGNMENT_COMMAND = eINSTANCE.getLocalAssignmentCommand();
+
+    /**
+     * The meta object literal for the '<em><b>Variable</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LOCAL_ASSIGNMENT_COMMAND__VARIABLE = eINSTANCE.getLocalAssignmentCommand_Variable();
+
+    /**
+     * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LOCAL_ASSIGNMENT_COMMAND__EXPRESSION = eINSTANCE.getLocalAssignmentCommand_Expression();
 
     /**
      * The meta object literal for the '{@link org.chor.chor.impl.SumExpressionAddTermImpl <em>Sum Expression Add Term</em>}' class.

@@ -8,27 +8,26 @@ package org.chor.chor;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Interaction</b></em>'.
+ * A representation of the model object '<em><b>Delegation</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.chor.chor.Interaction#getSender <em>Sender</em>}</li>
- *   <li>{@link org.chor.chor.Interaction#getSenderExpression <em>Sender Expression</em>}</li>
- *   <li>{@link org.chor.chor.Interaction#getReceiver <em>Receiver</em>}</li>
- *   <li>{@link org.chor.chor.Interaction#getReceiverVariable <em>Receiver Variable</em>}</li>
- *   <li>{@link org.chor.chor.Interaction#getOperation <em>Operation</em>}</li>
- *   <li>{@link org.chor.chor.Interaction#getSession <em>Session</em>}</li>
- *   <li>{@link org.chor.chor.Interaction#getContinuation <em>Continuation</em>}</li>
+ *   <li>{@link org.chor.chor.Delegation#getSender <em>Sender</em>}</li>
+ *   <li>{@link org.chor.chor.Delegation#getReceiver <em>Receiver</em>}</li>
+ *   <li>{@link org.chor.chor.Delegation#getOperation <em>Operation</em>}</li>
+ *   <li>{@link org.chor.chor.Delegation#getSession <em>Session</em>}</li>
+ *   <li>{@link org.chor.chor.Delegation#getDelegatedSession <em>Delegated Session</em>}</li>
+ *   <li>{@link org.chor.chor.Delegation#getContinuation <em>Continuation</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.chor.chor.ChorPackage#getInteraction()
+ * @see org.chor.chor.ChorPackage#getDelegation()
  * @model
  * @generated
  */
-public interface Interaction extends Choreography
+public interface Delegation extends Choreography
 {
   /**
    * Returns the value of the '<em><b>Sender</b></em>' attribute.
@@ -40,14 +39,14 @@ public interface Interaction extends Choreography
    * <!-- end-user-doc -->
    * @return the value of the '<em>Sender</em>' attribute.
    * @see #setSender(String)
-   * @see org.chor.chor.ChorPackage#getInteraction_Sender()
+   * @see org.chor.chor.ChorPackage#getDelegation_Sender()
    * @model
    * @generated
    */
   String getSender();
 
   /**
-   * Sets the value of the '{@link org.chor.chor.Interaction#getSender <em>Sender</em>}' attribute.
+   * Sets the value of the '{@link org.chor.chor.Delegation#getSender <em>Sender</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Sender</em>' attribute.
@@ -55,32 +54,6 @@ public interface Interaction extends Choreography
    * @generated
    */
   void setSender(String value);
-
-  /**
-   * Returns the value of the '<em><b>Sender Expression</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Sender Expression</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Sender Expression</em>' containment reference.
-   * @see #setSenderExpression(ExpressionBasicTerm)
-   * @see org.chor.chor.ChorPackage#getInteraction_SenderExpression()
-   * @model containment="true"
-   * @generated
-   */
-  ExpressionBasicTerm getSenderExpression();
-
-  /**
-   * Sets the value of the '{@link org.chor.chor.Interaction#getSenderExpression <em>Sender Expression</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Sender Expression</em>' containment reference.
-   * @see #getSenderExpression()
-   * @generated
-   */
-  void setSenderExpression(ExpressionBasicTerm value);
 
   /**
    * Returns the value of the '<em><b>Receiver</b></em>' attribute.
@@ -92,14 +65,14 @@ public interface Interaction extends Choreography
    * <!-- end-user-doc -->
    * @return the value of the '<em>Receiver</em>' attribute.
    * @see #setReceiver(String)
-   * @see org.chor.chor.ChorPackage#getInteraction_Receiver()
+   * @see org.chor.chor.ChorPackage#getDelegation_Receiver()
    * @model
    * @generated
    */
   String getReceiver();
 
   /**
-   * Sets the value of the '{@link org.chor.chor.Interaction#getReceiver <em>Receiver</em>}' attribute.
+   * Sets the value of the '{@link org.chor.chor.Delegation#getReceiver <em>Receiver</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Receiver</em>' attribute.
@@ -107,32 +80,6 @@ public interface Interaction extends Choreography
    * @generated
    */
   void setReceiver(String value);
-
-  /**
-   * Returns the value of the '<em><b>Receiver Variable</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Receiver Variable</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Receiver Variable</em>' attribute.
-   * @see #setReceiverVariable(String)
-   * @see org.chor.chor.ChorPackage#getInteraction_ReceiverVariable()
-   * @model
-   * @generated
-   */
-  String getReceiverVariable();
-
-  /**
-   * Sets the value of the '{@link org.chor.chor.Interaction#getReceiverVariable <em>Receiver Variable</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Receiver Variable</em>' attribute.
-   * @see #getReceiverVariable()
-   * @generated
-   */
-  void setReceiverVariable(String value);
 
   /**
    * Returns the value of the '<em><b>Operation</b></em>' attribute.
@@ -144,14 +91,14 @@ public interface Interaction extends Choreography
    * <!-- end-user-doc -->
    * @return the value of the '<em>Operation</em>' attribute.
    * @see #setOperation(String)
-   * @see org.chor.chor.ChorPackage#getInteraction_Operation()
+   * @see org.chor.chor.ChorPackage#getDelegation_Operation()
    * @model
    * @generated
    */
   String getOperation();
 
   /**
-   * Sets the value of the '{@link org.chor.chor.Interaction#getOperation <em>Operation</em>}' attribute.
+   * Sets the value of the '{@link org.chor.chor.Delegation#getOperation <em>Operation</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Operation</em>' attribute.
@@ -170,14 +117,14 @@ public interface Interaction extends Choreography
    * <!-- end-user-doc -->
    * @return the value of the '<em>Session</em>' attribute.
    * @see #setSession(String)
-   * @see org.chor.chor.ChorPackage#getInteraction_Session()
+   * @see org.chor.chor.ChorPackage#getDelegation_Session()
    * @model
    * @generated
    */
   String getSession();
 
   /**
-   * Sets the value of the '{@link org.chor.chor.Interaction#getSession <em>Session</em>}' attribute.
+   * Sets the value of the '{@link org.chor.chor.Delegation#getSession <em>Session</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Session</em>' attribute.
@@ -185,6 +132,32 @@ public interface Interaction extends Choreography
    * @generated
    */
   void setSession(String value);
+
+  /**
+   * Returns the value of the '<em><b>Delegated Session</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Delegated Session</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Delegated Session</em>' attribute.
+   * @see #setDelegatedSession(String)
+   * @see org.chor.chor.ChorPackage#getDelegation_DelegatedSession()
+   * @model
+   * @generated
+   */
+  String getDelegatedSession();
+
+  /**
+   * Sets the value of the '{@link org.chor.chor.Delegation#getDelegatedSession <em>Delegated Session</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Delegated Session</em>' attribute.
+   * @see #getDelegatedSession()
+   * @generated
+   */
+  void setDelegatedSession(String value);
 
   /**
    * Returns the value of the '<em><b>Continuation</b></em>' containment reference.
@@ -196,14 +169,14 @@ public interface Interaction extends Choreography
    * <!-- end-user-doc -->
    * @return the value of the '<em>Continuation</em>' containment reference.
    * @see #setContinuation(Choreography)
-   * @see org.chor.chor.ChorPackage#getInteraction_Continuation()
+   * @see org.chor.chor.ChorPackage#getDelegation_Continuation()
    * @model containment="true"
    * @generated
    */
   Choreography getContinuation();
 
   /**
-   * Sets the value of the '{@link org.chor.chor.Interaction#getContinuation <em>Continuation</em>}' containment reference.
+   * Sets the value of the '{@link org.chor.chor.Delegation#getContinuation <em>Continuation</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Continuation</em>' containment reference.
@@ -212,4 +185,4 @@ public interface Interaction extends Choreography
    */
   void setContinuation(Choreography value);
 
-} // Interaction
+} // Delegation

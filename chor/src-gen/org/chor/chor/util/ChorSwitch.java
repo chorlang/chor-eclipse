@@ -89,6 +89,20 @@ public class ChorSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case ChorPackage.PROCEDURE:
+      {
+        Procedure procedure = (Procedure)theEObject;
+        T result = caseProcedure(procedure);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ChorPackage.SESSION_PROCEDURE_PARAMETER:
+      {
+        SessionProcedureParameter sessionProcedureParameter = (SessionProcedureParameter)theEObject;
+        T result = caseSessionProcedureParameter(sessionProcedureParameter);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case ChorPackage.PROTOCOL:
       {
         Protocol protocol = (Protocol)theEObject;
@@ -110,6 +124,22 @@ public class ChorSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case ChorPackage.GLOBAL_TYPE_INTERACTION:
+      {
+        GlobalTypeInteraction globalTypeInteraction = (GlobalTypeInteraction)theEObject;
+        T result = caseGlobalTypeInteraction(globalTypeInteraction);
+        if (result == null) result = caseGlobalType(globalTypeInteraction);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ChorPackage.GLOBAL_TYPE_CALL:
+      {
+        GlobalTypeCall globalTypeCall = (GlobalTypeCall)theEObject;
+        T result = caseGlobalTypeCall(globalTypeCall);
+        if (result == null) result = caseGlobalType(globalTypeCall);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case ChorPackage.BRANCH_GTYPE:
       {
         BranchGType branchGType = (BranchGType)theEObject;
@@ -124,27 +154,19 @@ public class ChorSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case ChorPackage.DELEGATION_TYPE:
+      {
+        DelegationType delegationType = (DelegationType)theEObject;
+        T result = caseDelegationType(delegationType);
+        if (result == null) result = caseDataType(delegationType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case ChorPackage.BASIC_TYPE:
       {
         BasicType basicType = (BasicType)theEObject;
         T result = caseBasicType(basicType);
         if (result == null) result = caseDataType(basicType);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case ChorPackage.LOCAL_TYPE:
-      {
-        LocalType localType = (LocalType)theEObject;
-        T result = caseLocalType(localType);
-        if (result == null) result = caseDataType(localType);
-        if (result == null) result = caseBranchType(localType);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case ChorPackage.BRANCH_TYPE:
-      {
-        BranchType branchType = (BranchType)theEObject;
-        T result = caseBranchType(branchType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -178,11 +200,35 @@ public class ChorSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case ChorPackage.DELEGATION:
+      {
+        Delegation delegation = (Delegation)theEObject;
+        T result = caseDelegation(delegation);
+        if (result == null) result = caseChoreography(delegation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ChorPackage.CALL:
+      {
+        Call call = (Call)theEObject;
+        T result = caseCall(call);
+        if (result == null) result = caseChoreography(call);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case ChorPackage.IF_THEN_ELSE:
       {
         IfThenElse ifThenElse = (IfThenElse)theEObject;
         T result = caseIfThenElse(ifThenElse);
         if (result == null) result = caseChoreography(ifThenElse);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case ChorPackage.LOCAL_CODE:
+      {
+        LocalCode localCode = (LocalCode)theEObject;
+        T result = caseLocalCode(localCode);
+        if (result == null) result = caseChoreography(localCode);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -235,43 +281,37 @@ public class ChorSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ChorPackage.OUTPUT_TYPE:
+      case ChorPackage.CONDITION_OPERATOR:
       {
-        OutputType outputType = (OutputType)theEObject;
-        T result = caseOutputType(outputType);
-        if (result == null) result = caseLocalType(outputType);
-        if (result == null) result = caseDataType(outputType);
-        if (result == null) result = caseBranchType(outputType);
+        ConditionOperator conditionOperator = (ConditionOperator)theEObject;
+        T result = caseConditionOperator(conditionOperator);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ChorPackage.INPUT_TYPE:
+      case ChorPackage.LOCAL_ASK_COMMAND:
       {
-        InputType inputType = (InputType)theEObject;
-        T result = caseInputType(inputType);
-        if (result == null) result = caseLocalType(inputType);
-        if (result == null) result = caseDataType(inputType);
-        if (result == null) result = caseBranchType(inputType);
+        LocalAskCommand localAskCommand = (LocalAskCommand)theEObject;
+        T result = caseLocalAskCommand(localAskCommand);
+        if (result == null) result = caseLocalCode(localAskCommand);
+        if (result == null) result = caseChoreography(localAskCommand);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ChorPackage.BRANCHING_TYPE:
+      case ChorPackage.LOCAL_SHOW_COMMAND:
       {
-        BranchingType branchingType = (BranchingType)theEObject;
-        T result = caseBranchingType(branchingType);
-        if (result == null) result = caseLocalType(branchingType);
-        if (result == null) result = caseDataType(branchingType);
-        if (result == null) result = caseBranchType(branchingType);
+        LocalShowCommand localShowCommand = (LocalShowCommand)theEObject;
+        T result = caseLocalShowCommand(localShowCommand);
+        if (result == null) result = caseLocalCode(localShowCommand);
+        if (result == null) result = caseChoreography(localShowCommand);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case ChorPackage.SELECTION_TYPE:
+      case ChorPackage.LOCAL_ASSIGNMENT_COMMAND:
       {
-        SelectionType selectionType = (SelectionType)theEObject;
-        T result = caseSelectionType(selectionType);
-        if (result == null) result = caseLocalType(selectionType);
-        if (result == null) result = caseDataType(selectionType);
-        if (result == null) result = caseBranchType(selectionType);
+        LocalAssignmentCommand localAssignmentCommand = (LocalAssignmentCommand)theEObject;
+        T result = caseLocalAssignmentCommand(localAssignmentCommand);
+        if (result == null) result = caseLocalCode(localAssignmentCommand);
+        if (result == null) result = caseChoreography(localAssignmentCommand);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -328,6 +368,38 @@ public class ChorSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Procedure</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Procedure</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseProcedure(Procedure object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Session Procedure Parameter</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Session Procedure Parameter</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSessionProcedureParameter(SessionProcedureParameter object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Protocol</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -376,6 +448,38 @@ public class ChorSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Global Type Interaction</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Global Type Interaction</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseGlobalTypeInteraction(GlobalTypeInteraction object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Global Type Call</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Global Type Call</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseGlobalTypeCall(GlobalTypeCall object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Branch GType</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -408,6 +512,22 @@ public class ChorSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Delegation Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Delegation Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseDelegationType(DelegationType object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Basic Type</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -419,38 +539,6 @@ public class ChorSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseBasicType(BasicType object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Local Type</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Local Type</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseLocalType(LocalType object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Branch Type</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Branch Type</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseBranchType(BranchType object)
   {
     return null;
   }
@@ -520,6 +608,38 @@ public class ChorSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Delegation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Delegation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseDelegation(Delegation object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Call</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Call</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseCall(Call object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>If Then Else</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -531,6 +651,22 @@ public class ChorSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseIfThenElse(IfThenElse object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Local Code</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Local Code</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseLocalCode(LocalCode object)
   {
     return null;
   }
@@ -648,65 +784,65 @@ public class ChorSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Output Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Condition Operator</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Output Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Condition Operator</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseOutputType(OutputType object)
+  public T caseConditionOperator(ConditionOperator object)
   {
     return null;
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Input Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Local Ask Command</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Input Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Local Ask Command</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseInputType(InputType object)
+  public T caseLocalAskCommand(LocalAskCommand object)
   {
     return null;
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Branching Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Local Show Command</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Branching Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Local Show Command</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseBranchingType(BranchingType object)
+  public T caseLocalShowCommand(LocalShowCommand object)
   {
     return null;
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Selection Type</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Local Assignment Command</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Selection Type</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Local Assignment Command</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseSelectionType(SelectionType object)
+  public T caseLocalAssignmentCommand(LocalAssignmentCommand object)
   {
     return null;
   }

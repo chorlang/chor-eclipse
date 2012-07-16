@@ -26,18 +26,20 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSEMICOLONTerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
 		private final Assignment cPreambleAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cPreamblePreambleParserRuleCall_3_0 = (RuleCall)cPreambleAssignment_3.eContents().get(0);
-		private final Keyword cMainKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final RuleCall cLCURLYTerminalRuleCall_5 = (RuleCall)cGroup.eContents().get(5);
-		private final Assignment cChoreographyAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cChoreographyChoreographyParserRuleCall_6_0 = (RuleCall)cChoreographyAssignment_6.eContents().get(0);
-		private final RuleCall cRCURLYTerminalRuleCall_7 = (RuleCall)cGroup.eContents().get(7);
+		private final Assignment cProceduresAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cProceduresProcedureParserRuleCall_4_0 = (RuleCall)cProceduresAssignment_4.eContents().get(0);
+		private final Keyword cMainKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final RuleCall cLCURLYTerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
+		private final Assignment cChoreographyAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cChoreographyChoreographyParserRuleCall_7_0 = (RuleCall)cChoreographyAssignment_7.eContents().get(0);
+		private final RuleCall cRCURLYTerminalRuleCall_8 = (RuleCall)cGroup.eContents().get(8);
 		
 		//// Main nonterminal
 		//Program:
-		//	"program" name=ID SEMICOLON preamble=Preamble "main" LCURLY choreography=Choreography RCURLY;
+		//	"program" name=ID SEMICOLON preamble=Preamble procedures+=Procedure* "main" LCURLY choreography=Choreography RCURLY;
 		public ParserRule getRule() { return rule; }
 
-		//"program" name=ID SEMICOLON preamble=Preamble "main" LCURLY choreography=Choreography RCURLY
+		//"program" name=ID SEMICOLON preamble=Preamble procedures+=Procedure* "main" LCURLY choreography=Choreography RCURLY
 		public Group getGroup() { return cGroup; }
 
 		//"program"
@@ -58,20 +60,26 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		//Preamble
 		public RuleCall getPreamblePreambleParserRuleCall_3_0() { return cPreamblePreambleParserRuleCall_3_0; }
 
+		//procedures+=Procedure*
+		public Assignment getProceduresAssignment_4() { return cProceduresAssignment_4; }
+
+		//Procedure
+		public RuleCall getProceduresProcedureParserRuleCall_4_0() { return cProceduresProcedureParserRuleCall_4_0; }
+
 		//"main"
-		public Keyword getMainKeyword_4() { return cMainKeyword_4; }
+		public Keyword getMainKeyword_5() { return cMainKeyword_5; }
 
 		//LCURLY
-		public RuleCall getLCURLYTerminalRuleCall_5() { return cLCURLYTerminalRuleCall_5; }
+		public RuleCall getLCURLYTerminalRuleCall_6() { return cLCURLYTerminalRuleCall_6; }
 
 		//choreography=Choreography
-		public Assignment getChoreographyAssignment_6() { return cChoreographyAssignment_6; }
+		public Assignment getChoreographyAssignment_7() { return cChoreographyAssignment_7; }
 
 		//Choreography
-		public RuleCall getChoreographyChoreographyParserRuleCall_6_0() { return cChoreographyChoreographyParserRuleCall_6_0; }
+		public RuleCall getChoreographyChoreographyParserRuleCall_7_0() { return cChoreographyChoreographyParserRuleCall_7_0; }
 
 		//RCURLY
-		public RuleCall getRCURLYTerminalRuleCall_7() { return cRCURLYTerminalRuleCall_7; }
+		public RuleCall getRCURLYTerminalRuleCall_8() { return cRCURLYTerminalRuleCall_8; }
 	}
 
 	public class PreambleElements extends AbstractParserRuleElementFinder {
@@ -115,6 +123,185 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 
 		//Site
 		public RuleCall getSiteSiteParserRuleCall_1_1_0() { return cSiteSiteParserRuleCall_1_1_0; }
+	}
+
+	public class ProcedureElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Procedure");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Keyword cDefineKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final RuleCall cLPARENTerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
+		private final Assignment cThreadParametersAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cThreadParametersIDTerminalRuleCall_3_0 = (RuleCall)cThreadParametersAssignment_3.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final RuleCall cCOMMATerminalRuleCall_4_0 = (RuleCall)cGroup_4.eContents().get(0);
+		private final Assignment cThreadParametersAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
+		private final RuleCall cThreadParametersIDTerminalRuleCall_4_1_0 = (RuleCall)cThreadParametersAssignment_4_1.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_5 = (RuleCall)cGroup.eContents().get(5);
+		private final RuleCall cLPARENTerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
+		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
+		private final Assignment cSessionParametersAssignment_7_0 = (Assignment)cGroup_7.eContents().get(0);
+		private final RuleCall cSessionParametersSessionProcedureParameterParserRuleCall_7_0_0 = (RuleCall)cSessionParametersAssignment_7_0.eContents().get(0);
+		private final Group cGroup_7_1 = (Group)cGroup_7.eContents().get(1);
+		private final RuleCall cCOMMATerminalRuleCall_7_1_0 = (RuleCall)cGroup_7_1.eContents().get(0);
+		private final Assignment cSessionParametersAssignment_7_1_1 = (Assignment)cGroup_7_1.eContents().get(1);
+		private final RuleCall cSessionParametersSessionProcedureParameterParserRuleCall_7_1_1_0 = (RuleCall)cSessionParametersAssignment_7_1_1.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_8 = (RuleCall)cGroup.eContents().get(8);
+		private final RuleCall cLCURLYTerminalRuleCall_9 = (RuleCall)cGroup.eContents().get(9);
+		private final Assignment cChoreographyAssignment_10 = (Assignment)cGroup.eContents().get(10);
+		private final RuleCall cChoreographyChoreographyParserRuleCall_10_0 = (RuleCall)cChoreographyAssignment_10.eContents().get(0);
+		private final RuleCall cRCURLYTerminalRuleCall_11 = (RuleCall)cGroup.eContents().get(11);
+		
+		//// Procedure definition, e.g. define myProcedure( thread )( k: protocol ) { Choreography }
+		//Procedure:
+		//	"define" name=ID LPAREN threadParameters+=ID (COMMA threadParameters+=ID)* RPAREN LPAREN
+		//	(sessionParameters+=SessionProcedureParameter (COMMA sessionParameters+=SessionProcedureParameter)*)? RPAREN LCURLY
+		//	choreography=Choreography RCURLY;
+		public ParserRule getRule() { return rule; }
+
+		//"define" name=ID LPAREN threadParameters+=ID (COMMA threadParameters+=ID)* RPAREN LPAREN
+		//(sessionParameters+=SessionProcedureParameter (COMMA sessionParameters+=SessionProcedureParameter)*)? RPAREN LCURLY
+		//choreography=Choreography RCURLY
+		public Group getGroup() { return cGroup; }
+
+		//"define"
+		public Keyword getDefineKeyword_0() { return cDefineKeyword_0; }
+
+		//name=ID
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
+
+		//ID
+		public RuleCall getNameIDTerminalRuleCall_1_0() { return cNameIDTerminalRuleCall_1_0; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_2() { return cLPARENTerminalRuleCall_2; }
+
+		//threadParameters+=ID
+		public Assignment getThreadParametersAssignment_3() { return cThreadParametersAssignment_3; }
+
+		//ID
+		public RuleCall getThreadParametersIDTerminalRuleCall_3_0() { return cThreadParametersIDTerminalRuleCall_3_0; }
+
+		//(COMMA threadParameters+=ID)*
+		public Group getGroup_4() { return cGroup_4; }
+
+		//COMMA
+		public RuleCall getCOMMATerminalRuleCall_4_0() { return cCOMMATerminalRuleCall_4_0; }
+
+		//threadParameters+=ID
+		public Assignment getThreadParametersAssignment_4_1() { return cThreadParametersAssignment_4_1; }
+
+		//ID
+		public RuleCall getThreadParametersIDTerminalRuleCall_4_1_0() { return cThreadParametersIDTerminalRuleCall_4_1_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_5() { return cRPARENTerminalRuleCall_5; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_6() { return cLPARENTerminalRuleCall_6; }
+
+		//(sessionParameters+=SessionProcedureParameter (COMMA sessionParameters+=SessionProcedureParameter)*)?
+		public Group getGroup_7() { return cGroup_7; }
+
+		//sessionParameters+=SessionProcedureParameter
+		public Assignment getSessionParametersAssignment_7_0() { return cSessionParametersAssignment_7_0; }
+
+		//SessionProcedureParameter
+		public RuleCall getSessionParametersSessionProcedureParameterParserRuleCall_7_0_0() { return cSessionParametersSessionProcedureParameterParserRuleCall_7_0_0; }
+
+		//(COMMA sessionParameters+=SessionProcedureParameter)*
+		public Group getGroup_7_1() { return cGroup_7_1; }
+
+		//COMMA
+		public RuleCall getCOMMATerminalRuleCall_7_1_0() { return cCOMMATerminalRuleCall_7_1_0; }
+
+		//sessionParameters+=SessionProcedureParameter
+		public Assignment getSessionParametersAssignment_7_1_1() { return cSessionParametersAssignment_7_1_1; }
+
+		//SessionProcedureParameter
+		public RuleCall getSessionParametersSessionProcedureParameterParserRuleCall_7_1_1_0() { return cSessionParametersSessionProcedureParameterParserRuleCall_7_1_1_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_8() { return cRPARENTerminalRuleCall_8; }
+
+		//LCURLY
+		public RuleCall getLCURLYTerminalRuleCall_9() { return cLCURLYTerminalRuleCall_9; }
+
+		//choreography=Choreography
+		public Assignment getChoreographyAssignment_10() { return cChoreographyAssignment_10; }
+
+		//Choreography
+		public RuleCall getChoreographyChoreographyParserRuleCall_10_0() { return cChoreographyChoreographyParserRuleCall_10_0; }
+
+		//RCURLY
+		public RuleCall getRCURLYTerminalRuleCall_11() { return cRCURLYTerminalRuleCall_11; }
+	}
+
+	public class SessionProcedureParameterElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "SessionProcedureParameter");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cSessionAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cSessionIDTerminalRuleCall_0_0 = (RuleCall)cSessionAssignment_0.eContents().get(0);
+		private final RuleCall cLSQUARETerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cTypeGlobalTypeCallParserRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
+		private final RuleCall cCOLONTerminalRuleCall_3 = (RuleCall)cGroup.eContents().get(3);
+		private final Assignment cActiveThreadsAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cActiveThreadsThreadWithRoleParserRuleCall_4_0 = (RuleCall)cActiveThreadsAssignment_4.eContents().get(0);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final RuleCall cCOMMATerminalRuleCall_5_0 = (RuleCall)cGroup_5.eContents().get(0);
+		private final Assignment cActiveThreadsAssignment_5_1 = (Assignment)cGroup_5.eContents().get(1);
+		private final RuleCall cActiveThreadsThreadWithRoleParserRuleCall_5_1_0 = (RuleCall)cActiveThreadsAssignment_5_1.eContents().get(0);
+		private final RuleCall cRSQUARETerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
+		
+		//SessionProcedureParameter:
+		//	session=ID LSQUARE type=GlobalTypeCall COLON activeThreads+=ThreadWithRole (COMMA activeThreads+=ThreadWithRole)*
+		//	RSQUARE;
+		public ParserRule getRule() { return rule; }
+
+		//session=ID LSQUARE type=GlobalTypeCall COLON activeThreads+=ThreadWithRole (COMMA activeThreads+=ThreadWithRole)*
+		//RSQUARE
+		public Group getGroup() { return cGroup; }
+
+		//session=ID
+		public Assignment getSessionAssignment_0() { return cSessionAssignment_0; }
+
+		//ID
+		public RuleCall getSessionIDTerminalRuleCall_0_0() { return cSessionIDTerminalRuleCall_0_0; }
+
+		//LSQUARE
+		public RuleCall getLSQUARETerminalRuleCall_1() { return cLSQUARETerminalRuleCall_1; }
+
+		//type=GlobalTypeCall
+		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
+
+		//GlobalTypeCall
+		public RuleCall getTypeGlobalTypeCallParserRuleCall_2_0() { return cTypeGlobalTypeCallParserRuleCall_2_0; }
+
+		//COLON
+		public RuleCall getCOLONTerminalRuleCall_3() { return cCOLONTerminalRuleCall_3; }
+
+		//activeThreads+=ThreadWithRole
+		public Assignment getActiveThreadsAssignment_4() { return cActiveThreadsAssignment_4; }
+
+		//ThreadWithRole
+		public RuleCall getActiveThreadsThreadWithRoleParserRuleCall_4_0() { return cActiveThreadsThreadWithRoleParserRuleCall_4_0; }
+
+		//(COMMA activeThreads+=ThreadWithRole)*
+		public Group getGroup_5() { return cGroup_5; }
+
+		//COMMA
+		public RuleCall getCOMMATerminalRuleCall_5_0() { return cCOMMATerminalRuleCall_5_0; }
+
+		//activeThreads+=ThreadWithRole
+		public Assignment getActiveThreadsAssignment_5_1() { return cActiveThreadsAssignment_5_1; }
+
+		//ThreadWithRole
+		public RuleCall getActiveThreadsThreadWithRoleParserRuleCall_5_1_0() { return cActiveThreadsThreadWithRoleParserRuleCall_5_1_0; }
+
+		//RSQUARE
+		public RuleCall getRSQUARETerminalRuleCall_6() { return cRSQUARETerminalRuleCall_6; }
 	}
 
 	public class ProtocolElements extends AbstractParserRuleElementFinder {
@@ -161,7 +348,7 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 	public class SiteElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Site");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Keyword cSiteKeyword_0 = (Keyword)cGroup.eContents().get(0);
+		private final Keyword cPublicKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cNameIDTerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		private final RuleCall cCOLONTerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
@@ -171,14 +358,14 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//// Definition of a site, associating a public channel name to a protocol.
 		//Site:
-		//	"site" name=ID COLON protocol=[Protocol];
+		//	"public" name=ID COLON protocol=[Protocol];
 		public ParserRule getRule() { return rule; }
 
-		//"site" name=ID COLON protocol=[Protocol]
+		//"public" name=ID COLON protocol=[Protocol]
 		public Group getGroup() { return cGroup; }
 
-		//"site"
-		public Keyword getSiteKeyword_0() { return cSiteKeyword_0; }
+		//"public"
+		public Keyword getPublicKeyword_0() { return cPublicKeyword_0; }
 
 		//name=ID
 		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
@@ -201,6 +388,29 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 
 	public class GlobalTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "GlobalType");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cGlobalTypeInteractionParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cGlobalTypeCallParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		/// * 
+		// * Multiparty behavioural type, or global type.
+		// * Also denoted by G in the comments, for brevity (referring to the theoretical papers).
+		// * / GlobalType:
+		//	GlobalTypeInteraction | GlobalTypeCall;
+		public ParserRule getRule() { return rule; }
+
+		//GlobalTypeInteraction | GlobalTypeCall
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//GlobalTypeInteraction
+		public RuleCall getGlobalTypeInteractionParserRuleCall_0() { return cGlobalTypeInteractionParserRuleCall_0; }
+
+		//GlobalTypeCall
+		public RuleCall getGlobalTypeCallParserRuleCall_1() { return cGlobalTypeCallParserRuleCall_1; }
+	}
+
+	public class GlobalTypeInteractionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "GlobalTypeInteraction");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cSenderAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cSenderIDTerminalRuleCall_0_0 = (RuleCall)cSenderAssignment_0.eContents().get(0);
@@ -221,18 +431,16 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cBranchesBranchGTypeParserRuleCall_4_1_2_1_0 = (RuleCall)cBranchesAssignment_4_1_2_1.eContents().get(0);
 		private final RuleCall cRCURLYTerminalRuleCall_4_1_3 = (RuleCall)cGroup_4_1.eContents().get(3);
 		
-		//// Multiparty behavioural type, also denoted with G in comments for brevity (referring to the theoretical papers).
-		//GlobalType: // Interaction. Example: A -> B: op(string); G
+		//// Interaction. Example: A -> B: op(string); G
+		//GlobalTypeInteraction:
 		//	sender=ID ARROW receiver=ID COLON (branches+=BranchGType | LCURLY branches+=BranchGType (COMMA branches+=BranchGType)*
 		//	RCURLY);
 		public ParserRule getRule() { return rule; }
 
-		//// Interaction. Example: A -> B: op(string); G
 		//sender=ID ARROW receiver=ID COLON (branches+=BranchGType | LCURLY branches+=BranchGType (COMMA branches+=BranchGType)*
 		//RCURLY)
 		public Group getGroup() { return cGroup; }
 
-		//// Interaction. Example: A -> B: op(string); G
 		//sender=ID
 		public Assignment getSenderAssignment_0() { return cSenderAssignment_0; }
 
@@ -288,6 +496,27 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getRCURLYTerminalRuleCall_4_1_3() { return cRCURLYTerminalRuleCall_4_1_3; }
 	}
 
+	public class GlobalTypeCallElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "GlobalTypeCall");
+		private final Assignment cProtocolAssignment = (Assignment)rule.eContents().get(1);
+		private final CrossReference cProtocolProtocolCrossReference_0 = (CrossReference)cProtocolAssignment.eContents().get(0);
+		private final RuleCall cProtocolProtocolIDTerminalRuleCall_0_1 = (RuleCall)cProtocolProtocolCrossReference_0.eContents().get(1);
+		
+		//// Protocol call
+		//GlobalTypeCall:
+		//	protocol=[Protocol];
+		public ParserRule getRule() { return rule; }
+
+		//protocol=[Protocol]
+		public Assignment getProtocolAssignment() { return cProtocolAssignment; }
+
+		//[Protocol]
+		public CrossReference getProtocolProtocolCrossReference_0() { return cProtocolProtocolCrossReference_0; }
+
+		//ID
+		public RuleCall getProtocolProtocolIDTerminalRuleCall_0_1() { return cProtocolProtocolIDTerminalRuleCall_0_1; }
+	}
+
 	public class BranchGTypeElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "BranchGType");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -302,7 +531,7 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cContinuationAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
 		private final RuleCall cContinuationGlobalTypeParserRuleCall_4_1_0 = (RuleCall)cContinuationAssignment_4_1.eContents().get(0);
 		
-		//// Type of a branch. Example: label: G
+		//// Type of a branch. Example: op(DataType); G
 		//BranchGType:
 		//	operation=ID LPAREN dataType=DataType RPAREN (SEMICOLON continuation=GlobalType)?;
 		public ParserRule getRule() { return rule; }
@@ -345,21 +574,54 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "DataType");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cBasicTypeParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cLocalTypeParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cDelegationTypeParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		//// Data types. 
 		//DataType:
-		//	BasicType | LocalType;
+		//	BasicType | DelegationType;
 		public ParserRule getRule() { return rule; }
 
-		//BasicType | LocalType
+		//BasicType | DelegationType
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//BasicType
 		public RuleCall getBasicTypeParserRuleCall_0() { return cBasicTypeParserRuleCall_0; }
 
-		//LocalType
-		public RuleCall getLocalTypeParserRuleCall_1() { return cLocalTypeParserRuleCall_1; }
+		//DelegationType
+		public RuleCall getDelegationTypeParserRuleCall_1() { return cDelegationTypeParserRuleCall_1; }
+	}
+
+	public class DelegationTypeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "DelegationType");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cTypeAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cTypeGlobalTypeCallParserRuleCall_0_0 = (RuleCall)cTypeAssignment_0.eContents().get(0);
+		private final RuleCall cATTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Assignment cRoleAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cRoleIDTerminalRuleCall_2_0 = (RuleCall)cRoleAssignment_2.eContents().get(0);
+		
+		//// Type for a carried delegated session
+		//DelegationType:
+		//	type=GlobalTypeCall AT role=ID;
+		public ParserRule getRule() { return rule; }
+
+		//type=GlobalTypeCall AT role=ID
+		public Group getGroup() { return cGroup; }
+
+		//type=GlobalTypeCall
+		public Assignment getTypeAssignment_0() { return cTypeAssignment_0; }
+
+		//GlobalTypeCall
+		public RuleCall getTypeGlobalTypeCallParserRuleCall_0_0() { return cTypeGlobalTypeCallParserRuleCall_0_0; }
+
+		//AT
+		public RuleCall getATTerminalRuleCall_1() { return cATTerminalRuleCall_1; }
+
+		//role=ID
+		public Assignment getRoleAssignment_2() { return cRoleAssignment_2; }
+
+		//ID
+		public RuleCall getRoleIDTerminalRuleCall_2_0() { return cRoleIDTerminalRuleCall_2_0; }
 	}
 
 	public class BasicTypeElements extends AbstractParserRuleElementFinder {
@@ -415,245 +677,28 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getNameVoidKeyword_3_0() { return cNameVoidKeyword_3_0; }
 	}
 
-	public class LocalTypeElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "LocalType");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
-		private final Action cOutputTypeAction_0_0 = (Action)cGroup_0.eContents().get(0);
-		private final RuleCall cBANGTerminalRuleCall_0_1 = (RuleCall)cGroup_0.eContents().get(1);
-		private final RuleCall cLPARENTerminalRuleCall_0_2 = (RuleCall)cGroup_0.eContents().get(2);
-		private final Assignment cDatatypeAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
-		private final RuleCall cDatatypeDataTypeParserRuleCall_0_3_0 = (RuleCall)cDatatypeAssignment_0_3.eContents().get(0);
-		private final RuleCall cRPARENTerminalRuleCall_0_4 = (RuleCall)cGroup_0.eContents().get(4);
-		private final RuleCall cSEMICOLONTerminalRuleCall_0_5 = (RuleCall)cGroup_0.eContents().get(5);
-		private final Assignment cContinuationAssignment_0_6 = (Assignment)cGroup_0.eContents().get(6);
-		private final RuleCall cContinuationLocalTypeParserRuleCall_0_6_0 = (RuleCall)cContinuationAssignment_0_6.eContents().get(0);
-		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
-		private final Action cInputTypeAction_1_0 = (Action)cGroup_1.eContents().get(0);
-		private final RuleCall cQUESTION_MARKTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
-		private final RuleCall cLPARENTerminalRuleCall_1_2 = (RuleCall)cGroup_1.eContents().get(2);
-		private final Assignment cDatatypeAssignment_1_3 = (Assignment)cGroup_1.eContents().get(3);
-		private final RuleCall cDatatypeDataTypeParserRuleCall_1_3_0 = (RuleCall)cDatatypeAssignment_1_3.eContents().get(0);
-		private final RuleCall cRPARENTerminalRuleCall_1_4 = (RuleCall)cGroup_1.eContents().get(4);
-		private final RuleCall cSEMICOLONTerminalRuleCall_1_5 = (RuleCall)cGroup_1.eContents().get(5);
-		private final Assignment cContinuationAssignment_1_6 = (Assignment)cGroup_1.eContents().get(6);
-		private final RuleCall cContinuationLocalTypeParserRuleCall_1_6_0 = (RuleCall)cContinuationAssignment_1_6.eContents().get(0);
-		private final Group cGroup_2 = (Group)cAlternatives.eContents().get(2);
-		private final Action cBranchingTypeAction_2_0 = (Action)cGroup_2.eContents().get(0);
-		private final RuleCall cQUESTION_MARKTerminalRuleCall_2_1 = (RuleCall)cGroup_2.eContents().get(1);
-		private final RuleCall cLCURLYTerminalRuleCall_2_2 = (RuleCall)cGroup_2.eContents().get(2);
-		private final Assignment cBranchesAssignment_2_3 = (Assignment)cGroup_2.eContents().get(3);
-		private final RuleCall cBranchesBranchTypeParserRuleCall_2_3_0 = (RuleCall)cBranchesAssignment_2_3.eContents().get(0);
-		private final Group cGroup_2_4 = (Group)cGroup_2.eContents().get(4);
-		private final RuleCall cCOMMATerminalRuleCall_2_4_0 = (RuleCall)cGroup_2_4.eContents().get(0);
-		private final Assignment cBranchesAssignment_2_4_1 = (Assignment)cGroup_2_4.eContents().get(1);
-		private final RuleCall cBranchesBranchTypeParserRuleCall_2_4_1_0 = (RuleCall)cBranchesAssignment_2_4_1.eContents().get(0);
-		private final RuleCall cRCURLYTerminalRuleCall_2_5 = (RuleCall)cGroup_2.eContents().get(5);
-		private final Group cGroup_3 = (Group)cAlternatives.eContents().get(3);
-		private final Action cSelectionTypeAction_3_0 = (Action)cGroup_3.eContents().get(0);
-		private final RuleCall cBANGTerminalRuleCall_3_1 = (RuleCall)cGroup_3.eContents().get(1);
-		private final RuleCall cLCURLYTerminalRuleCall_3_2 = (RuleCall)cGroup_3.eContents().get(2);
-		private final Assignment cBranchesAssignment_3_3 = (Assignment)cGroup_3.eContents().get(3);
-		private final RuleCall cBranchesBranchTypeParserRuleCall_3_3_0 = (RuleCall)cBranchesAssignment_3_3.eContents().get(0);
-		private final Group cGroup_3_4 = (Group)cGroup_3.eContents().get(4);
-		private final RuleCall cCOMMATerminalRuleCall_3_4_0 = (RuleCall)cGroup_3_4.eContents().get(0);
-		private final Assignment cBranchesAssignment_3_4_1 = (Assignment)cGroup_3_4.eContents().get(1);
-		private final RuleCall cBranchesBranchTypeParserRuleCall_3_4_1_0 = (RuleCall)cBranchesAssignment_3_4_1.eContents().get(0);
-		private final RuleCall cRCURLYTerminalRuleCall_3_5 = (RuleCall)cGroup_3.eContents().get(5);
-		
-		//// Local types. 
-		////	|
-		//// End
-		////	{EndType} 'end'
-		//LocalType:
-		//	{OutputType} BANG LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType | {InputType} QUESTION_MARK LPAREN
-		//	datatype=DataType RPAREN SEMICOLON continuation=LocalType | {BranchingType} QUESTION_MARK LCURLY branches+=BranchType
-		//	(COMMA branches+=BranchType)* RCURLY | {SelectionType} BANG LCURLY branches+=BranchType (COMMA branches+=BranchType)*
-		//	RCURLY;
-		public ParserRule getRule() { return rule; }
-
-		//{OutputType} BANG LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType | {InputType} QUESTION_MARK LPAREN
-		//datatype=DataType RPAREN SEMICOLON continuation=LocalType | {BranchingType} QUESTION_MARK LCURLY branches+=BranchType
-		//(COMMA branches+=BranchType)* RCURLY | {SelectionType} BANG LCURLY branches+=BranchType (COMMA branches+=BranchType)*
-		//RCURLY
-		public Alternatives getAlternatives() { return cAlternatives; }
-
-		//{OutputType} BANG LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType
-		public Group getGroup_0() { return cGroup_0; }
-
-		//{OutputType}
-		public Action getOutputTypeAction_0_0() { return cOutputTypeAction_0_0; }
-
-		//BANG
-		public RuleCall getBANGTerminalRuleCall_0_1() { return cBANGTerminalRuleCall_0_1; }
-
-		//LPAREN
-		public RuleCall getLPARENTerminalRuleCall_0_2() { return cLPARENTerminalRuleCall_0_2; }
-
-		//datatype=DataType
-		public Assignment getDatatypeAssignment_0_3() { return cDatatypeAssignment_0_3; }
-
-		//DataType
-		public RuleCall getDatatypeDataTypeParserRuleCall_0_3_0() { return cDatatypeDataTypeParserRuleCall_0_3_0; }
-
-		//RPAREN
-		public RuleCall getRPARENTerminalRuleCall_0_4() { return cRPARENTerminalRuleCall_0_4; }
-
-		//SEMICOLON
-		public RuleCall getSEMICOLONTerminalRuleCall_0_5() { return cSEMICOLONTerminalRuleCall_0_5; }
-
-		//continuation=LocalType
-		public Assignment getContinuationAssignment_0_6() { return cContinuationAssignment_0_6; }
-
-		//LocalType
-		public RuleCall getContinuationLocalTypeParserRuleCall_0_6_0() { return cContinuationLocalTypeParserRuleCall_0_6_0; }
-
-		//{InputType} QUESTION_MARK LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType
-		public Group getGroup_1() { return cGroup_1; }
-
-		//{InputType}
-		public Action getInputTypeAction_1_0() { return cInputTypeAction_1_0; }
-
-		//QUESTION_MARK
-		public RuleCall getQUESTION_MARKTerminalRuleCall_1_1() { return cQUESTION_MARKTerminalRuleCall_1_1; }
-
-		//LPAREN
-		public RuleCall getLPARENTerminalRuleCall_1_2() { return cLPARENTerminalRuleCall_1_2; }
-
-		//datatype=DataType
-		public Assignment getDatatypeAssignment_1_3() { return cDatatypeAssignment_1_3; }
-
-		//DataType
-		public RuleCall getDatatypeDataTypeParserRuleCall_1_3_0() { return cDatatypeDataTypeParserRuleCall_1_3_0; }
-
-		//RPAREN
-		public RuleCall getRPARENTerminalRuleCall_1_4() { return cRPARENTerminalRuleCall_1_4; }
-
-		//SEMICOLON
-		public RuleCall getSEMICOLONTerminalRuleCall_1_5() { return cSEMICOLONTerminalRuleCall_1_5; }
-
-		//continuation=LocalType
-		public Assignment getContinuationAssignment_1_6() { return cContinuationAssignment_1_6; }
-
-		//LocalType
-		public RuleCall getContinuationLocalTypeParserRuleCall_1_6_0() { return cContinuationLocalTypeParserRuleCall_1_6_0; }
-
-		//{BranchingType} QUESTION_MARK LCURLY branches+=BranchType (COMMA branches+=BranchType)* RCURLY
-		public Group getGroup_2() { return cGroup_2; }
-
-		//{BranchingType}
-		public Action getBranchingTypeAction_2_0() { return cBranchingTypeAction_2_0; }
-
-		//QUESTION_MARK
-		public RuleCall getQUESTION_MARKTerminalRuleCall_2_1() { return cQUESTION_MARKTerminalRuleCall_2_1; }
-
-		//LCURLY
-		public RuleCall getLCURLYTerminalRuleCall_2_2() { return cLCURLYTerminalRuleCall_2_2; }
-
-		//branches+=BranchType
-		public Assignment getBranchesAssignment_2_3() { return cBranchesAssignment_2_3; }
-
-		//BranchType
-		public RuleCall getBranchesBranchTypeParserRuleCall_2_3_0() { return cBranchesBranchTypeParserRuleCall_2_3_0; }
-
-		//(COMMA branches+=BranchType)*
-		public Group getGroup_2_4() { return cGroup_2_4; }
-
-		//COMMA
-		public RuleCall getCOMMATerminalRuleCall_2_4_0() { return cCOMMATerminalRuleCall_2_4_0; }
-
-		//branches+=BranchType
-		public Assignment getBranchesAssignment_2_4_1() { return cBranchesAssignment_2_4_1; }
-
-		//BranchType
-		public RuleCall getBranchesBranchTypeParserRuleCall_2_4_1_0() { return cBranchesBranchTypeParserRuleCall_2_4_1_0; }
-
-		//RCURLY
-		public RuleCall getRCURLYTerminalRuleCall_2_5() { return cRCURLYTerminalRuleCall_2_5; }
-
-		//{SelectionType} BANG LCURLY branches+=BranchType (COMMA branches+=BranchType)* RCURLY
-		public Group getGroup_3() { return cGroup_3; }
-
-		//{SelectionType}
-		public Action getSelectionTypeAction_3_0() { return cSelectionTypeAction_3_0; }
-
-		//BANG
-		public RuleCall getBANGTerminalRuleCall_3_1() { return cBANGTerminalRuleCall_3_1; }
-
-		//LCURLY
-		public RuleCall getLCURLYTerminalRuleCall_3_2() { return cLCURLYTerminalRuleCall_3_2; }
-
-		//branches+=BranchType
-		public Assignment getBranchesAssignment_3_3() { return cBranchesAssignment_3_3; }
-
-		//BranchType
-		public RuleCall getBranchesBranchTypeParserRuleCall_3_3_0() { return cBranchesBranchTypeParserRuleCall_3_3_0; }
-
-		//(COMMA branches+=BranchType)*
-		public Group getGroup_3_4() { return cGroup_3_4; }
-
-		//COMMA
-		public RuleCall getCOMMATerminalRuleCall_3_4_0() { return cCOMMATerminalRuleCall_3_4_0; }
-
-		//branches+=BranchType
-		public Assignment getBranchesAssignment_3_4_1() { return cBranchesAssignment_3_4_1; }
-
-		//BranchType
-		public RuleCall getBranchesBranchTypeParserRuleCall_3_4_1_0() { return cBranchesBranchTypeParserRuleCall_3_4_1_0; }
-
-		//RCURLY
-		public RuleCall getRCURLYTerminalRuleCall_3_5() { return cRCURLYTerminalRuleCall_3_5; }
-	}
-
-	public class BranchTypeElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "BranchType");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cLabelAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cLabelIDTerminalRuleCall_0_0 = (RuleCall)cLabelAssignment_0.eContents().get(0);
-		private final RuleCall cCOLONTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
-		private final RuleCall cLocalTypeParserRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
-		
-		//// Type of a branch. Example: label: L
-		//BranchType:
-		//	label=ID COLON LocalType;
-		public ParserRule getRule() { return rule; }
-
-		//label=ID COLON LocalType
-		public Group getGroup() { return cGroup; }
-
-		//label=ID
-		public Assignment getLabelAssignment_0() { return cLabelAssignment_0; }
-
-		//ID
-		public RuleCall getLabelIDTerminalRuleCall_0_0() { return cLabelIDTerminalRuleCall_0_0; }
-
-		//COLON
-		public RuleCall getCOLONTerminalRuleCall_1() { return cCOLONTerminalRuleCall_1; }
-
-		//LocalType
-		public RuleCall getLocalTypeParserRuleCall_2() { return cLocalTypeParserRuleCall_2; }
-	}
-
 	public class ChoreographyElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Choreography");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cStartParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cInteractionParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cIfThenElseParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		private final Group cGroup_3 = (Group)cAlternatives.eContents().get(3);
-		private final RuleCall cLCURLYTerminalRuleCall_3_0 = (RuleCall)cGroup_3.eContents().get(0);
-		private final RuleCall cChoreographyParserRuleCall_3_1 = (RuleCall)cGroup_3.eContents().get(1);
-		private final RuleCall cRCURLYTerminalRuleCall_3_2 = (RuleCall)cGroup_3.eContents().get(2);
+		private final RuleCall cDelegationParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cCallParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
+		private final RuleCall cIfThenElseParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
+		private final RuleCall cLocalCodeParserRuleCall_5 = (RuleCall)cAlternatives.eContents().get(5);
+		private final Group cGroup_6 = (Group)cAlternatives.eContents().get(6);
+		private final RuleCall cLCURLYTerminalRuleCall_6_0 = (RuleCall)cGroup_6.eContents().get(0);
+		private final RuleCall cChoreographyParserRuleCall_6_1 = (RuleCall)cGroup_6.eContents().get(1);
+		private final RuleCall cRCURLYTerminalRuleCall_6_2 = (RuleCall)cGroup_6.eContents().get(2);
 		
 		/// **
 		// * A choreography.
 		// * TODO: introduce recursion
-		// * / // | End
-		//Choreography:
-		//	Start | Interaction | IfThenElse | LCURLY Choreography RCURLY;
+		// * / Choreography:
+		//	Start | Interaction | Delegation | Call | IfThenElse | LocalCode | LCURLY Choreography RCURLY;
 		public ParserRule getRule() { return rule; }
 
-		//Start | Interaction | IfThenElse | LCURLY Choreography RCURLY
+		//Start | Interaction | Delegation | Call | IfThenElse | LocalCode | LCURLY Choreography RCURLY
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//Start
@@ -662,20 +707,29 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		//Interaction
 		public RuleCall getInteractionParserRuleCall_1() { return cInteractionParserRuleCall_1; }
 
+		//Delegation
+		public RuleCall getDelegationParserRuleCall_2() { return cDelegationParserRuleCall_2; }
+
+		//Call
+		public RuleCall getCallParserRuleCall_3() { return cCallParserRuleCall_3; }
+
 		//IfThenElse
-		public RuleCall getIfThenElseParserRuleCall_2() { return cIfThenElseParserRuleCall_2; }
+		public RuleCall getIfThenElseParserRuleCall_4() { return cIfThenElseParserRuleCall_4; }
+
+		//LocalCode
+		public RuleCall getLocalCodeParserRuleCall_5() { return cLocalCodeParserRuleCall_5; }
 
 		//LCURLY Choreography RCURLY
-		public Group getGroup_3() { return cGroup_3; }
+		public Group getGroup_6() { return cGroup_6; }
 
 		//LCURLY
-		public RuleCall getLCURLYTerminalRuleCall_3_0() { return cLCURLYTerminalRuleCall_3_0; }
+		public RuleCall getLCURLYTerminalRuleCall_6_0() { return cLCURLYTerminalRuleCall_6_0; }
 
 		//Choreography
-		public RuleCall getChoreographyParserRuleCall_3_1() { return cChoreographyParserRuleCall_3_1; }
+		public RuleCall getChoreographyParserRuleCall_6_1() { return cChoreographyParserRuleCall_6_1; }
 
 		//RCURLY
-		public RuleCall getRCURLYTerminalRuleCall_3_2() { return cRCURLYTerminalRuleCall_3_2; }
+		public RuleCall getRCURLYTerminalRuleCall_6_2() { return cRCURLYTerminalRuleCall_6_2; }
 	}
 
 	public class StartElements extends AbstractParserRuleElementFinder {
@@ -688,44 +742,46 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cActiveThreadsAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
 		private final RuleCall cActiveThreadsThreadWithRoleParserRuleCall_1_1_0 = (RuleCall)cActiveThreadsAssignment_1_1.eContents().get(0);
 		private final Keyword cStartKeyword_2 = (Keyword)cGroup.eContents().get(2);
-		private final Assignment cServiceThreadsAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cServiceThreadsThreadWithRoleParserRuleCall_3_0 = (RuleCall)cServiceThreadsAssignment_3.eContents().get(0);
-		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
-		private final RuleCall cCOMMATerminalRuleCall_4_0 = (RuleCall)cGroup_4.eContents().get(0);
-		private final Assignment cServiceThreadsAssignment_4_1 = (Assignment)cGroup_4.eContents().get(1);
-		private final RuleCall cServiceThreadsThreadWithRoleParserRuleCall_4_1_0 = (RuleCall)cServiceThreadsAssignment_4_1.eContents().get(0);
-		private final RuleCall cCOLONTerminalRuleCall_5 = (RuleCall)cGroup.eContents().get(5);
-		private final Assignment cPublicChannelAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final CrossReference cPublicChannelSiteCrossReference_6_0 = (CrossReference)cPublicChannelAssignment_6.eContents().get(0);
-		private final RuleCall cPublicChannelSiteIDTerminalRuleCall_6_0_1 = (RuleCall)cPublicChannelSiteCrossReference_6_0.eContents().get(1);
-		private final RuleCall cLPARENTerminalRuleCall_7 = (RuleCall)cGroup.eContents().get(7);
-		private final Assignment cSessionAssignment_8 = (Assignment)cGroup.eContents().get(8);
-		private final RuleCall cSessionIDTerminalRuleCall_8_0 = (RuleCall)cSessionAssignment_8.eContents().get(0);
-		private final RuleCall cRPARENTerminalRuleCall_9 = (RuleCall)cGroup.eContents().get(9);
-		private final Group cGroup_10 = (Group)cGroup.eContents().get(10);
-		private final RuleCall cSEMICOLONTerminalRuleCall_10_0 = (RuleCall)cGroup_10.eContents().get(0);
-		private final Assignment cContinuationAssignment_10_1 = (Assignment)cGroup_10.eContents().get(1);
-		private final RuleCall cContinuationChoreographyParserRuleCall_10_1_0 = (RuleCall)cContinuationAssignment_10_1.eContents().get(0);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Assignment cServiceThreadsAssignment_3_0 = (Assignment)cGroup_3.eContents().get(0);
+		private final RuleCall cServiceThreadsThreadWithRoleParserRuleCall_3_0_0 = (RuleCall)cServiceThreadsAssignment_3_0.eContents().get(0);
+		private final Group cGroup_3_1 = (Group)cGroup_3.eContents().get(1);
+		private final RuleCall cCOMMATerminalRuleCall_3_1_0 = (RuleCall)cGroup_3_1.eContents().get(0);
+		private final Assignment cServiceThreadsAssignment_3_1_1 = (Assignment)cGroup_3_1.eContents().get(1);
+		private final RuleCall cServiceThreadsThreadWithRoleParserRuleCall_3_1_1_0 = (RuleCall)cServiceThreadsAssignment_3_1_1.eContents().get(0);
+		private final RuleCall cCOLONTerminalRuleCall_4 = (RuleCall)cGroup.eContents().get(4);
+		private final Assignment cPublicChannelAssignment_5 = (Assignment)cGroup.eContents().get(5);
+		private final CrossReference cPublicChannelSiteCrossReference_5_0 = (CrossReference)cPublicChannelAssignment_5.eContents().get(0);
+		private final RuleCall cPublicChannelSiteIDTerminalRuleCall_5_0_1 = (RuleCall)cPublicChannelSiteCrossReference_5_0.eContents().get(1);
+		private final RuleCall cLPARENTerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
+		private final Assignment cSessionAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cSessionIDTerminalRuleCall_7_0 = (RuleCall)cSessionAssignment_7.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_8 = (RuleCall)cGroup.eContents().get(8);
+		private final Group cGroup_9 = (Group)cGroup.eContents().get(9);
+		private final RuleCall cSEMICOLONTerminalRuleCall_9_0 = (RuleCall)cGroup_9.eContents().get(0);
+		private final Assignment cContinuationAssignment_9_1 = (Assignment)cGroup_9.eContents().get(1);
+		private final RuleCall cContinuationChoreographyParserRuleCall_9_1_0 = (RuleCall)cContinuationAssignment_9_1.eContents().get(0);
 		
 		/// **
 		// * Multiparty session start.
 		// * Example: t1[role1],t2[role2] start t3[role3]: a(k)
 		// * / Start: // List of active threads
 		//	activeThreads+=ThreadWithRole (COMMA activeThreads+=ThreadWithRole)* "start" // List of service threads
-		//	serviceThreads+=ThreadWithRole (COMMA serviceThreads+=ThreadWithRole)* COLON // Public channel name
+		//	(serviceThreads+=ThreadWithRole (COMMA serviceThreads+=ThreadWithRole)*)? COLON // Public channel name
 		//	publicChannel=[Site] // Protocol name
 		//	//LSQUARE protocol = ID RSQUARE
 		//	// Private session name
-		//	LPAREN session=ID RPAREN (SEMICOLON continuation=Choreography)?;
+		//	LPAREN session=ID RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+		//;
 		public ParserRule getRule() { return rule; }
 
 		//// List of active threads
 		//activeThreads+=ThreadWithRole (COMMA activeThreads+=ThreadWithRole)* "start" // List of service threads
-		//serviceThreads+=ThreadWithRole (COMMA serviceThreads+=ThreadWithRole)* COLON // Public channel name
+		//(serviceThreads+=ThreadWithRole (COMMA serviceThreads+=ThreadWithRole)*)? COLON // Public channel name
 		//publicChannel=[Site] // Protocol name
 		////LSQUARE protocol = ID RSQUARE
 		//// Private session name
-		//LPAREN session=ID RPAREN (SEMICOLON continuation=Choreography)?
+		//LPAREN session=ID RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
 		public Group getGroup() { return cGroup; }
 
 		//// List of active threads
@@ -750,64 +806,66 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		//"start"
 		public Keyword getStartKeyword_2() { return cStartKeyword_2; }
 
-		//// List of service threads
+		//(serviceThreads+=ThreadWithRole (COMMA serviceThreads+=ThreadWithRole)*)?
+		public Group getGroup_3() { return cGroup_3; }
+
 		//serviceThreads+=ThreadWithRole
-		public Assignment getServiceThreadsAssignment_3() { return cServiceThreadsAssignment_3; }
+		public Assignment getServiceThreadsAssignment_3_0() { return cServiceThreadsAssignment_3_0; }
 
 		//ThreadWithRole
-		public RuleCall getServiceThreadsThreadWithRoleParserRuleCall_3_0() { return cServiceThreadsThreadWithRoleParserRuleCall_3_0; }
+		public RuleCall getServiceThreadsThreadWithRoleParserRuleCall_3_0_0() { return cServiceThreadsThreadWithRoleParserRuleCall_3_0_0; }
 
 		//(COMMA serviceThreads+=ThreadWithRole)*
-		public Group getGroup_4() { return cGroup_4; }
+		public Group getGroup_3_1() { return cGroup_3_1; }
 
 		//COMMA
-		public RuleCall getCOMMATerminalRuleCall_4_0() { return cCOMMATerminalRuleCall_4_0; }
+		public RuleCall getCOMMATerminalRuleCall_3_1_0() { return cCOMMATerminalRuleCall_3_1_0; }
 
 		//serviceThreads+=ThreadWithRole
-		public Assignment getServiceThreadsAssignment_4_1() { return cServiceThreadsAssignment_4_1; }
+		public Assignment getServiceThreadsAssignment_3_1_1() { return cServiceThreadsAssignment_3_1_1; }
 
 		//ThreadWithRole
-		public RuleCall getServiceThreadsThreadWithRoleParserRuleCall_4_1_0() { return cServiceThreadsThreadWithRoleParserRuleCall_4_1_0; }
+		public RuleCall getServiceThreadsThreadWithRoleParserRuleCall_3_1_1_0() { return cServiceThreadsThreadWithRoleParserRuleCall_3_1_1_0; }
 
 		//COLON
-		public RuleCall getCOLONTerminalRuleCall_5() { return cCOLONTerminalRuleCall_5; }
+		public RuleCall getCOLONTerminalRuleCall_4() { return cCOLONTerminalRuleCall_4; }
 
 		//// Public channel name
 		//publicChannel=[Site]
-		public Assignment getPublicChannelAssignment_6() { return cPublicChannelAssignment_6; }
+		public Assignment getPublicChannelAssignment_5() { return cPublicChannelAssignment_5; }
 
 		//[Site]
-		public CrossReference getPublicChannelSiteCrossReference_6_0() { return cPublicChannelSiteCrossReference_6_0; }
+		public CrossReference getPublicChannelSiteCrossReference_5_0() { return cPublicChannelSiteCrossReference_5_0; }
 
 		//ID
-		public RuleCall getPublicChannelSiteIDTerminalRuleCall_6_0_1() { return cPublicChannelSiteIDTerminalRuleCall_6_0_1; }
+		public RuleCall getPublicChannelSiteIDTerminalRuleCall_5_0_1() { return cPublicChannelSiteIDTerminalRuleCall_5_0_1; }
 
 		//// Protocol name
 		////LSQUARE protocol = ID RSQUARE
 		//// Private session name
 		//LPAREN
-		public RuleCall getLPARENTerminalRuleCall_7() { return cLPARENTerminalRuleCall_7; }
+		public RuleCall getLPARENTerminalRuleCall_6() { return cLPARENTerminalRuleCall_6; }
 
 		//session=ID
-		public Assignment getSessionAssignment_8() { return cSessionAssignment_8; }
+		public Assignment getSessionAssignment_7() { return cSessionAssignment_7; }
 
 		//ID
-		public RuleCall getSessionIDTerminalRuleCall_8_0() { return cSessionIDTerminalRuleCall_8_0; }
+		public RuleCall getSessionIDTerminalRuleCall_7_0() { return cSessionIDTerminalRuleCall_7_0; }
 
 		//RPAREN
-		public RuleCall getRPARENTerminalRuleCall_9() { return cRPARENTerminalRuleCall_9; }
+		public RuleCall getRPARENTerminalRuleCall_8() { return cRPARENTerminalRuleCall_8; }
 
 		//(SEMICOLON continuation=Choreography)?
-		public Group getGroup_10() { return cGroup_10; }
+		public Group getGroup_9() { return cGroup_9; }
 
 		//SEMICOLON
-		public RuleCall getSEMICOLONTerminalRuleCall_10_0() { return cSEMICOLONTerminalRuleCall_10_0; }
+		public RuleCall getSEMICOLONTerminalRuleCall_9_0() { return cSEMICOLONTerminalRuleCall_9_0; }
 
 		//continuation=Choreography
-		public Assignment getContinuationAssignment_10_1() { return cContinuationAssignment_10_1; }
+		public Assignment getContinuationAssignment_9_1() { return cContinuationAssignment_9_1; }
 
 		//Choreography
-		public RuleCall getContinuationChoreographyParserRuleCall_10_1_0() { return cContinuationChoreographyParserRuleCall_10_1_0; }
+		public RuleCall getContinuationChoreographyParserRuleCall_9_1_0() { return cContinuationChoreographyParserRuleCall_9_1_0; }
 	}
 
 	public class ThreadWithRoleElements extends AbstractParserRuleElementFinder {
@@ -854,10 +912,8 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSenderIDTerminalRuleCall_0_0 = (RuleCall)cSenderAssignment_0.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final RuleCall cDOTTerminalRuleCall_1_0 = (RuleCall)cGroup_1.eContents().get(0);
-		private final RuleCall cLPARENTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
-		private final Assignment cSenderExpressionAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
-		private final RuleCall cSenderExpressionExpressionParserRuleCall_1_2_0 = (RuleCall)cSenderExpressionAssignment_1_2.eContents().get(0);
-		private final RuleCall cRPARENTerminalRuleCall_1_3 = (RuleCall)cGroup_1.eContents().get(3);
+		private final Assignment cSenderExpressionAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final RuleCall cSenderExpressionExpressionBasicTermParserRuleCall_1_1_0 = (RuleCall)cSenderExpressionAssignment_1_1.eContents().get(0);
 		private final RuleCall cARROWTerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
 		private final Assignment cReceiverAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cReceiverIDTerminalRuleCall_3_0 = (RuleCall)cReceiverAssignment_3.eContents().get(0);
@@ -877,28 +933,24 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cContinuationAssignment_10_1 = (Assignment)cGroup_10.eContents().get(1);
 		private final RuleCall cContinuationChoreographyParserRuleCall_10_1_0 = (RuleCall)cContinuationAssignment_10_1.eContents().get(0);
 		
-		//// End of a choreography.
-		////End: {End} 'end';
 		/// ** 
-		// * Interaction (data communication). Example: t1.(x + 2) -> t2.y : k
-		// * 
-		// * Comment: the syntax is not great now (parentheses around the expression are always
-		// * present), but we will put some sugar on it in a later version. 
+		// * Interaction (data communication). Example: t1.(x + 2) -> t2.y : op(k)
 		// * / Interaction:
 		//	sender= // The sender thread
-		//	ID (DOT LPAREN senderExpression=Expression RPAREN)? // The expression whose evaluation has to be sent
+		//	ID (DOT senderExpression=ExpressionBasicTerm)? // The expression whose evaluation has to be sent
 		//	ARROW receiver= // The receiver thread
 		//	ID (DOT receiverVariable=ID)? // The variable in which the receiver stores the received value
 		//	COLON operation=ID LPAREN session= // The session of the interaction
-		//	ID RPAREN (SEMICOLON continuation=Choreography)?;
+		//	ID RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+		//;
 		public ParserRule getRule() { return rule; }
 
 		//sender= // The sender thread
-		//ID (DOT LPAREN senderExpression=Expression RPAREN)? // The expression whose evaluation has to be sent
+		//ID (DOT senderExpression=ExpressionBasicTerm)? // The expression whose evaluation has to be sent
 		//ARROW receiver= // The receiver thread
 		//ID (DOT receiverVariable=ID)? // The variable in which the receiver stores the received value
 		//COLON operation=ID LPAREN session= // The session of the interaction
-		//ID RPAREN (SEMICOLON continuation=Choreography)?
+		//ID RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
 		public Group getGroup() { return cGroup; }
 
 		//sender= // The sender thread
@@ -909,23 +961,17 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getSenderIDTerminalRuleCall_0_0() { return cSenderIDTerminalRuleCall_0_0; }
 
-		//(DOT LPAREN senderExpression=Expression RPAREN)?
+		//(DOT senderExpression=ExpressionBasicTerm)?
 		public Group getGroup_1() { return cGroup_1; }
 
 		//DOT
 		public RuleCall getDOTTerminalRuleCall_1_0() { return cDOTTerminalRuleCall_1_0; }
 
-		//LPAREN
-		public RuleCall getLPARENTerminalRuleCall_1_1() { return cLPARENTerminalRuleCall_1_1; }
+		//senderExpression=ExpressionBasicTerm
+		public Assignment getSenderExpressionAssignment_1_1() { return cSenderExpressionAssignment_1_1; }
 
-		//senderExpression=Expression
-		public Assignment getSenderExpressionAssignment_1_2() { return cSenderExpressionAssignment_1_2; }
-
-		//Expression
-		public RuleCall getSenderExpressionExpressionParserRuleCall_1_2_0() { return cSenderExpressionExpressionParserRuleCall_1_2_0; }
-
-		//RPAREN
-		public RuleCall getRPARENTerminalRuleCall_1_3() { return cRPARENTerminalRuleCall_1_3; }
+		//ExpressionBasicTerm
+		public RuleCall getSenderExpressionExpressionBasicTermParserRuleCall_1_1_0() { return cSenderExpressionExpressionBasicTermParserRuleCall_1_1_0; }
 
 		//ARROW
 		public RuleCall getARROWTerminalRuleCall_2() { return cARROWTerminalRuleCall_2; }
@@ -984,6 +1030,212 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 
 		//Choreography
 		public RuleCall getContinuationChoreographyParserRuleCall_10_1_0() { return cContinuationChoreographyParserRuleCall_10_1_0; }
+	}
+
+	public class DelegationElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Delegation");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cSenderAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cSenderIDTerminalRuleCall_0_0 = (RuleCall)cSenderAssignment_0.eContents().get(0);
+		private final RuleCall cARROWTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Assignment cReceiverAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cReceiverIDTerminalRuleCall_2_0 = (RuleCall)cReceiverAssignment_2.eContents().get(0);
+		private final RuleCall cCOLONTerminalRuleCall_3 = (RuleCall)cGroup.eContents().get(3);
+		private final Assignment cOperationAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cOperationIDTerminalRuleCall_4_0 = (RuleCall)cOperationAssignment_4.eContents().get(0);
+		private final RuleCall cLPARENTerminalRuleCall_5 = (RuleCall)cGroup.eContents().get(5);
+		private final Assignment cSessionAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cSessionIDTerminalRuleCall_6_0 = (RuleCall)cSessionAssignment_6.eContents().get(0);
+		private final RuleCall cLPARENTerminalRuleCall_7 = (RuleCall)cGroup.eContents().get(7);
+		private final Assignment cDelegatedSessionAssignment_8 = (Assignment)cGroup.eContents().get(8);
+		private final RuleCall cDelegatedSessionIDTerminalRuleCall_8_0 = (RuleCall)cDelegatedSessionAssignment_8.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_9 = (RuleCall)cGroup.eContents().get(9);
+		private final RuleCall cRPARENTerminalRuleCall_10 = (RuleCall)cGroup.eContents().get(10);
+		private final Group cGroup_11 = (Group)cGroup.eContents().get(11);
+		private final RuleCall cSEMICOLONTerminalRuleCall_11_0 = (RuleCall)cGroup_11.eContents().get(0);
+		private final Assignment cContinuationAssignment_11_1 = (Assignment)cGroup_11.eContents().get(1);
+		private final RuleCall cContinuationChoreographyParserRuleCall_11_1_0 = (RuleCall)cContinuationAssignment_11_1.eContents().get(0);
+		
+		/// ** 
+		// * Delegation (session communication). Example: t1 -> t2 : op(k(k'))
+		// * / Delegation:
+		//	sender= // The sender thread
+		//	ID ARROW receiver= // The receiver thread
+		//	ID COLON operation=ID LPAREN session= // The session of the interaction
+		//	ID LPAREN delegatedSession= // The delegated session
+		//	ID RPAREN RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+		//;
+		public ParserRule getRule() { return rule; }
+
+		//sender= // The sender thread
+		//ID ARROW receiver= // The receiver thread
+		//ID COLON operation=ID LPAREN session= // The session of the interaction
+		//ID LPAREN delegatedSession= // The delegated session
+		//ID RPAREN RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+		public Group getGroup() { return cGroup; }
+
+		//sender= // The sender thread
+		//ID
+		public Assignment getSenderAssignment_0() { return cSenderAssignment_0; }
+
+		//// The sender thread
+		//ID
+		public RuleCall getSenderIDTerminalRuleCall_0_0() { return cSenderIDTerminalRuleCall_0_0; }
+
+		//ARROW
+		public RuleCall getARROWTerminalRuleCall_1() { return cARROWTerminalRuleCall_1; }
+
+		//receiver= // The receiver thread
+		//ID
+		public Assignment getReceiverAssignment_2() { return cReceiverAssignment_2; }
+
+		//// The receiver thread
+		//ID
+		public RuleCall getReceiverIDTerminalRuleCall_2_0() { return cReceiverIDTerminalRuleCall_2_0; }
+
+		//COLON
+		public RuleCall getCOLONTerminalRuleCall_3() { return cCOLONTerminalRuleCall_3; }
+
+		//operation=ID
+		public Assignment getOperationAssignment_4() { return cOperationAssignment_4; }
+
+		//ID
+		public RuleCall getOperationIDTerminalRuleCall_4_0() { return cOperationIDTerminalRuleCall_4_0; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_5() { return cLPARENTerminalRuleCall_5; }
+
+		//session= // The session of the interaction
+		//ID
+		public Assignment getSessionAssignment_6() { return cSessionAssignment_6; }
+
+		//// The session of the interaction
+		//ID
+		public RuleCall getSessionIDTerminalRuleCall_6_0() { return cSessionIDTerminalRuleCall_6_0; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_7() { return cLPARENTerminalRuleCall_7; }
+
+		//delegatedSession= // The delegated session
+		//ID
+		public Assignment getDelegatedSessionAssignment_8() { return cDelegatedSessionAssignment_8; }
+
+		//// The delegated session
+		//ID
+		public RuleCall getDelegatedSessionIDTerminalRuleCall_8_0() { return cDelegatedSessionIDTerminalRuleCall_8_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_9() { return cRPARENTerminalRuleCall_9; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_10() { return cRPARENTerminalRuleCall_10; }
+
+		//(SEMICOLON continuation=Choreography)?
+		public Group getGroup_11() { return cGroup_11; }
+
+		//SEMICOLON
+		public RuleCall getSEMICOLONTerminalRuleCall_11_0() { return cSEMICOLONTerminalRuleCall_11_0; }
+
+		//continuation=Choreography
+		public Assignment getContinuationAssignment_11_1() { return cContinuationAssignment_11_1; }
+
+		//Choreography
+		public RuleCall getContinuationChoreographyParserRuleCall_11_1_0() { return cContinuationChoreographyParserRuleCall_11_1_0; }
+	}
+
+	public class CallElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "Call");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cProcedureAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final CrossReference cProcedureProcedureCrossReference_0_0 = (CrossReference)cProcedureAssignment_0.eContents().get(0);
+		private final RuleCall cProcedureProcedureIDTerminalRuleCall_0_0_1 = (RuleCall)cProcedureProcedureCrossReference_0_0.eContents().get(1);
+		private final RuleCall cLPARENTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
+		private final Assignment cThreadsAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cThreadsIDTerminalRuleCall_2_0 = (RuleCall)cThreadsAssignment_2.eContents().get(0);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final RuleCall cCOMMATerminalRuleCall_3_0 = (RuleCall)cGroup_3.eContents().get(0);
+		private final Assignment cThreadsAssignment_3_1 = (Assignment)cGroup_3.eContents().get(1);
+		private final RuleCall cThreadsIDTerminalRuleCall_3_1_0 = (RuleCall)cThreadsAssignment_3_1.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_4 = (RuleCall)cGroup.eContents().get(4);
+		private final RuleCall cLPARENTerminalRuleCall_5 = (RuleCall)cGroup.eContents().get(5);
+		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
+		private final Assignment cSessionsAssignment_6_0 = (Assignment)cGroup_6.eContents().get(0);
+		private final RuleCall cSessionsIDTerminalRuleCall_6_0_0 = (RuleCall)cSessionsAssignment_6_0.eContents().get(0);
+		private final Group cGroup_6_1 = (Group)cGroup_6.eContents().get(1);
+		private final RuleCall cCOMMATerminalRuleCall_6_1_0 = (RuleCall)cGroup_6_1.eContents().get(0);
+		private final Assignment cSessionsAssignment_6_1_1 = (Assignment)cGroup_6_1.eContents().get(1);
+		private final RuleCall cSessionsIDTerminalRuleCall_6_1_1_0 = (RuleCall)cSessionsAssignment_6_1_1.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_7 = (RuleCall)cGroup.eContents().get(7);
+		
+		/// *
+		// * A procedure call, e.g. myProc( thread[Role], thread2[Role2] )( k, k2 )
+		// * / Call:
+		//	procedure=[Procedure] LPAREN threads+=ID (COMMA threads+=ID)* RPAREN LPAREN (sessions+=ID (COMMA sessions+=ID)*)?
+		//	RPAREN;
+		public ParserRule getRule() { return rule; }
+
+		//procedure=[Procedure] LPAREN threads+=ID (COMMA threads+=ID)* RPAREN LPAREN (sessions+=ID (COMMA sessions+=ID)*)? RPAREN
+		public Group getGroup() { return cGroup; }
+
+		//procedure=[Procedure]
+		public Assignment getProcedureAssignment_0() { return cProcedureAssignment_0; }
+
+		//[Procedure]
+		public CrossReference getProcedureProcedureCrossReference_0_0() { return cProcedureProcedureCrossReference_0_0; }
+
+		//ID
+		public RuleCall getProcedureProcedureIDTerminalRuleCall_0_0_1() { return cProcedureProcedureIDTerminalRuleCall_0_0_1; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_1() { return cLPARENTerminalRuleCall_1; }
+
+		//threads+=ID
+		public Assignment getThreadsAssignment_2() { return cThreadsAssignment_2; }
+
+		//ID
+		public RuleCall getThreadsIDTerminalRuleCall_2_0() { return cThreadsIDTerminalRuleCall_2_0; }
+
+		//(COMMA threads+=ID)*
+		public Group getGroup_3() { return cGroup_3; }
+
+		//COMMA
+		public RuleCall getCOMMATerminalRuleCall_3_0() { return cCOMMATerminalRuleCall_3_0; }
+
+		//threads+=ID
+		public Assignment getThreadsAssignment_3_1() { return cThreadsAssignment_3_1; }
+
+		//ID
+		public RuleCall getThreadsIDTerminalRuleCall_3_1_0() { return cThreadsIDTerminalRuleCall_3_1_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_4() { return cRPARENTerminalRuleCall_4; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_5() { return cLPARENTerminalRuleCall_5; }
+
+		//(sessions+=ID (COMMA sessions+=ID)*)?
+		public Group getGroup_6() { return cGroup_6; }
+
+		//sessions+=ID
+		public Assignment getSessionsAssignment_6_0() { return cSessionsAssignment_6_0; }
+
+		//ID
+		public RuleCall getSessionsIDTerminalRuleCall_6_0_0() { return cSessionsIDTerminalRuleCall_6_0_0; }
+
+		//(COMMA sessions+=ID)*
+		public Group getGroup_6_1() { return cGroup_6_1; }
+
+		//COMMA
+		public RuleCall getCOMMATerminalRuleCall_6_1_0() { return cCOMMATerminalRuleCall_6_1_0; }
+
+		//sessions+=ID
+		public Assignment getSessionsAssignment_6_1_1() { return cSessionsAssignment_6_1_1; }
+
+		//ID
+		public RuleCall getSessionsIDTerminalRuleCall_6_1_1_0() { return cSessionsIDTerminalRuleCall_6_1_1_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_7() { return cRPARENTerminalRuleCall_7; }
 	}
 
 	public class IfThenElseElements extends AbstractParserRuleElementFinder {
@@ -1054,6 +1306,231 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 
 		//Choreography
 		public RuleCall getElseChoreographyParserRuleCall_7_1_0() { return cElseChoreographyParserRuleCall_7_1_0; }
+	}
+
+	public class LocalCodeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "LocalCode");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
+		private final Action cLocalAskCommandAction_0_0 = (Action)cGroup_0.eContents().get(0);
+		private final Keyword cAskKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
+		private final RuleCall cATTerminalRuleCall_0_2 = (RuleCall)cGroup_0.eContents().get(2);
+		private final Assignment cThreadAssignment_0_3 = (Assignment)cGroup_0.eContents().get(3);
+		private final RuleCall cThreadIDTerminalRuleCall_0_3_0 = (RuleCall)cThreadAssignment_0_3.eContents().get(0);
+		private final RuleCall cLPARENTerminalRuleCall_0_4 = (RuleCall)cGroup_0.eContents().get(4);
+		private final Assignment cQuestionAssignment_0_5 = (Assignment)cGroup_0.eContents().get(5);
+		private final RuleCall cQuestionExpressionParserRuleCall_0_5_0 = (RuleCall)cQuestionAssignment_0_5.eContents().get(0);
+		private final RuleCall cCOMMATerminalRuleCall_0_6 = (RuleCall)cGroup_0.eContents().get(6);
+		private final Assignment cResultVariableAssignment_0_7 = (Assignment)cGroup_0.eContents().get(7);
+		private final RuleCall cResultVariableIDTerminalRuleCall_0_7_0 = (RuleCall)cResultVariableAssignment_0_7.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_0_8 = (RuleCall)cGroup_0.eContents().get(8);
+		private final Group cGroup_0_9 = (Group)cGroup_0.eContents().get(9);
+		private final RuleCall cSEMICOLONTerminalRuleCall_0_9_0 = (RuleCall)cGroup_0_9.eContents().get(0);
+		private final Assignment cContinuationAssignment_0_9_1 = (Assignment)cGroup_0_9.eContents().get(1);
+		private final RuleCall cContinuationChoreographyParserRuleCall_0_9_1_0 = (RuleCall)cContinuationAssignment_0_9_1.eContents().get(0);
+		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
+		private final Action cLocalShowCommandAction_1_0 = (Action)cGroup_1.eContents().get(0);
+		private final Keyword cShowKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final RuleCall cATTerminalRuleCall_1_2 = (RuleCall)cGroup_1.eContents().get(2);
+		private final Assignment cThreadAssignment_1_3 = (Assignment)cGroup_1.eContents().get(3);
+		private final RuleCall cThreadIDTerminalRuleCall_1_3_0 = (RuleCall)cThreadAssignment_1_3.eContents().get(0);
+		private final RuleCall cLPARENTerminalRuleCall_1_4 = (RuleCall)cGroup_1.eContents().get(4);
+		private final Assignment cExpressionAssignment_1_5 = (Assignment)cGroup_1.eContents().get(5);
+		private final RuleCall cExpressionExpressionParserRuleCall_1_5_0 = (RuleCall)cExpressionAssignment_1_5.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_1_6 = (RuleCall)cGroup_1.eContents().get(6);
+		private final Group cGroup_1_7 = (Group)cGroup_1.eContents().get(7);
+		private final RuleCall cSEMICOLONTerminalRuleCall_1_7_0 = (RuleCall)cGroup_1_7.eContents().get(0);
+		private final Assignment cContinuationAssignment_1_7_1 = (Assignment)cGroup_1_7.eContents().get(1);
+		private final RuleCall cContinuationChoreographyParserRuleCall_1_7_1_0 = (RuleCall)cContinuationAssignment_1_7_1.eContents().get(0);
+		private final Group cGroup_2 = (Group)cAlternatives.eContents().get(2);
+		private final Action cLocalAssignmentCommandAction_2_0 = (Action)cGroup_2.eContents().get(0);
+		private final Keyword cLocalKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
+		private final RuleCall cATTerminalRuleCall_2_2 = (RuleCall)cGroup_2.eContents().get(2);
+		private final Assignment cThreadAssignment_2_3 = (Assignment)cGroup_2.eContents().get(3);
+		private final RuleCall cThreadIDTerminalRuleCall_2_3_0 = (RuleCall)cThreadAssignment_2_3.eContents().get(0);
+		private final RuleCall cLPARENTerminalRuleCall_2_4 = (RuleCall)cGroup_2.eContents().get(4);
+		private final Assignment cVariableAssignment_2_5 = (Assignment)cGroup_2.eContents().get(5);
+		private final RuleCall cVariableIDTerminalRuleCall_2_5_0 = (RuleCall)cVariableAssignment_2_5.eContents().get(0);
+		private final RuleCall cASSIGNTerminalRuleCall_2_6 = (RuleCall)cGroup_2.eContents().get(6);
+		private final Assignment cExpressionAssignment_2_7 = (Assignment)cGroup_2.eContents().get(7);
+		private final RuleCall cExpressionExpressionParserRuleCall_2_7_0 = (RuleCall)cExpressionAssignment_2_7.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_2_8 = (RuleCall)cGroup_2.eContents().get(8);
+		private final Group cGroup_2_9 = (Group)cGroup_2.eContents().get(9);
+		private final RuleCall cSEMICOLONTerminalRuleCall_2_9_0 = (RuleCall)cGroup_2_9.eContents().get(0);
+		private final Assignment cContinuationAssignment_2_9_1 = (Assignment)cGroup_2_9.eContents().get(1);
+		private final RuleCall cContinuationChoreographyParserRuleCall_2_9_1_0 = (RuleCall)cContinuationAssignment_2_9_1.eContents().get(0);
+		
+		//// Local thread code
+		//LocalCode: // Ask a question to the user, e.g. ask@thr(question,result)
+		//	{LocalAskCommand} "ask" AT thread=ID LPAREN question=Expression COMMA resultVariable=ID RPAREN (SEMICOLON
+		//	continuation=Choreography)? | // Show some text, e.g. show@thr("Hello, world!")
+		//	{LocalShowCommand} "show" AT thread=ID LPAREN expression=Expression RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+		//	| // Make an internal state assignment
+		//	{LocalAssignmentCommand} "local" AT thread=ID LPAREN variable=ID ASSIGN expression=Expression RPAREN (SEMICOLON
+		//	continuation=Choreography)? // Optional continuation
+		//;
+		public ParserRule getRule() { return rule; }
+
+		//// Ask a question to the user, e.g. ask@thr(question,result)
+		//{LocalAskCommand} "ask" AT thread=ID LPAREN question=Expression COMMA resultVariable=ID RPAREN (SEMICOLON
+		//continuation=Choreography)? | // Show some text, e.g. show@thr("Hello, world!")
+		//{LocalShowCommand} "show" AT thread=ID LPAREN expression=Expression RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+		//| // Make an internal state assignment
+		//{LocalAssignmentCommand} "local" AT thread=ID LPAREN variable=ID ASSIGN expression=Expression RPAREN (SEMICOLON
+		//continuation=Choreography)? // Optional continuation
+		public Alternatives getAlternatives() { return cAlternatives; }
+
+		//// Ask a question to the user, e.g. ask@thr(question,result)
+		//{LocalAskCommand} "ask" AT thread=ID LPAREN question=Expression COMMA resultVariable=ID RPAREN (SEMICOLON
+		//continuation=Choreography)?
+		public Group getGroup_0() { return cGroup_0; }
+
+		//// Ask a question to the user, e.g. ask@thr(question,result)
+		//{LocalAskCommand}
+		public Action getLocalAskCommandAction_0_0() { return cLocalAskCommandAction_0_0; }
+
+		//"ask"
+		public Keyword getAskKeyword_0_1() { return cAskKeyword_0_1; }
+
+		//AT
+		public RuleCall getATTerminalRuleCall_0_2() { return cATTerminalRuleCall_0_2; }
+
+		//thread=ID
+		public Assignment getThreadAssignment_0_3() { return cThreadAssignment_0_3; }
+
+		//ID
+		public RuleCall getThreadIDTerminalRuleCall_0_3_0() { return cThreadIDTerminalRuleCall_0_3_0; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_0_4() { return cLPARENTerminalRuleCall_0_4; }
+
+		//question=Expression
+		public Assignment getQuestionAssignment_0_5() { return cQuestionAssignment_0_5; }
+
+		//Expression
+		public RuleCall getQuestionExpressionParserRuleCall_0_5_0() { return cQuestionExpressionParserRuleCall_0_5_0; }
+
+		//COMMA
+		public RuleCall getCOMMATerminalRuleCall_0_6() { return cCOMMATerminalRuleCall_0_6; }
+
+		//resultVariable=ID
+		public Assignment getResultVariableAssignment_0_7() { return cResultVariableAssignment_0_7; }
+
+		//ID
+		public RuleCall getResultVariableIDTerminalRuleCall_0_7_0() { return cResultVariableIDTerminalRuleCall_0_7_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_0_8() { return cRPARENTerminalRuleCall_0_8; }
+
+		//(SEMICOLON continuation=Choreography)?
+		public Group getGroup_0_9() { return cGroup_0_9; }
+
+		//SEMICOLON
+		public RuleCall getSEMICOLONTerminalRuleCall_0_9_0() { return cSEMICOLONTerminalRuleCall_0_9_0; }
+
+		//continuation=Choreography
+		public Assignment getContinuationAssignment_0_9_1() { return cContinuationAssignment_0_9_1; }
+
+		//Choreography
+		public RuleCall getContinuationChoreographyParserRuleCall_0_9_1_0() { return cContinuationChoreographyParserRuleCall_0_9_1_0; }
+
+		//// Show some text, e.g. show@thr("Hello, world!")
+		//{LocalShowCommand} "show" AT thread=ID LPAREN expression=Expression RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+		public Group getGroup_1() { return cGroup_1; }
+
+		//// Show some text, e.g. show@thr("Hello, world!")
+		//{LocalShowCommand}
+		public Action getLocalShowCommandAction_1_0() { return cLocalShowCommandAction_1_0; }
+
+		//"show"
+		public Keyword getShowKeyword_1_1() { return cShowKeyword_1_1; }
+
+		//AT
+		public RuleCall getATTerminalRuleCall_1_2() { return cATTerminalRuleCall_1_2; }
+
+		//thread=ID
+		public Assignment getThreadAssignment_1_3() { return cThreadAssignment_1_3; }
+
+		//ID
+		public RuleCall getThreadIDTerminalRuleCall_1_3_0() { return cThreadIDTerminalRuleCall_1_3_0; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_1_4() { return cLPARENTerminalRuleCall_1_4; }
+
+		//expression=Expression
+		public Assignment getExpressionAssignment_1_5() { return cExpressionAssignment_1_5; }
+
+		//Expression
+		public RuleCall getExpressionExpressionParserRuleCall_1_5_0() { return cExpressionExpressionParserRuleCall_1_5_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_1_6() { return cRPARENTerminalRuleCall_1_6; }
+
+		//(SEMICOLON continuation=Choreography)?
+		public Group getGroup_1_7() { return cGroup_1_7; }
+
+		//SEMICOLON
+		public RuleCall getSEMICOLONTerminalRuleCall_1_7_0() { return cSEMICOLONTerminalRuleCall_1_7_0; }
+
+		//continuation=Choreography
+		public Assignment getContinuationAssignment_1_7_1() { return cContinuationAssignment_1_7_1; }
+
+		//Choreography
+		public RuleCall getContinuationChoreographyParserRuleCall_1_7_1_0() { return cContinuationChoreographyParserRuleCall_1_7_1_0; }
+
+		//// Make an internal state assignment
+		//{LocalAssignmentCommand} "local" AT thread=ID LPAREN variable=ID ASSIGN expression=Expression RPAREN (SEMICOLON
+		//continuation=Choreography)? // Optional continuation
+		public Group getGroup_2() { return cGroup_2; }
+
+		//// Make an internal state assignment
+		//{LocalAssignmentCommand}
+		public Action getLocalAssignmentCommandAction_2_0() { return cLocalAssignmentCommandAction_2_0; }
+
+		//"local"
+		public Keyword getLocalKeyword_2_1() { return cLocalKeyword_2_1; }
+
+		//AT
+		public RuleCall getATTerminalRuleCall_2_2() { return cATTerminalRuleCall_2_2; }
+
+		//thread=ID
+		public Assignment getThreadAssignment_2_3() { return cThreadAssignment_2_3; }
+
+		//ID
+		public RuleCall getThreadIDTerminalRuleCall_2_3_0() { return cThreadIDTerminalRuleCall_2_3_0; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_2_4() { return cLPARENTerminalRuleCall_2_4; }
+
+		//variable=ID
+		public Assignment getVariableAssignment_2_5() { return cVariableAssignment_2_5; }
+
+		//ID
+		public RuleCall getVariableIDTerminalRuleCall_2_5_0() { return cVariableIDTerminalRuleCall_2_5_0; }
+
+		//ASSIGN
+		public RuleCall getASSIGNTerminalRuleCall_2_6() { return cASSIGNTerminalRuleCall_2_6; }
+
+		//expression=Expression
+		public Assignment getExpressionAssignment_2_7() { return cExpressionAssignment_2_7; }
+
+		//Expression
+		public RuleCall getExpressionExpressionParserRuleCall_2_7_0() { return cExpressionExpressionParserRuleCall_2_7_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_2_8() { return cRPARENTerminalRuleCall_2_8; }
+
+		//(SEMICOLON continuation=Choreography)?
+		public Group getGroup_2_9() { return cGroup_2_9; }
+
+		//SEMICOLON
+		public RuleCall getSEMICOLONTerminalRuleCall_2_9_0() { return cSEMICOLONTerminalRuleCall_2_9_0; }
+
+		//continuation=Choreography
+		public Assignment getContinuationAssignment_2_9_1() { return cContinuationAssignment_2_9_1; }
+
+		//Choreography
+		public RuleCall getContinuationChoreographyParserRuleCall_2_9_1_0() { return cContinuationChoreographyParserRuleCall_2_9_1_0; }
 	}
 
 	public class ExpressionElements extends AbstractParserRuleElementFinder {
@@ -1161,12 +1638,17 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cVariableIDTerminalRuleCall_0_0 = (RuleCall)cVariableAssignment_0.eContents().get(0);
 		private final Assignment cConstantAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
 		private final RuleCall cConstantConstantParserRuleCall_1_0 = (RuleCall)cConstantAssignment_1.eContents().get(0);
+		private final Group cGroup_2 = (Group)cAlternatives.eContents().get(2);
+		private final RuleCall cLPARENTerminalRuleCall_2_0 = (RuleCall)cGroup_2.eContents().get(0);
+		private final Assignment cExpressionAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
+		private final RuleCall cExpressionExpressionParserRuleCall_2_1_0 = (RuleCall)cExpressionAssignment_2_1.eContents().get(0);
+		private final RuleCall cRPARENTerminalRuleCall_2_2 = (RuleCall)cGroup_2.eContents().get(2);
 		
 		//ExpressionBasicTerm:
-		//	variable=ID | constant=Constant;
+		//	variable=ID | constant=Constant | LPAREN expression=Expression RPAREN;
 		public ParserRule getRule() { return rule; }
 
-		//variable=ID | constant=Constant
+		//variable=ID | constant=Constant | LPAREN expression=Expression RPAREN
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//variable=ID
@@ -1180,6 +1662,21 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 
 		//Constant
 		public RuleCall getConstantConstantParserRuleCall_1_0() { return cConstantConstantParserRuleCall_1_0; }
+
+		//LPAREN expression=Expression RPAREN
+		public Group getGroup_2() { return cGroup_2; }
+
+		//LPAREN
+		public RuleCall getLPARENTerminalRuleCall_2_0() { return cLPARENTerminalRuleCall_2_0; }
+
+		//expression=Expression
+		public Assignment getExpressionAssignment_2_1() { return cExpressionAssignment_2_1; }
+
+		//Expression
+		public RuleCall getExpressionExpressionParserRuleCall_2_1_0() { return cExpressionExpressionParserRuleCall_2_1_0; }
+
+		//RPAREN
+		public RuleCall getRPARENTerminalRuleCall_2_2() { return cRPARENTerminalRuleCall_2_2; }
 	}
 
 	public class ConstantElements extends AbstractParserRuleElementFinder {
@@ -1266,47 +1763,69 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 	public class ConditionOperatorElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "ConditionOperator");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cLESSTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cEQUALTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cGREATERTerminalRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		private final RuleCall cNOT_EQUALTerminalRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
+		private final Assignment cLessAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
+		private final RuleCall cLessLESSTerminalRuleCall_0_0 = (RuleCall)cLessAssignment_0.eContents().get(0);
+		private final Assignment cEqualAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cEqualEQUALTerminalRuleCall_1_0 = (RuleCall)cEqualAssignment_1.eContents().get(0);
+		private final Assignment cGreaterAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
+		private final RuleCall cGreaterGREATERTerminalRuleCall_2_0 = (RuleCall)cGreaterAssignment_2.eContents().get(0);
+		private final Assignment cNot_equalAssignment_3 = (Assignment)cAlternatives.eContents().get(3);
+		private final RuleCall cNot_equalNOT_EQUALTerminalRuleCall_3_0 = (RuleCall)cNot_equalAssignment_3.eContents().get(0);
 		
 		//ConditionOperator:
-		//	LESS | EQUAL | GREATER | NOT_EQUAL;
+		//	less?=LESS | equal?=EQUAL | greater?=GREATER | not_equal?=NOT_EQUAL;
 		public ParserRule getRule() { return rule; }
 
-		//LESS | EQUAL | GREATER | NOT_EQUAL
+		//less?=LESS | equal?=EQUAL | greater?=GREATER | not_equal?=NOT_EQUAL
 		public Alternatives getAlternatives() { return cAlternatives; }
 
+		//less?=LESS
+		public Assignment getLessAssignment_0() { return cLessAssignment_0; }
+
 		//LESS
-		public RuleCall getLESSTerminalRuleCall_0() { return cLESSTerminalRuleCall_0; }
+		public RuleCall getLessLESSTerminalRuleCall_0_0() { return cLessLESSTerminalRuleCall_0_0; }
+
+		//equal?=EQUAL
+		public Assignment getEqualAssignment_1() { return cEqualAssignment_1; }
 
 		//EQUAL
-		public RuleCall getEQUALTerminalRuleCall_1() { return cEQUALTerminalRuleCall_1; }
+		public RuleCall getEqualEQUALTerminalRuleCall_1_0() { return cEqualEQUALTerminalRuleCall_1_0; }
+
+		//greater?=GREATER
+		public Assignment getGreaterAssignment_2() { return cGreaterAssignment_2; }
 
 		//GREATER
-		public RuleCall getGREATERTerminalRuleCall_2() { return cGREATERTerminalRuleCall_2; }
+		public RuleCall getGreaterGREATERTerminalRuleCall_2_0() { return cGreaterGREATERTerminalRuleCall_2_0; }
+
+		//not_equal?=NOT_EQUAL
+		public Assignment getNot_equalAssignment_3() { return cNot_equalAssignment_3; }
 
 		//NOT_EQUAL
-		public RuleCall getNOT_EQUALTerminalRuleCall_3() { return cNOT_EQUALTerminalRuleCall_3; }
+		public RuleCall getNot_equalNOT_EQUALTerminalRuleCall_3_0() { return cNot_equalNOT_EQUALTerminalRuleCall_3_0; }
 	}
 	
 	
 	private ProgramElements pProgram;
 	private PreambleElements pPreamble;
+	private ProcedureElements pProcedure;
+	private SessionProcedureParameterElements pSessionProcedureParameter;
 	private ProtocolElements pProtocol;
 	private SiteElements pSite;
 	private GlobalTypeElements pGlobalType;
+	private GlobalTypeInteractionElements pGlobalTypeInteraction;
+	private GlobalTypeCallElements pGlobalTypeCall;
 	private BranchGTypeElements pBranchGType;
 	private DataTypeElements pDataType;
+	private DelegationTypeElements pDelegationType;
 	private BasicTypeElements pBasicType;
-	private LocalTypeElements pLocalType;
-	private BranchTypeElements pBranchType;
 	private ChoreographyElements pChoreography;
 	private StartElements pStart;
 	private ThreadWithRoleElements pThreadWithRole;
 	private InteractionElements pInteraction;
+	private DelegationElements pDelegation;
+	private CallElements pCall;
 	private IfThenElseElements pIfThenElse;
+	private LocalCodeElements pLocalCode;
 	private ExpressionElements pExpression;
 	private SumExpressionElements pSumExpression;
 	private SumExpressionTermElements pSumExpressionTerm;
@@ -1362,7 +1881,7 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 	
 	//// Main nonterminal
 	//Program:
-	//	"program" name=ID SEMICOLON preamble=Preamble "main" LCURLY choreography=Choreography RCURLY;
+	//	"program" name=ID SEMICOLON preamble=Preamble procedures+=Procedure* "main" LCURLY choreography=Choreography RCURLY;
 	public ProgramElements getProgramAccess() {
 		return (pProgram != null) ? pProgram : (pProgram = new ProgramElements());
 	}
@@ -1384,6 +1903,30 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		return getPreambleAccess().getRule();
 	}
 
+	//// Procedure definition, e.g. define myProcedure( thread )( k: protocol ) { Choreography }
+	//Procedure:
+	//	"define" name=ID LPAREN threadParameters+=ID (COMMA threadParameters+=ID)* RPAREN LPAREN
+	//	(sessionParameters+=SessionProcedureParameter (COMMA sessionParameters+=SessionProcedureParameter)*)? RPAREN LCURLY
+	//	choreography=Choreography RCURLY;
+	public ProcedureElements getProcedureAccess() {
+		return (pProcedure != null) ? pProcedure : (pProcedure = new ProcedureElements());
+	}
+	
+	public ParserRule getProcedureRule() {
+		return getProcedureAccess().getRule();
+	}
+
+	//SessionProcedureParameter:
+	//	session=ID LSQUARE type=GlobalTypeCall COLON activeThreads+=ThreadWithRole (COMMA activeThreads+=ThreadWithRole)*
+	//	RSQUARE;
+	public SessionProcedureParameterElements getSessionProcedureParameterAccess() {
+		return (pSessionProcedureParameter != null) ? pSessionProcedureParameter : (pSessionProcedureParameter = new SessionProcedureParameterElements());
+	}
+	
+	public ParserRule getSessionProcedureParameterRule() {
+		return getSessionProcedureParameterAccess().getRule();
+	}
+
 	//// Definition of a protocol, associating a name to a multiparty behavioural type.
 	//Protocol:
 	//	"protocol" name=ID LCURLY type=GlobalType RCURLY;
@@ -1397,7 +1940,7 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 
 	//// Definition of a site, associating a public channel name to a protocol.
 	//Site:
-	//	"site" name=ID COLON protocol=[Protocol];
+	//	"public" name=ID COLON protocol=[Protocol];
 	public SiteElements getSiteAccess() {
 		return (pSite != null) ? pSite : (pSite = new SiteElements());
 	}
@@ -1406,10 +1949,11 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		return getSiteAccess().getRule();
 	}
 
-	//// Multiparty behavioural type, also denoted with G in comments for brevity (referring to the theoretical papers).
-	//GlobalType: // Interaction. Example: A -> B: op(string); G
-	//	sender=ID ARROW receiver=ID COLON (branches+=BranchGType | LCURLY branches+=BranchGType (COMMA branches+=BranchGType)*
-	//	RCURLY);
+	/// * 
+	// * Multiparty behavioural type, or global type.
+	// * Also denoted by G in the comments, for brevity (referring to the theoretical papers).
+	// * / GlobalType:
+	//	GlobalTypeInteraction | GlobalTypeCall;
 	public GlobalTypeElements getGlobalTypeAccess() {
 		return (pGlobalType != null) ? pGlobalType : (pGlobalType = new GlobalTypeElements());
 	}
@@ -1418,7 +1962,30 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		return getGlobalTypeAccess().getRule();
 	}
 
-	//// Type of a branch. Example: label: G
+	//// Interaction. Example: A -> B: op(string); G
+	//GlobalTypeInteraction:
+	//	sender=ID ARROW receiver=ID COLON (branches+=BranchGType | LCURLY branches+=BranchGType (COMMA branches+=BranchGType)*
+	//	RCURLY);
+	public GlobalTypeInteractionElements getGlobalTypeInteractionAccess() {
+		return (pGlobalTypeInteraction != null) ? pGlobalTypeInteraction : (pGlobalTypeInteraction = new GlobalTypeInteractionElements());
+	}
+	
+	public ParserRule getGlobalTypeInteractionRule() {
+		return getGlobalTypeInteractionAccess().getRule();
+	}
+
+	//// Protocol call
+	//GlobalTypeCall:
+	//	protocol=[Protocol];
+	public GlobalTypeCallElements getGlobalTypeCallAccess() {
+		return (pGlobalTypeCall != null) ? pGlobalTypeCall : (pGlobalTypeCall = new GlobalTypeCallElements());
+	}
+	
+	public ParserRule getGlobalTypeCallRule() {
+		return getGlobalTypeCallAccess().getRule();
+	}
+
+	//// Type of a branch. Example: op(DataType); G
 	//BranchGType:
 	//	operation=ID LPAREN dataType=DataType RPAREN (SEMICOLON continuation=GlobalType)?;
 	public BranchGTypeElements getBranchGTypeAccess() {
@@ -1431,13 +1998,24 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 
 	//// Data types. 
 	//DataType:
-	//	BasicType | LocalType;
+	//	BasicType | DelegationType;
 	public DataTypeElements getDataTypeAccess() {
 		return (pDataType != null) ? pDataType : (pDataType = new DataTypeElements());
 	}
 	
 	public ParserRule getDataTypeRule() {
 		return getDataTypeAccess().getRule();
+	}
+
+	//// Type for a carried delegated session
+	//DelegationType:
+	//	type=GlobalTypeCall AT role=ID;
+	public DelegationTypeElements getDelegationTypeAccess() {
+		return (pDelegationType != null) ? pDelegationType : (pDelegationType = new DelegationTypeElements());
+	}
+	
+	public ParserRule getDelegationTypeRule() {
+		return getDelegationTypeAccess().getRule();
 	}
 
 	//// Basic types. Example: int
@@ -1451,40 +2029,11 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		return getBasicTypeAccess().getRule();
 	}
 
-	//// Local types. 
-	////	|
-	//// End
-	////	{EndType} 'end'
-	//LocalType:
-	//	{OutputType} BANG LPAREN datatype=DataType RPAREN SEMICOLON continuation=LocalType | {InputType} QUESTION_MARK LPAREN
-	//	datatype=DataType RPAREN SEMICOLON continuation=LocalType | {BranchingType} QUESTION_MARK LCURLY branches+=BranchType
-	//	(COMMA branches+=BranchType)* RCURLY | {SelectionType} BANG LCURLY branches+=BranchType (COMMA branches+=BranchType)*
-	//	RCURLY;
-	public LocalTypeElements getLocalTypeAccess() {
-		return (pLocalType != null) ? pLocalType : (pLocalType = new LocalTypeElements());
-	}
-	
-	public ParserRule getLocalTypeRule() {
-		return getLocalTypeAccess().getRule();
-	}
-
-	//// Type of a branch. Example: label: L
-	//BranchType:
-	//	label=ID COLON LocalType;
-	public BranchTypeElements getBranchTypeAccess() {
-		return (pBranchType != null) ? pBranchType : (pBranchType = new BranchTypeElements());
-	}
-	
-	public ParserRule getBranchTypeRule() {
-		return getBranchTypeAccess().getRule();
-	}
-
 	/// **
 	// * A choreography.
 	// * TODO: introduce recursion
-	// * / // | End
-	//Choreography:
-	//	Start | Interaction | IfThenElse | LCURLY Choreography RCURLY;
+	// * / Choreography:
+	//	Start | Interaction | Delegation | Call | IfThenElse | LocalCode | LCURLY Choreography RCURLY;
 	public ChoreographyElements getChoreographyAccess() {
 		return (pChoreography != null) ? pChoreography : (pChoreography = new ChoreographyElements());
 	}
@@ -1498,11 +2047,12 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 	// * Example: t1[role1],t2[role2] start t3[role3]: a(k)
 	// * / Start: // List of active threads
 	//	activeThreads+=ThreadWithRole (COMMA activeThreads+=ThreadWithRole)* "start" // List of service threads
-	//	serviceThreads+=ThreadWithRole (COMMA serviceThreads+=ThreadWithRole)* COLON // Public channel name
+	//	(serviceThreads+=ThreadWithRole (COMMA serviceThreads+=ThreadWithRole)*)? COLON // Public channel name
 	//	publicChannel=[Site] // Protocol name
 	//	//LSQUARE protocol = ID RSQUARE
 	//	// Private session name
-	//	LPAREN session=ID RPAREN (SEMICOLON continuation=Choreography)?;
+	//	LPAREN session=ID RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+	//;
 	public StartElements getStartAccess() {
 		return (pStart != null) ? pStart : (pStart = new StartElements());
 	}
@@ -1522,26 +2072,52 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		return getThreadWithRoleAccess().getRule();
 	}
 
-	//// End of a choreography.
-	////End: {End} 'end';
 	/// ** 
-	// * Interaction (data communication). Example: t1.(x + 2) -> t2.y : k
-	// * 
-	// * Comment: the syntax is not great now (parentheses around the expression are always
-	// * present), but we will put some sugar on it in a later version. 
+	// * Interaction (data communication). Example: t1.(x + 2) -> t2.y : op(k)
 	// * / Interaction:
 	//	sender= // The sender thread
-	//	ID (DOT LPAREN senderExpression=Expression RPAREN)? // The expression whose evaluation has to be sent
+	//	ID (DOT senderExpression=ExpressionBasicTerm)? // The expression whose evaluation has to be sent
 	//	ARROW receiver= // The receiver thread
 	//	ID (DOT receiverVariable=ID)? // The variable in which the receiver stores the received value
 	//	COLON operation=ID LPAREN session= // The session of the interaction
-	//	ID RPAREN (SEMICOLON continuation=Choreography)?;
+	//	ID RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+	//;
 	public InteractionElements getInteractionAccess() {
 		return (pInteraction != null) ? pInteraction : (pInteraction = new InteractionElements());
 	}
 	
 	public ParserRule getInteractionRule() {
 		return getInteractionAccess().getRule();
+	}
+
+	/// ** 
+	// * Delegation (session communication). Example: t1 -> t2 : op(k(k'))
+	// * / Delegation:
+	//	sender= // The sender thread
+	//	ID ARROW receiver= // The receiver thread
+	//	ID COLON operation=ID LPAREN session= // The session of the interaction
+	//	ID LPAREN delegatedSession= // The delegated session
+	//	ID RPAREN RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+	//;
+	public DelegationElements getDelegationAccess() {
+		return (pDelegation != null) ? pDelegation : (pDelegation = new DelegationElements());
+	}
+	
+	public ParserRule getDelegationRule() {
+		return getDelegationAccess().getRule();
+	}
+
+	/// *
+	// * A procedure call, e.g. myProc( thread[Role], thread2[Role2] )( k, k2 )
+	// * / Call:
+	//	procedure=[Procedure] LPAREN threads+=ID (COMMA threads+=ID)* RPAREN LPAREN (sessions+=ID (COMMA sessions+=ID)*)?
+	//	RPAREN;
+	public CallElements getCallAccess() {
+		return (pCall != null) ? pCall : (pCall = new CallElements());
+	}
+	
+	public ParserRule getCallRule() {
+		return getCallAccess().getRule();
 	}
 
 	/// **
@@ -1554,6 +2130,23 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getIfThenElseRule() {
 		return getIfThenElseAccess().getRule();
+	}
+
+	//// Local thread code
+	//LocalCode: // Ask a question to the user, e.g. ask@thr(question,result)
+	//	{LocalAskCommand} "ask" AT thread=ID LPAREN question=Expression COMMA resultVariable=ID RPAREN (SEMICOLON
+	//	continuation=Choreography)? | // Show some text, e.g. show@thr("Hello, world!")
+	//	{LocalShowCommand} "show" AT thread=ID LPAREN expression=Expression RPAREN (SEMICOLON continuation=Choreography)? // Optional continuation
+	//	| // Make an internal state assignment
+	//	{LocalAssignmentCommand} "local" AT thread=ID LPAREN variable=ID ASSIGN expression=Expression RPAREN (SEMICOLON
+	//	continuation=Choreography)? // Optional continuation
+	//;
+	public LocalCodeElements getLocalCodeAccess() {
+		return (pLocalCode != null) ? pLocalCode : (pLocalCode = new LocalCodeElements());
+	}
+	
+	public ParserRule getLocalCodeRule() {
+		return getLocalCodeAccess().getRule();
 	}
 
 	/// *** Expressions and conditions *** / Expression:
@@ -1588,7 +2181,7 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ExpressionBasicTerm:
-	//	variable=ID | constant=Constant;
+	//	variable=ID | constant=Constant | LPAREN expression=Expression RPAREN;
 	public ExpressionBasicTermElements getExpressionBasicTermAccess() {
 		return (pExpressionBasicTerm != null) ? pExpressionBasicTerm : (pExpressionBasicTerm = new ExpressionBasicTermElements());
 	}
@@ -1629,7 +2222,7 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//ConditionOperator:
-	//	LESS | EQUAL | GREATER | NOT_EQUAL;
+	//	less?=LESS | equal?=EQUAL | greater?=GREATER | not_equal?=NOT_EQUAL;
 	public ConditionOperatorElements getConditionOperatorAccess() {
 		return (pConditionOperator != null) ? pConditionOperator : (pConditionOperator = new ConditionOperatorElements());
 	}
@@ -1723,10 +2316,6 @@ public class ChorGrammarAccess extends AbstractGrammarElementFinder {
 		return (tAT != null) ? tAT : (tAT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "AT"));
 	} 
 
-	////terminal SESSIONDECL: 'session';
-	////terminal STARTS: 'starts';
-	////terminal ONE_WAY: 'OneWay';
-	////terminal REQUEST_RESPONSE: 'RequestResponse';
 	//terminal ASSIGN:
 	//	"=";
 	public TerminalRule getASSIGNRule() {

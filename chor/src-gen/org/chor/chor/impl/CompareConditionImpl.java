@@ -7,6 +7,7 @@ package org.chor.chor.impl;
 
 import org.chor.chor.ChorPackage;
 import org.chor.chor.CompareCondition;
+import org.chor.chor.ConditionOperator;
 import org.chor.chor.Expression;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -46,24 +47,14 @@ public class CompareConditionImpl extends MinimalEObjectImpl.Container implement
   protected Expression leftExpression;
 
   /**
-   * The default value of the '{@link #getOperator() <em>Operator</em>}' attribute.
+   * The cached value of the '{@link #getOperator() <em>Operator</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getOperator()
    * @generated
    * @ordered
    */
-  protected static final String OPERATOR_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getOperator() <em>Operator</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getOperator()
-   * @generated
-   * @ordered
-   */
-  protected String operator = OPERATOR_EDEFAULT;
+  protected ConditionOperator operator;
 
   /**
    * The cached value of the '{@link #getRightExpression() <em>Right Expression</em>}' containment reference.
@@ -149,7 +140,7 @@ public class CompareConditionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getOperator()
+  public ConditionOperator getOperator()
   {
     return operator;
   }
@@ -159,12 +150,37 @@ public class CompareConditionImpl extends MinimalEObjectImpl.Container implement
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setOperator(String newOperator)
+  public NotificationChain basicSetOperator(ConditionOperator newOperator, NotificationChain msgs)
   {
-    String oldOperator = operator;
+    ConditionOperator oldOperator = operator;
     operator = newOperator;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.COMPARE_CONDITION__OPERATOR, oldOperator, operator));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ChorPackage.COMPARE_CONDITION__OPERATOR, oldOperator, newOperator);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOperator(ConditionOperator newOperator)
+  {
+    if (newOperator != operator)
+    {
+      NotificationChain msgs = null;
+      if (operator != null)
+        msgs = ((InternalEObject)operator).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ChorPackage.COMPARE_CONDITION__OPERATOR, null, msgs);
+      if (newOperator != null)
+        msgs = ((InternalEObject)newOperator).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ChorPackage.COMPARE_CONDITION__OPERATOR, null, msgs);
+      msgs = basicSetOperator(newOperator, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ChorPackage.COMPARE_CONDITION__OPERATOR, newOperator, newOperator));
   }
 
   /**
@@ -227,6 +243,8 @@ public class CompareConditionImpl extends MinimalEObjectImpl.Container implement
     {
       case ChorPackage.COMPARE_CONDITION__LEFT_EXPRESSION:
         return basicSetLeftExpression(null, msgs);
+      case ChorPackage.COMPARE_CONDITION__OPERATOR:
+        return basicSetOperator(null, msgs);
       case ChorPackage.COMPARE_CONDITION__RIGHT_EXPRESSION:
         return basicSetRightExpression(null, msgs);
     }
@@ -267,7 +285,7 @@ public class CompareConditionImpl extends MinimalEObjectImpl.Container implement
         setLeftExpression((Expression)newValue);
         return;
       case ChorPackage.COMPARE_CONDITION__OPERATOR:
-        setOperator((String)newValue);
+        setOperator((ConditionOperator)newValue);
         return;
       case ChorPackage.COMPARE_CONDITION__RIGHT_EXPRESSION:
         setRightExpression((Expression)newValue);
@@ -290,7 +308,7 @@ public class CompareConditionImpl extends MinimalEObjectImpl.Container implement
         setLeftExpression((Expression)null);
         return;
       case ChorPackage.COMPARE_CONDITION__OPERATOR:
-        setOperator(OPERATOR_EDEFAULT);
+        setOperator((ConditionOperator)null);
         return;
       case ChorPackage.COMPARE_CONDITION__RIGHT_EXPRESSION:
         setRightExpression((Expression)null);
@@ -312,28 +330,11 @@ public class CompareConditionImpl extends MinimalEObjectImpl.Container implement
       case ChorPackage.COMPARE_CONDITION__LEFT_EXPRESSION:
         return leftExpression != null;
       case ChorPackage.COMPARE_CONDITION__OPERATOR:
-        return OPERATOR_EDEFAULT == null ? operator != null : !OPERATOR_EDEFAULT.equals(operator);
+        return operator != null;
       case ChorPackage.COMPARE_CONDITION__RIGHT_EXPRESSION:
         return rightExpression != null;
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (operator: ");
-    result.append(operator);
-    result.append(')');
-    return result.toString();
   }
 
 } //CompareConditionImpl

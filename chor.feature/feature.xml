@@ -22,6 +22,10 @@
       <discovery label="Xtext Framework Update Site" url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
    </url>
 
+   <requires>
+      <import plugin="org.eclipse.xtext"/>
+   </requires>
+
    <plugin
          id="chor"
          download-size="0"

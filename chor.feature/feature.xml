@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="chor.feature"
+      label="Chor Language Plugin Feature"
+      version="0.1"
+      provider-name="Fabrizio Montesi">
+
+   <description url="http://www.chor-lang.org/">
+      An Eclipse Plugin for the Chor language. Supports project management, code editing, autocompletion, basic refactoring capabilities, and automatic endpoint generation.
+   </description>
+
+   <copyright>
+      Copyright (C) 2011-2012 Fabrizio Montesi &lt;famontesi@gmail.com&gt;
+   </copyright>
+
+   <license url="http://www.gnu.org/licenses/lgpl-2.1.html">
+      GNU Library General Public License v2.1
+   </license>
+
+   <url>
+      <update label="Chor Update Site" url="http://www.chor-lang.org/eclipse-site"/>
+      <discovery label="Xtext Framework Update Site" url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
+   </url>
+
+   <plugin
+         id="chor"
+         download-size="0"
+         install-size="0"
+         version="0.1"
+         unpack="false"/>
+
+   <plugin
+         id="chor.ui"
+         download-size="0"
+         install-size="0"
+         version="0.1"
+         unpack="false"/>
+
+   <plugin
+         id="jolie.plugin.support"
+         download-size="0"
+         install-size="0"
+         version="0.1"/>
+
+</feature>

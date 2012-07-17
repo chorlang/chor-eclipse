@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by Fabrizio Montesi <famontesi@gmail.com>          *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Library General Public License as       *
+ *   published by the Free Software Foundation; either version 2 of the    *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU Library General Public     *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *                                                                         *
+ *   For details about the authors of this software, see the AUTHORS file. *
+ ***************************************************************************/
+
 program stream;
 
 protocol StreamingProtocol {
@@ -10,19 +31,19 @@ protocol StreamingProtocol {
 
 public a : StreamingProtocol
 
-define doStreaming( c, s )( k[StreamingProtocol: c[C], s[S]] )
+define doStreaming( t1, s )( stream[StreamingProtocol: t1[C], s[S]] )
 {
 	ask@s( "[s] Give me some data to send for packet number " + i, data );
-	
-	s.data -> c.data: packet( k );
-	local@c( result = result + data );
+
+	s.data -> t1.data: packet( stream );
+	local@t1( result = result + data );
 	local@s( i = i + 1 );
 	if ( i < nPackets )@s {
-		s -> c: again( k );
-		doStreaming( c, s )( k )
+		s -> t1: again( stream );
+		doStreaming( t1, s )( stream )
 	} else {
-		s -> c: end( k );
-		show@c( "[c] Received data: " + result )
+		s -> t1: end( stream );
+		show@t1( "[c] Received data: " + result )
 	}
 }
 

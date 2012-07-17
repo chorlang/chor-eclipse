@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2012 by Fabrizio Montesi <famontesi@gmail.com>          *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Library General Public License as       *
+ *   published by the Free Software Foundation; either version 2 of the    *
+ *   License, or (at your option) any later version.                       *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU Library General Public     *
+ *   License along with this program; if not, write to the                 *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *                                                                         *
+ *   For details about the authors of this software, see the AUTHORS file. *
+ ***************************************************************************/
+
 program avp_stream;
 
 protocol StreamingProtocol {
@@ -40,13 +61,13 @@ define doAVPStreaming( f, a, v, s, c )(
 	avp[AudioVideoProcessing: f[F], a[A], v[V], s[S] ],
 	stream[StreamingProtocol: c[C], s[S] ]
 ) {
-	ask@f( "[f] Give me some bytes for an audio file byte chunk", audioByteChunk );
+	ask@f( "[f] Give me some bytes for an audio file byte chunk ", audioByteChunk );
 	f.audioByteChunk -> a.audioByteChunk: recvBytes( avp );
-	ask@a( "[a] Give me the processed packet for audio byte chunk" + audioByteChunk, audioPacket );
+	ask@a( "[a] Give me the processed packet for audio byte chunk " + audioByteChunk, audioPacket );
 	
-	ask@f( "[f] Give me some bytes for a video file byte chunk", videoByteChunk );
+	ask@f( "[f] Give me some bytes for a video file byte chunk ", videoByteChunk );
 	f.videoByteChunk -> v.videoByteChunk: recvBytes( avp );
-	ask@v( "[v] Give me the processed packet for video byte chunk" + videoByteChunk, videoPacket );
+	ask@v( "[v] Give me the processed packet for video byte chunk " + videoByteChunk, videoPacket );
 	
 	a.audioPacket -> s.audioPacket: audioPacket( avp );
 	v.videoPacket -> s.videoPacket: videoPacket( avp );

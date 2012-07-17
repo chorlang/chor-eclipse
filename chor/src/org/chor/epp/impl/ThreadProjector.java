@@ -30,6 +30,7 @@ import java.util.Map;
 import jolie.lang.NativeType;
 import jolie.lang.parse.ast.AssignStatement;
 import jolie.lang.parse.ast.DeepCopyStatement;
+import jolie.lang.parse.ast.DefinitionCallStatement;
 import jolie.lang.parse.ast.IfStatement;
 import jolie.lang.parse.ast.NotificationOperationStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
@@ -42,12 +43,16 @@ import jolie.lang.parse.ast.VariablePathNode;
 import jolie.lang.parse.ast.expression.FreshValueExpressionNode;
 import jolie.util.Pair;
 
+import org.chor.chor.Call;
 import org.chor.chor.Choreography;
 import org.chor.chor.Delegation;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
 import org.chor.chor.LocalAskCommand;
+import org.chor.chor.LocalAssignmentCommand;
 import org.chor.chor.LocalShowCommand;
+import org.chor.chor.Procedure;
+import org.chor.chor.SessionProcedureParameter;
 import org.chor.chor.Site;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
@@ -63,8 +68,14 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		// thread -> session -> role
 		private final Map< String, Map< String, String > > theta = new HashMap< String, Map< String, String > >();
 		
+		// session -> threads (with role)
+		private final Map< String, List< ThreadWithRole > > threadsInSession = new HashMap< String, List< ThreadWithRole > >();
+		
+		// session -> public channel
+		private final Map< String, Site > sessionPublicChannels = new HashMap< String, Site >();
+		
 		// session -> start
-		private final Map< String, Start > sessionStarts = new HashMap< String, Start >();
+		//private final Map< String, Start > sessionStarts = new HashMap< String, Start >();
 				
 		public void update( Start n )
 		{
@@ -74,7 +85,12 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 			for( ThreadWithRole twr : n.getServiceThreads() ) {
 				updateTheta( twr.getThread(), n.getSession(), twr.getRole() );
 			}
-			sessionStarts.put( n.getSession(), n );
+			List< ThreadWithRole > threads = new ArrayList< ThreadWithRole >( n.getActiveThreads().size() + n.getServiceThreads().size() );
+			threads.addAll( n.getActiveThreads() );
+			threads.addAll( n.getServiceThreads() );
+			threadsInSession.put( n.getSession(), threads );
+			
+			sessionPublicChannels.put( n.getSession(), n.getPublicChannel() );
 		}
 		
 		public void update( Delegation n )
@@ -112,30 +128,24 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		
 		public List< String > getRolesForSession( String session )
 		{
-			Start s = sessionStarts.get( session );
-			List< String > list = new ArrayList< String >( s.getActiveThreads().size() + s.getServiceThreads().size() );
-			for( ThreadWithRole twd : s.getActiveThreads() ) {
-				list.add( twd.getRole() );
-			}
-			for( ThreadWithRole twd : s.getServiceThreads() ) {
-				list.add( twd.getRole() );
+			List< ThreadWithRole > twrList = threadsInSession.get( session );
+			List< String > ret = new ArrayList< String >( twrList.size() );
+			for( ThreadWithRole twd : twrList ) {
+				ret.add( twd.getRole() );
 			}
 			
-			return list;
+			return ret;
 		}
 		
 		public List< String > getThreadsForSession( String session )
 		{
-			Start s = sessionStarts.get( session );
-			List< String > list = new ArrayList< String >( s.getActiveThreads().size() + s.getServiceThreads().size() );
-			for( ThreadWithRole twd : s.getActiveThreads() ) {
-				list.add( twd.getThread() );
-			}
-			for( ThreadWithRole twd : s.getServiceThreads() ) {
-				list.add( twd.getThread() );
+			List< ThreadWithRole > twrList = threadsInSession.get( session );
+			List< String > ret = new ArrayList< String >( twrList.size() );
+			for( ThreadWithRole twd : twrList ) {
+				ret.add( twd.getThread() );
 			}
 			
-			return list;
+			return ret;
 		}
 
 		public String getThreadRole( String thread, String session )
@@ -151,7 +161,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		
 		public Site getSessionPublicChannel( String session )
 		{
-			return sessionStarts.get( session ).getPublicChannel();
+			return sessionPublicChannels.get( session );
 		}
 	}
 	
@@ -159,6 +169,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 	private Exception errorException = null;
 	private boolean alreadyStarted = false;
 	private final TypeEnvironment typeEnvironment = new TypeEnvironment();
+	private final List< Pair< Call, Integer > > calls = new ArrayList< Pair< Call, Integer > >();
 	
 	private ThreadProjector( String thread )
 	{
@@ -173,27 +184,79 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 	}
 	
 	public static ThreadProjectionResult projectActiveThread( String thread, Choreography choreography )
-		throws EndpointProjectionException
+		throws EndpointProjectionException, MergingException
 	{
 		ThreadProjector projector = new ThreadProjector( thread );
 		projector.alreadyStarted = true;
 		ThreadProjectionResult ret = projector.doSwitch( choreography );
+		projector.projectProcedures( ret );
+		
+		if ( projector.errorException != null ) {
+			throw new EndpointProjectionException( projector.errorException );
+		}
+		return ret;
+	}
+
+	public static ThreadProjectionResult projectServiceThread( String thread, Choreography choreography )
+		throws EndpointProjectionException, MergingException
+	{
+		ThreadProjector projector = new ThreadProjector( thread );
+		projector.alreadyStarted = false;
+		ThreadProjectionResult ret = projector.doSwitch( choreography );
+		projector.projectProcedures( ret );
+
 		if ( projector.errorException != null ) {
 			throw new EndpointProjectionException( projector.errorException );
 		}
 		return ret;
 	}
 	
-	public static ThreadProjectionResult projectServiceThread( String thread, Choreography choreography )
-		throws EndpointProjectionException
+	private void projectProcedures( ThreadProjectionResult result )
+		throws MergingException
 	{
-		ThreadProjector projector = new ThreadProjector( thread );
-		projector.alreadyStarted = false;
-		ThreadProjectionResult ret = projector.doSwitch( choreography );
-		if ( projector.errorException != null ) {
-			throw new EndpointProjectionException( projector.errorException );
+		if ( calls.isEmpty() ) {
+			return;
 		}
-		return ret;
+		
+		ThreadProjector projector;
+		ThreadProjectionResult procResult;
+		String threadName;
+		
+		for( Pair< Call, Integer > pair : calls ) {
+			threadName = pair.key().getProcedure().getThreadParameters().get( pair.value() );
+			projector = new ThreadProjector( threadName );
+			projector.alreadyStarted = true;
+
+			injectProcedureTyping( projector.typeEnvironment, pair.key() );
+
+			procResult = projector.doSwitch( pair.key().getProcedure().getChoreography() );
+			
+			result.mergeNamesOnly( procResult );
+			
+			if ( result.procedureProjections().containsKey( pair.key() ) ) {
+				result.procedureProjections().get( pair.key().getProcedure().getName() ).merge( procResult );
+			} else {
+				result.procedureProjections().put( pair.key().getProcedure().getName(), procResult );
+			}
+		}
+	}
+	
+	private void injectProcedureTyping( TypeEnvironment procTyping, Call call )
+	{
+		Procedure proc = call.getProcedure();
+		int sessionIndex = 0;
+		for( SessionProcedureParameter param : proc.getSessionParameters() ) {
+			procTyping.sessionPublicChannels.put(
+				param.getSession(),
+				typeEnvironment.sessionPublicChannels.get( call.getSessions().get( sessionIndex ) )
+			);
+			procTyping.threadsInSession.put( param.getSession(), param.getActiveThreads() );
+			
+			for( ThreadWithRole twr : param.getActiveThreads() ) {
+				procTyping.updateTheta( twr.getThread(), param.getSession(), twr.getRole() );
+			}
+			sessionIndex++;
+		}
 	}
 
 	private void addOutputPortAssignmentsAfterStart( SequenceStatement seq, Start n )
@@ -414,6 +477,32 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		return result;
 	}
 	
+	public ThreadProjectionResult caseLocalAssignmentCommand( LocalAssignmentCommand n )
+	{
+		ThreadProjectionResult result = new ThreadProjectionResult();
+		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+		if ( n.getThread().equals( thread ) ) {
+			seq.addChild( new AssignStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				JolieEppUtils.variableNameToJolieVariablePath( n.getVariable() ),
+				ExpressionProjector.project( n.getExpression() )
+			));
+		}
+		
+		if ( n.getContinuation() == null ) {
+			if ( seq.children().isEmpty() ) {
+				return result;
+			}
+		} else {
+			ThreadProjectionResult res = doSwitch( n.getContinuation() );
+			result.mergeNamesOnly( res );
+			seq.addChild( res.jolieNode() );
+		}
+		
+		result.setJolieNode( seq );
+		return result;
+	}
+	
 	public ThreadProjectionResult caseLocalShowCommand( LocalShowCommand n )
 	{
 		ThreadProjectionResult result = new ThreadProjectionResult();
@@ -506,6 +595,63 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 
 		result.setJolieNode( seq );
 		return result;
+	}
+	
+	public ThreadProjectionResult caseCall( Call n )
+	{
+		ThreadProjectionResult result = new ThreadProjectionResult();
+		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+		result.setJolieNode( seq );
+		
+		int i = 0;
+		for( ; i < n.getThreads().size(); i++ ) {
+			if ( n.getThreads().get( i ).equals( thread ) ) {
+				break;
+			}
+		}
+		
+		if ( i < n.getThreads().size() ) { // We found our thread in the call parameters
+			addAssignmentsBeforeCall( seq, n );
+			seq.addChild( new DefinitionCallStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				n.getProcedure().getName()
+			));
+			
+			addCall( n, i );
+		}
+		
+		return result;
+	}
+	
+	private void addAssignmentsBeforeCall( SequenceStatement seq, Call n )
+	{
+		/*
+		 * For each passed session in which this thread is in, we need to
+		 * copy the session descriptor to the procedure parameter name and
+		 * update the output port references.
+		 */
+		int i = 0;
+		SessionProcedureParameter param;
+		for( String session : n.getSessions() ) {
+			if ( typeEnvironment.isThreadInSession( thread, session ) ) {
+				param = n.getProcedure().getSessionParameters().get( i );
+				
+				seq.addChild( new DeepCopyStatement(
+					JolieEppUtils.PARSING_CONTEXT,
+					JolieEppUtils.getSessionDescriptorPath( param.getSession() ),
+					JolieEppUtils.getSessionDescriptorPath( session )
+				));
+				for( ThreadWithRole twr : param.getActiveThreads() ) {
+					addOutputPortBindingAssignment( seq, param.getSession(), twr.getRole() );
+				}
+			}
+			i++;
+		}
+	}
+	
+	private void addCall( Call call, int threadParamIndex )
+	{
+		calls.add( new Pair< Call, Integer >( call, threadParamIndex ) );
 	}
 	
 	public ThreadProjectionResult caseDelegation( Delegation n )

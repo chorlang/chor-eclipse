@@ -22,6 +22,7 @@
 
 package org.chor.epp.impl;
 
+import org.chor.chor.Call;
 import org.chor.chor.Delegation;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
@@ -128,5 +129,10 @@ public class ServiceProjector extends ChorSwitch< Boolean >
 			return doSwitch( e );
 		}
 		return null;
+	}
+	
+	public Boolean caseCall( Call n )
+	{
+		return true;
 	}
 }

@@ -66,6 +66,11 @@ public class JolieEppUtils
 		return ret;
 	}
 	
+	public static String getProcedureOperation( String procedure )
+	{
+		return "__proc_" + procedure;
+	}
+	
 	public static VariablePathNode variableNameToGlobalJolieVariablePath( String variable )
 	{
 		if ( variable == null ) {
@@ -133,6 +138,7 @@ public class JolieEppUtils
 	public final static String TID_VARNAME = "tid";
 	public final static String TMP_VARNAME = "_tmp";
 	public final static String DELEGATION_TMP_VARNAME = "_delegation_tmp";
+	public final static String CALL_TMP_VARNAME = "_call_tmp";
 	//public final static String DELEGATION_DESCRIPTOR_VARNAME = "delegatedSessionDescriptor";
 	public final static String SELF_INPUT_PORT_NAME = "MyInputPort";
 	public final static String DEFAULT_MESSAGE_TYPE = "ChorType";

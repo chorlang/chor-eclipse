@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import jolie.lang.Constants.ExecutionMode;
 import jolie.lang.NativeType;
@@ -78,6 +79,7 @@ import org.chor.epp.impl.NameCollector;
 import org.chor.epp.impl.ServiceProjector;
 import org.chor.epp.impl.ThreadProjectionResult;
 import org.chor.epp.impl.ThreadProjector;
+import org.chor.epp.impl.merging.MergingException;
 
 public class JolieEpp
 {
@@ -269,7 +271,7 @@ public class JolieEpp
 	}
 	
 	private void projectActiveThread( String thread, Program program )
-		throws EndpointProjectionException, IOException
+		throws EndpointProjectionException, IOException, MergingException
 	{
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program( JolieEppUtils.PARSING_CONTEXT );
 		jolieProgram.addChild( new ExecutionInfo( JolieEppUtils.PARSING_CONTEXT, ExecutionMode.SINGLE ) );
@@ -280,9 +282,18 @@ public class JolieEpp
 		addInputInterfaceAndPort( jolieProgram, result, types, getFreshInputLocation() );
 		addCorrelationSets( jolieProgram, result );
 		
+		// Add the procedure definitions
+		for( Entry< String, ThreadProjectionResult > entry : result.procedureProjections().entrySet() ) {
+			jolieProgram.addChild(
+				new DefinitionNode( JolieEppUtils.PARSING_CONTEXT, entry.getKey(), entry.getValue().jolieNode() )
+			);
+		}
+
+		// Add the main procedure
 		OLSyntaxNode jolieMainNode = result.jolieNode();
 		jolieMainNode = new DefinitionNode( JolieEppUtils.PARSING_CONTEXT, "main", jolieMainNode );
 		jolieProgram.addChild( jolieMainNode );
+		
 		StringWriter w = new StringWriter();
 		JolieProcessPrettyPrinter printer = new JolieProcessPrettyPrinter( w, jolieProgram );
 		writeIncludes( w, result );
@@ -295,7 +306,7 @@ public class JolieEpp
 	}
 	
 	private void projectActiveThreads( Program program )
-		throws EndpointProjectionException, IOException
+		throws EndpointProjectionException, IOException, MergingException
 	{
 		for( String thread : nameCollector.activeThreads() ) {
 			projectActiveThread( thread, program );
@@ -332,8 +343,18 @@ public class JolieEpp
 		addInputInterfaceAndPort( jolieProgram, result, types, getServiceThreadLocation( publicChannel, role ) );
 		addCorrelationSets( jolieProgram, result );
 
-		OLSyntaxNode jolieMainNode = new DefinitionNode( JolieEppUtils.PARSING_CONTEXT, "main", result.jolieNode() );
+		// Add the procedure definitions
+		for( Entry< String, ThreadProjectionResult > entry : result.procedureProjections().entrySet() ) {
+			jolieProgram.addChild(
+				new DefinitionNode( JolieEppUtils.PARSING_CONTEXT, entry.getKey(), entry.getValue().jolieNode() )
+			);
+		}
+
+		// Add the main procedure
+		OLSyntaxNode jolieMainNode = result.jolieNode();
+		jolieMainNode = new DefinitionNode( JolieEppUtils.PARSING_CONTEXT, "main", jolieMainNode );
 		jolieProgram.addChild( jolieMainNode );
+				
 		result.setJolieNode( jolieProgram );
 		return result;
 	}
@@ -574,8 +595,12 @@ public class JolieEpp
 		targetDirectory.mkdir();
 
 		nameCollector.collect( program.getChoreography() );
-		projectActiveThreads( program );
-		projectServiceThreads( program );
-		projectStartServers( program );
+		try {
+			projectActiveThreads( program );
+			projectServiceThreads( program );
+			projectStartServers( program );
+		} catch( MergingException e ) {
+			throw new EndpointProjectionException( e );
+		}
 	}
 }

@@ -51,6 +51,9 @@ public class ThreadProjectionResult
 	// The projected Jolie abstract syntax node
 	private OLSyntaxNode jolieNode;
 	
+	// Procedure projections: procedure name -> projection
+	private Map< String, ThreadProjectionResult > procedureProjections = new HashMap< String, ThreadProjectionResult >();
+	
 	// cset -> input operations
 	private final Map< String, Set< String > > inputOperationMap;
 	
@@ -101,6 +104,11 @@ public class ThreadProjectionResult
 	public OLSyntaxNode jolieNode()
 	{
 		return jolieNode;
+	}
+	
+	public Map< String, ThreadProjectionResult > procedureProjections()
+	{
+		return procedureProjections;
 	}
 	
 	public void setJolieNode( OLSyntaxNode jolieNode )

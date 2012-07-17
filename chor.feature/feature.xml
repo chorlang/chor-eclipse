@@ -2,7 +2,7 @@
 <feature
       id="chor.feature"
       label="Chor Language Plugin Feature"
-      version="0.1"
+      version="0.2"
       provider-name="Fabrizio Montesi">
 
    <description url="http://www.chor-lang.org/">
@@ -18,7 +18,7 @@
    </license>
 
    <url>
-      <update label="Chor Update Site" url="http://www.chor-lang.org/eclipse-site"/>
+      <update label="Chor Update Site" url="http://eclipse-site.chor-lang.org/"/>
       <discovery label="Xtext Framework Update Site" url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
    </url>
 
@@ -30,20 +30,20 @@
          id="chor"
          download-size="0"
          install-size="0"
-         version="0.1"
+         version="0.2.0"
          unpack="false"/>
 
    <plugin
          id="chor.ui"
          download-size="0"
          install-size="0"
-         version="0.1"
+         version="0.2.0"
          unpack="false"/>
 
    <plugin
          id="jolie.plugin.support"
          download-size="0"
          install-size="0"
-         version="0.1"/>
+         version="0.1.0"/>
 
 </feature>

@@ -61,14 +61,14 @@ main
 	 * Check the credentials at the identity provider.
 	 */
 	ask@ip(
-		"[ip] Accept username \"" + username +
-		" and password \"" + password + "\" ?",
+		"[ip] Accept username '" + username +
+		" and password '" + password + "' ?",
 		accept
 	);
 	if (accept == "yes")@ip {
 		ip -> rp: ok( authSession );
 		rp -> u: ok( authSession);
-		show@u( "Authentication successful!" )
+		show@u( "[u] Authentication successful!" )
 	} else {
 		ip."Wrong username/password" -> rp.error: fail( authSession );
 		rp.error -> u.error: fail( authSession );

@@ -62,7 +62,7 @@ main
 	 */
 	ask@ip(
 		"[ip] Accept username '" + username +
-		" and password '" + password + "' ?",
+		"' and password '" + password + "' ?",
 		accept
 	);
 	if (accept == "yes")@ip {

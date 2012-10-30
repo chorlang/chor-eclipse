@@ -594,7 +594,7 @@ public class JolieEpp
 		FileUtils.deleteDirectory( targetDirectory );
 		targetDirectory.mkdir();
 
-		nameCollector.collect( program.getChoreography() );
+		nameCollector.collect( program.getChoreography(), program );
 		try {
 			projectActiveThreads( program );
 			projectServiceThreads( program );

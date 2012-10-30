@@ -27,6 +27,7 @@ import org.chor.chor.Delegation;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
 import org.chor.chor.LocalCode;
+import org.chor.chor.Procedure;
 import org.chor.chor.Program;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
@@ -60,6 +61,9 @@ public class ServiceProjector extends ChorSwitch< Boolean >
 	{
 		ServiceProjector projector = new ServiceProjector( publicChannel, role );
 		projector.doSwitch( program.getChoreography() );
+		for( Procedure procedure : program.getProcedures() ) {
+			projector.doSwitch( procedure.getChoreography() );
+		}
 		if ( projector.errorException != null ) {
 			throw new EndpointProjectionException( projector.errorException );
 		}

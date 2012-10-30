@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import jolie.lang.NativeType;
 import jolie.lang.parse.ast.AssignStatement;
@@ -33,6 +34,7 @@ import jolie.lang.parse.ast.DeepCopyStatement;
 import jolie.lang.parse.ast.DefinitionCallStatement;
 import jolie.lang.parse.ast.IfStatement;
 import jolie.lang.parse.ast.NotificationOperationStatement;
+import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
 import jolie.lang.parse.ast.RequestResponseOperationStatement;
@@ -76,7 +78,26 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		
 		// session -> start
 		//private final Map< String, Start > sessionStarts = new HashMap< String, Start >();
-				
+		
+		private TypeEnvironment() {}
+		
+		private TypeEnvironment( TypeEnvironment other )
+		{
+			for( Entry< String, Map< String, String > > entry : other.theta.entrySet() ) {
+				Map< String, String > map = new HashMap< String, String >();
+				map.putAll( entry.getValue() );
+				theta.put( entry.getKey(), map );
+			}
+			
+			for( Entry< String, List< ThreadWithRole > > entry : other.threadsInSession.entrySet() ) {
+				List< ThreadWithRole > list = new ArrayList< ThreadWithRole >();
+				list.addAll( entry.getValue() );
+				threadsInSession.put( entry.getKey(), list );
+			}
+			
+			sessionPublicChannels.putAll( other.sessionPublicChannels );
+		}
+		
 		public void update( Start n )
 		{
 			for( ThreadWithRole twr : n.getActiveThreads() ) {
@@ -165,11 +186,24 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		}
 	}
 	
+	private class CallTyping {
+		private final Call call;
+		private final Integer index;
+		private final TypeEnvironment typeEnvironment;
+		
+		private CallTyping( Call call, Integer index, TypeEnvironment typeEnvironment )
+		{
+			this.call = call;
+			this.index = index;
+			this.typeEnvironment = typeEnvironment;
+		}
+	}
+	
 	private final String thread;
 	private Exception errorException = null;
 	private boolean alreadyStarted = false;
-	private final TypeEnvironment typeEnvironment = new TypeEnvironment();
-	private final List< Pair< Call, Integer > > calls = new ArrayList< Pair< Call, Integer > >();
+	private TypeEnvironment typeEnvironment = new TypeEnvironment();
+	private final List< CallTyping > calls = new ArrayList< CallTyping >();
 	
 	private ThreadProjector( String thread )
 	{
@@ -222,33 +256,52 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		ThreadProjectionResult procResult;
 		String threadName;
 		
-		for( Pair< Call, Integer > pair : calls ) {
-			threadName = pair.key().getProcedure().getThreadParameters().get( pair.value() );
+		CallTyping callTyping;
+		for( int i = 0; i < calls.size(); i++ ) {
+			callTyping = calls.get( i );
+			threadName = callTyping.call.getProcedure().getThreadParameters().get( callTyping.index );
 			projector = new ThreadProjector( threadName );
 			projector.alreadyStarted = true;
 
-			injectProcedureTyping( projector.typeEnvironment, pair.key() );
+			injectProcedureTyping( callTyping, projector.typeEnvironment, callTyping.call );
 
-			procResult = projector.doSwitch( pair.key().getProcedure().getChoreography() );
+			procResult = projector.doSwitch( callTyping.call.getProcedure().getChoreography() );
+			if ( projector.errorException != null ) {
+				error( projector.errorException );
+			}
+			
+			boolean found;
+			for( CallTyping subCall : projector.calls ) {
+				found = false;
+				for( CallTyping myPair : calls ) {
+					if ( myPair.call.getProcedure() == subCall.call.getProcedure()
+						 && myPair.index == subCall.index ) {
+						found = true;
+					}
+				}
+				if ( !found ) {
+					calls.add( subCall );
+				}
+			}
 			
 			result.mergeNamesOnly( procResult );
 			
-			if ( result.procedureProjections().containsKey( pair.key() ) ) {
-				result.procedureProjections().get( pair.key().getProcedure().getName() ).merge( procResult );
+			if ( result.procedureProjections().containsKey( callTyping.call ) ) {
+				result.procedureProjections().get( callTyping.call.getProcedure().getName() ).merge( procResult );
 			} else {
-				result.procedureProjections().put( pair.key().getProcedure().getName(), procResult );
+				result.procedureProjections().put( callTyping.call.getProcedure().getName(), procResult );
 			}
 		}
 	}
 	
-	private void injectProcedureTyping( TypeEnvironment procTyping, Call call )
+	private void injectProcedureTyping( CallTyping callTyping, TypeEnvironment procTyping, Call call )
 	{
 		Procedure proc = call.getProcedure();
 		int sessionIndex = 0;
 		for( SessionProcedureParameter param : proc.getSessionParameters() ) {
 			procTyping.sessionPublicChannels.put(
 				param.getSession(),
-				typeEnvironment.sessionPublicChannels.get( call.getSessions().get( sessionIndex ) )
+				callTyping.typeEnvironment.sessionPublicChannels.get( call.getSessions().get( sessionIndex ) )
 			);
 			procTyping.threadsInSession.put( param.getSession(), param.getActiveThreads() );
 			
@@ -414,9 +467,11 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 	{
 		ThreadProjectionResult result = new ThreadProjectionResult();
 		ThreadProjectionResult resThen = null, resElse = null;
+		TypeEnvironment typeEnvironmentBackup = new TypeEnvironment( typeEnvironment );
 		resThen = doSwitch( n.getThen() );
 		result.mergeNamesOnly( resThen );
 		if ( n.getElse() != null ) {
+			typeEnvironment = typeEnvironmentBackup;
 			resElse = doSwitch( n.getElse() );
 			result.mergeNamesOnly( resElse );
 		}
@@ -618,6 +673,8 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 			));
 			
 			addCall( n, i );
+		} else {
+			result.setJolieNode( new NullProcessStatement( JolieEppUtils.PARSING_CONTEXT ) );
 		}
 		
 		return result;
@@ -651,7 +708,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 	
 	private void addCall( Call call, int threadParamIndex )
 	{
-		calls.add( new Pair< Call, Integer >( call, threadParamIndex ) );
+		calls.add( new CallTyping( call, threadParamIndex, new TypeEnvironment( typeEnvironment ) ) );
 	}
 	
 	public ThreadProjectionResult caseDelegation( Delegation n )

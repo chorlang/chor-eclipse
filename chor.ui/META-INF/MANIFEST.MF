@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: chor.ui
 Bundle-Vendor: Fabrizio Montesi
-Bundle-Version: 0.1
+Bundle-Version: 0.2
 Bundle-SymbolicName: chor.ui; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: chor;visibility:=reexport,

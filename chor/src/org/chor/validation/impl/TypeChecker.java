@@ -165,7 +165,7 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		doSwitchIfNotNull( proc.getChoreography() );
 		
 		NameCollector nameCollector = new NameCollector();
-		nameCollector.collect( proc.getChoreography() );
+		nameCollector.collect( proc.getChoreography(), program );
 		for( String thread : nameCollector.activeThreads() ) {
 			if ( !proc.getThreadParameters().contains( thread ) ) {
 				displayError( "Unknown thread: " + thread + " (maybe a forgotten procedure parameter or session start?)", proc );
@@ -506,8 +506,10 @@ public class TypeChecker extends ChorSwitch< Boolean >
 		for( String session : call.getSessions() ) { // For each session passed in the call
 			procSessionParam = procParams.get( i++ ); // Get the corresponding session parameter in the called procedure
 
-			// Check that the remaining global type for the passed session will be implemented in the procedure 
-			TypeUtils.checkEquivalent( delta.get( session ), procSessionParam.getType() );
+			// Check that the remaining global type for the passed session will be implemented in the procedure
+			if ( !TypeUtils.checkEquivalent( delta.get( session ), procSessionParam.getType() ) ) {
+				displayError( "The remaining protocol for session " + session + " is not implemented by procedure " + call.getProcedure().getName(), call );
+			}
 
 			// Check that each thread in the session procedure parameter has the required role
 			String passedThread;

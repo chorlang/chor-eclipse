@@ -366,12 +366,13 @@ public class TypeUtils
 		public Boolean caseGlobalTypeCall( GlobalTypeCall right )
 		{
 			if ( !(left instanceof GlobalTypeCall) ) {
-				return false;
+				return check( left, right.getProtocol().getType() );
+				//return false;
 			}
 			
 			GlobalTypeCall l = (GlobalTypeCall)left;
 			
-			return l.getProtocol() != right.getProtocol();
+			return l.getProtocol() == right.getProtocol();
 		}
 		
 		public Boolean caseGlobalTypeInteraction( GlobalTypeInteraction right )

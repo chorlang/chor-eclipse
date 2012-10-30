@@ -26,16 +26,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import jolie.lang.parse.ast.OneWayOperationDeclaration;
 import jolie.lang.parse.ast.OperationDeclaration;
 
+import org.chor.chor.Call;
 import org.chor.chor.Choreography;
 import org.chor.chor.Delegation;
 import org.chor.chor.IfThenElse;
 import org.chor.chor.Interaction;
 import org.chor.chor.LocalCode;
+import org.chor.chor.Procedure;
+import org.chor.chor.Program;
 import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
 import org.chor.chor.util.ChorSwitch;
@@ -166,7 +170,27 @@ public class NameCollector extends ChorSwitch< Boolean >
 		return activeThreads.contains( thread );
 	}
 	
-	public void collect( Choreography choreography )
+	public void collect( Choreography choreography, Program program )
+	{
+		collect( choreography );
+		NameCollector collector;
+		for( Procedure procedure : program.getProcedures() ) {
+			collector = new NameCollector();
+			collector.collect( procedure.getChoreography() );
+			for( Entry< String, Set< String > > entry : collector.publicChannelActiveRoles.entrySet() ) {
+				for( String role : entry.getValue() ) {
+					addPublicChannelActiveRole( entry.getKey(), role );
+				}
+			}
+			for( Entry< String, Set< String > > entry : collector.publicChannelServiceRoles.entrySet() ) {
+				for( String role : entry.getValue() ) {
+					addPublicChannelServiceRole( entry.getKey(), role );
+				}
+			}
+		}
+	}
+	
+	private void collect( Choreography choreography )
 	{
 		doSwitch( choreography );
 	}
@@ -183,6 +207,14 @@ public class NameCollector extends ChorSwitch< Boolean >
 			addPublicChannelActiveRole( n.getPublicChannel().getName(), t.getRole() );
 		}
 		
+		return true;
+	}
+	
+	public Boolean caseCall( Call n )
+	{
+		activeThreads.addAll( n.getThreads() );
+		// FIXME: here we should check for the thread operations nested
+		// in the call!
 		return true;
 	}
 	

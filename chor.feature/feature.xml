@@ -2,8 +2,8 @@
 <feature
       id="chor.feature"
       label="Chor Language Plugin Feature"
-      version="0.2"
-      provider-name="Fabrizio Montesi">
+      version="0.2.1"
+      provider-name="Fabrizio Montesi &lt;famontesi@gmail.com&gt;">
 
    <description url="http://www.chor-lang.org/">
       An Eclipse Plugin for the Chor language. Supports project management, code editing, autocompletion, basic refactoring capabilities, and automatic endpoint generation.
@@ -30,14 +30,14 @@
          id="chor"
          download-size="0"
          install-size="0"
-         version="0.2.0"
+         version="0.2.1"
          unpack="false"/>
 
    <plugin
          id="chor.ui"
          download-size="0"
          install-size="0"
-         version="0.2.0"
+         version="0.2.1"
          unpack="false"/>
 
    <plugin

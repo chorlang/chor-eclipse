@@ -23,6 +23,9 @@ program instrument;
 
 /**
  * Execute a command on an instrument, under authentication
+ * 
+ * U = User
+ * A = Authenticator
  */
 protocol AuthCommand {
 	U -> A: username( string );
@@ -84,11 +87,15 @@ define findAndExec( u, r )( connect[Connect: u[U], r[R]] )
 main
 {
 	u[U] start a[A]: a( auth );
+	
 	ask@u( "[u] Insert username", username );
 	ask@u( "[u] Insert password", pwd );
+	
 	u.username -> a.username: username( auth );
 	u.pwd -> a.pwd: password( auth );
+	
 	ask@a( "[a] Confirm credentials? (yes/no) : " + username + " : " + password, confirm );
+	
 	if ( confirm == "yes" )@a {
 		a[U] start r[R]: b( connect );
 		a -> u: valid( auth( connect ) );

@@ -24,26 +24,27 @@ program stream;
 protocol StreamingProtocol {
 	S -> C: packet( string );
 	S -> C: {
-		again( void ); StreamingProtocol,
+		again( void ); StreamingProtocol
+		,
 		end( void )
 	}
 }
 
 public a : StreamingProtocol
 
-define doStreaming( t1, s )( stream[StreamingProtocol: t1[C], s[S]] )
+define doStreaming( c, s )( stream[StreamingProtocol: c[C], s[S]] )
 {
 	ask@s( "[s] Give me some data to send for packet number " + i, data );
 
-	s.data -> t1.data: packet( stream );
-	local@t1( result = result + data );
+	s.data -> c.data: packet( stream );
+	local@c( result = result + data );
 	local@s( i = i + 1 );
 	if ( i < nPackets )@s {
-		s -> t1: again( stream );
-		doStreaming( t1, s )( stream )
+		s -> c: again( stream );
+		doStreaming( c, s )( stream )
 	} else {
-		s -> t1: end( stream );
-		show@t1( "[c] Received data: " + result )
+		s -> c: end( stream );
+		show@c( "[c] Received data: " + result )
 	}
 }
 

@@ -63,7 +63,8 @@ protocol OpenID {
 	U -> IP: password( string );
 	IP -> RP: {
 	ok( void );
-		RP -> U: ok( void ); AuthSuccessful,
+		RP -> U: ok( void );
+		AuthSuccessful,
 	fail(string);
 		RP -> U: fail( string )
 	}
@@ -74,7 +75,7 @@ protocol OpenID {
  * we send to the user a session for reading the log (delegation).
  */
 protocol AuthSuccessful {
-	RP -> U: ok(ReadLog@C)
+	RP -> U: deleg(ReadLog@C)
 }
 
 /**
@@ -99,10 +100,10 @@ public publicLog: ReadLog
  * 
  * For simplicity, the log is a static string.
  */
-define doLogRead( rp, u, s )( authSession[ AuthSuccessful:rp[RP], u[U] ] )
+define doLogRead( rp, u )( authSession[ AuthSuccessful:rp[RP], u[U] ] )
 {
 	rp[C] start s[S]: publicLog( logSession );
-	rp -> u: ok( authSession(logSession) );
+	rp -> u: deleg( authSession(logSession) );
 	s."Hello, World!" -> u.logContent: readLog( logSession );
 	show@u( logContent )
 }
@@ -121,7 +122,8 @@ define doAuth( rp, u )()
 	if (username == "John")@ip {
 		if (password == "Pwd")@ip {
 			ip -> rp: ok( authSession );
-			doLogRead( rp, u, s )( authSession )
+			rp -> u: ok( authSession );
+			doLogRead( rp, u )( authSession )
 		} else {
 			ip."Incorrect password" -> rp.error: fail( authSession );
 			rp.error -> u.error: fail( authSession );

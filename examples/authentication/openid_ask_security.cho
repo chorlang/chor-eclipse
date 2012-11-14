@@ -19,42 +19,100 @@
  *   For details about the authors of this software, see the AUTHORS file. *
  ***************************************************************************/
 
-
-program openid;
+program openid_ask_security;
 
 /**
- * A variant of openid.cho, with dynamic credentials.
- * 
+ * The OpenID protocol, from openid.cho.
  */
 protocol OpenID {
-	U -> RP: username( string );	// User sends her username to the Relying Party
-	RP -> IP: username( string );	// Relying Party sends the username to the Identity Provider
-	U -> IP: password( string );	// User sends her password to the Identity Provider
-	IP -> RP: {						// Identity Provider informs the Relying Party on whether...
-	ok( void );						// ...the authentication is successful
-		RP -> U: ok( void ),
-	fail(string); 					// ...or the authentication failed
+	U -> RP: username( string );
+	RP -> IP: username( string );
+	U -> IP: password( string );
+	IP -> RP: {
+	ok( void );
+		RP -> U: ok( void );
+		AuthSuccessful
+	,
+	fail(string);
 		RP -> U: fail( string )
 	}
 }
 
-// publicOpenID is a public site offering the OpenID protocol
+protocol AuthSuccessful {
+	RP -> U: {
+		okHigh( void ); AuthSuccessfulHigh,
+		okLow( void ); AuthSuccessfulLow
+	}
+}
+
+protocol AuthSuccessfulHigh {
+	RP -> U: deleg(ReadSecretLog@C)
+}
+
+protocol AuthSuccessfulLow {
+	RP -> U: deleg(ReadPublicLog@C)
+}
+
+protocol ReadPublicLog {
+	S -> C: readPublicLog( string )
+}
+
+protocol ReadSecretLog {
+	S -> C: readSecretLog( string )
+}
+
+protocol ReadLog {
+	C -> S: {
+	requestPublic( void );
+		ReadPublicLog,
+
+	requestSecret( void );
+		ReadSecretLog
+	}
+}
+
+// The public site for starting authentication sessions
 public publicOpenID: OpenID
 
-main
+// The public site for reading the log
+public publicLog: ReadLog
+
+
+/**
+ * Starts a session for reading the log between rp and the log server,
+ * and then delegates it to the user.
+ * 
+ * For simplicity, the log is a static string.
+ */
+define doLogRead( rp, u )( authSession[ AuthSuccessful:rp[RP], u[U] ] )
 {
-	// Start authentication session
+	rp[C] start s[S]: publicLog( logSession );
+	if ( user == "John" )@rp {
+		rp -> s: requestSecret( logSession );
+		rp -> u: okHigh( authSession );
+		rp -> u: deleg( authSession(logSession) );
+		s."Secret Log!" -> u.logContent: readSecretLog( logSession );
+		show@u( logContent )
+	} else {
+		rp -> s: requestPublic( logSession );
+		rp -> u: okLow( authSession );
+		rp -> u: deleg( authSession(logSession) );
+		s."Public Log" -> u.logContent: readPublicLog( logSession );
+		show@u( logContent )
+	}
+}
+
+
+/**
+ * Attempts to authenticate and, if successful, calls doLogRead
+ */
+define doAuth( rp, u )()
+{
 	rp[RP], u[U] start ip[IP]: publicOpenID( authSession );
-	
-	// Ask the user for her username
-	ask@u( "[u] Insert Username", user );
-	
+	ask@u( "Insert Username", user );
 	u.user -> rp.user: username( authSession );
 	rp.user -> ip.username: username( authSession );
-
-	// Ask the user for her password
-	ask@u( "[u] Insert Password", pwd );
-	
+	ask@u( "Insert Password", pwd );
 	u.pwd -> ip.password: password( authSession );
 	
 	/*
@@ -65,13 +123,19 @@ main
 		"' and password '" + password + "' ?",
 		accept
 	);
+	
 	if (accept == "yes")@ip {
 		ip -> rp: ok( authSession );
 		rp -> u: ok( authSession );
-		show@u( "[u] Authentication successful!" )
+		doLogRead( rp, u )( authSession )
 	} else {
 		ip."Wrong username/password" -> rp.error: fail( authSession );
 		rp.error -> u.error: fail( authSession );
-		show@u( "[u] " + error )
+		show@u( error )
 	}
+}
+
+main
+{
+	doAuth( rp, u )()
 }

@@ -19,59 +19,48 @@
  *   For details about the authors of this software, see the AUTHORS file. *
  ***************************************************************************/
 
+program buyerseller;
 
-program openid;
-
-/**
- * A variant of openid.cho, with dynamic credentials.
- * 
- */
-protocol OpenID {
-	U -> RP: username( string );	// User sends her username to the Relying Party
-	RP -> IP: username( string );	// Relying Party sends the username to the Identity Provider
-	U -> IP: password( string );	// User sends her password to the Identity Provider
-	IP -> RP: {						// Identity Provider informs the Relying Party on whether...
-	ok( void );						// ...the authentication is successful
-		RP -> U: ok( void ),
-	fail(string); 					// ...or the authentication failed
-		RP -> U: fail( string )
+protocol BuyerSeller {
+	Buyer -> Seller: buy( string );
+	Seller -> Buyer: price( int );
+	Buyer -> Seller: {
+		ok(void),
+		abort(void)
 	}
 }
 
-// publicOpenID is a public site offering the OpenID protocol
-public publicOpenID: OpenID
+protocol AskUser {
+	Application -> User: question( string );
+	User -> Application: {
+		yes( void ),
+		no( void ),
+		maybe( void )
+	}
+}
+
+public a : BuyerSeller
+public b : AskUser
 
 main
 {
-	// Start authentication session
-	rp[RP], u[U] start ip[IP]: publicOpenID( authSession );
+	buyer[Buyer] start seller[Seller] : a( k );
+	buyer."Coffee" -> seller.product : buy( k );
+	seller.100 -> buyer.price : price( k );
 	
-	// Ask the user for her username
-	ask@u( "[u] Insert Username", user );
-	
-	u.user -> rp.user: username( authSession );
-	rp.user -> ip.username: username( authSession );
+	buyer[Application] start user[User]: b( k2 );
+	buyer.( "Can I pay " + price + "?" ) -> user.question: question( k2 );
 
-	// Ask the user for her password
-	ask@u( "[u] Insert Password", pwd );
-	
-	u.pwd -> ip.password: password( authSession );
-	
-	/*
-	 * Check the credentials at the identity provider.
-	 */
-	ask@ip(
-		"[ip] Accept username '" + username +
-		"' and password '" + password + "' ?",
-		accept
-	);
-	if (accept == "yes")@ip {
-		ip -> rp: ok( authSession );
-		rp -> u: ok( authSession );
-		show@u( "[u] Authentication successful!" )
+	local@user( s = question );
+	ask@user( s, answer );
+
+	if (answer == "yes")@user {
+		user -> buyer: yes( k2 );
+		buyer -> seller: ok( k );
+		show@seller( "[seller] Product sent!" )
 	} else {
-		ip."Wrong username/password" -> rp.error: fail( authSession );
-		rp.error -> u.error: fail( authSession );
-		show@u( "[u] " + error )
+		user -> buyer: no( k2 );
+		buyer -> seller: abort( k );
+		show@seller( "[seller] Transaction aborted!" )
 	}
 }

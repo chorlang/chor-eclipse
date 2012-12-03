@@ -3,7 +3,7 @@
    <description name="Chor Language Update Site" url="http://www.chor-lang.org/">
       Eclipse Update Site for the Chor programming language.
    </description>
-   <feature url="features/chor.feature_0.2.1.jar" id="chor.feature" version="0.2.1">
+   <feature url="features/chor.feature_0.2.3.jar" id="chor.feature" version="0.2.3">
       <category name="Chor Language"/>
    </feature>
    <category-def name="Chor Language" label="Chor Language"/>

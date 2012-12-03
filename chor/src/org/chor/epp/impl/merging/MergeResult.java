@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Fabrizio Montesi <famontesi@gmail.com>     *
+ *   Copyright (C) 2012 by Fabrizio Montesi <famontesi@gmail.com>          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Library General Public License as       *
@@ -19,43 +19,48 @@
  *   For details about the authors of this software, see the AUTHORS file. *
  ***************************************************************************/
 
-
 package org.chor.epp.impl.merging;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 
 import jolie.lang.parse.ast.OLSyntaxNode;
+import jolie.util.Pair;
 
-import org.chor.epp.impl.JolieEppUtils;
-
-public class MergeUtils
+public class MergeResult
 {
-	public static MergeResult merge( OLSyntaxNode left, OLSyntaxNode right )
-		throws MergingException
+	private final OLSyntaxNode jolieNode;
+	private final List< Pair< String, String > > mergedProcedures;
+	
+	public MergeResult( OLSyntaxNode jolieNode )
 	{
-		if ( left == null || right == null ) {
-			throw new MergingException( "Merging failed due to an internal error" );
-		}
-		try {
-			Method m = MergeFunction.class.getMethod( "merge", left.getClass(), right.getClass() );
-			return (MergeResult) m.invoke( null, left, right );
-		} catch( NoSuchMethodException e ) {
-			throw new MergingException( left, right );
-		} catch( InvocationTargetException e ) {
-			if ( e.getCause() instanceof MergingException ) {
-				throw (MergingException) e.getCause();
-			} else {
-				throw new MergingException( left, right );
-			}
-		} catch( IllegalAccessException e ) {
-			throw new MergingException( left, right );
-		}
+		this.jolieNode = jolieNode;
+		this.mergedProcedures = new LinkedList< Pair< String, String > >();
 	}
-
-	public static MergeResult optimizeAndMerge( OLSyntaxNode left, OLSyntaxNode right )
-			throws MergingException
+	
+	public MergeResult( OLSyntaxNode jolieNode, MergeResult mergeResult )
 	{
-		return merge( JolieEppUtils.optimizeProcess( left ), JolieEppUtils.optimizeProcess( right ) );
+		this.jolieNode = jolieNode;
+		this.mergedProcedures = mergeResult.mergedProcedures;
+	}
+	
+	public OLSyntaxNode jolieNode()
+	{
+		return jolieNode;
+	}
+	
+	protected void addMergedProcedures( String left, String right )
+	{
+		mergedProcedures.add( new Pair< String, String >( left, right ) );
+	}
+	
+	public List< Pair< String, String > > mergedProcedures()
+	{
+		return mergedProcedures;
+	}
+	
+	public void mergeInfo( MergeResult other )
+	{
+		mergedProcedures.addAll( other.mergedProcedures );
 	}
 }

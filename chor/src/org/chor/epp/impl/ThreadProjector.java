@@ -60,6 +60,7 @@ import org.chor.chor.Start;
 import org.chor.chor.ThreadWithRole;
 import org.chor.chor.util.ChorSwitch;
 import org.chor.epp.EndpointProjectionException;
+import org.chor.epp.impl.merging.MergeResult;
 import org.chor.epp.impl.merging.MergeUtils;
 import org.chor.epp.impl.merging.MergingException;
 
@@ -204,6 +205,7 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 	private boolean alreadyStarted = false;
 	private TypeEnvironment typeEnvironment = new TypeEnvironment();
 	private final List< CallTyping > calls = new ArrayList< CallTyping >();
+	private final MergeResult mergeResult = new MergeResult( new NullProcessStatement( JolieEppUtils.PARSING_CONTEXT ) );
 	
 	private ThreadProjector( String thread )
 	{
@@ -290,6 +292,14 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 				result.procedureProjections().get( callTyping.call.getProcedure().getName() ).merge( procResult );
 			} else {
 				result.procedureProjections().put( callTyping.call.getProcedure().getName(), procResult );
+			}
+		}
+		
+		for( Pair< String, String > pair : mergeResult.mergedProcedures() ) {
+			if ( result.procedureProjections().containsKey( pair.key() )
+				&& result.procedureProjections().containsKey( pair.value() )
+			) {
+				result.procedureProjections().get( pair.key() ).merge( result.procedureProjections().get( pair.value() ) );
 			}
 		}
 	}
@@ -488,7 +498,9 @@ public class ThreadProjector extends ChorSwitch< ThreadProjectionResult >
 		} else {
 			OLSyntaxNode jolieNode = null;
 			try {
-				jolieNode = MergeUtils.optimizeAndMerge( resElse.jolieNode(), resThen.jolieNode() );
+				MergeResult tmp = MergeUtils.optimizeAndMerge( resElse.jolieNode(), resThen.jolieNode() );
+				jolieNode = tmp.jolieNode();
+				mergeResult.mergeInfo( tmp );
 			} catch( MergingException e ) {
 				error( new MergingException( thread, e ) );
 			}

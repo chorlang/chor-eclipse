@@ -167,7 +167,7 @@ public class ThreadProjectionResult
 		throws MergingException
 	{
 		mergeNamesOnly( other );
-		jolieNode = MergeUtils.optimizeAndMerge( jolieNode, other.jolieNode );
+		jolieNode = MergeUtils.optimizeAndMerge( jolieNode, other.jolieNode ).jolieNode();
 	}
 	
 	public void mergeNamesOnly( ThreadProjectionResult other )

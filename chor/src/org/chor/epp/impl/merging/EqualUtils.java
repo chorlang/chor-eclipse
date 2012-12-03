@@ -27,6 +27,8 @@ import java.lang.reflect.Method;
 
 import jolie.lang.Constants.OperandType;
 import jolie.lang.parse.ast.AssignStatement;
+import jolie.lang.parse.ast.DeepCopyStatement;
+import jolie.lang.parse.ast.DefinitionCallStatement;
 import jolie.lang.parse.ast.NotificationOperationStatement;
 import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
@@ -36,6 +38,7 @@ import jolie.lang.parse.ast.TypeCastExpressionNode;
 import jolie.lang.parse.ast.VariablePathNode;
 import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
+import jolie.lang.parse.ast.expression.FreshValueExpressionNode;
 import jolie.lang.parse.ast.expression.SumExpressionNode;
 import jolie.util.Pair;
 
@@ -58,6 +61,11 @@ public class EqualUtils
 		}
 	}
 	
+	public static Boolean checkEqual( DefinitionCallStatement left, DefinitionCallStatement right )
+	{
+		return left.id().equals( right.id() );
+	}
+	
 	public static Boolean checkEqual( ConstantStringExpression left, ConstantStringExpression right )
 	{
 		return left.value().equals( right.value() );
@@ -66,6 +74,11 @@ public class EqualUtils
 	public static Boolean checkEqual( ConstantIntegerExpression left, ConstantIntegerExpression right )
 	{
 		return left.value() == right.value();
+	}
+	
+	public static Boolean checkEqual( FreshValueExpressionNode left, FreshValueExpressionNode right )
+	{
+		return true;
 	}
 	
 	public static Boolean checkEqual( TypeCastExpressionNode left, TypeCastExpressionNode right )
@@ -99,6 +112,11 @@ public class EqualUtils
 	public static Boolean checkEqual( AssignStatement left, AssignStatement right )
 	{
 		return checkEqual( left.variablePath(), right.variablePath() ) && checkEqual( left.expression(), right.expression() );
+	}
+	
+	public static Boolean checkEqual( DeepCopyStatement left, DeepCopyStatement right )
+	{
+		return checkEqual( left.leftPath(), right.leftPath() ) && checkEqual( left.rightPath(), right.rightPath() );
 	}
 	
 	public static Boolean checkEqual( NotificationOperationStatement left, NotificationOperationStatement right )

@@ -2,7 +2,7 @@
 <feature
       id="chor.feature"
       label="Chor Language Plugin Feature"
-      version="0.2.3"
+      version="0.2.4"
       provider-name="Fabrizio Montesi &lt;famontesi@gmail.com&gt;">
 
    <description url="http://www.chor-lang.org/">
@@ -30,7 +30,7 @@
          id="chor"
          download-size="0"
          install-size="0"
-         version="0.2.3"
+         version="0.2.4"
          unpack="false"/>
 
    <plugin

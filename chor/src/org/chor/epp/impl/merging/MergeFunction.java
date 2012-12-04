@@ -140,6 +140,7 @@ public class MergeFunction
 				seq.addChild( left.children().get( i ) );
 			} else if ( leftChild instanceof DefinitionCallStatement && rightChild instanceof DefinitionCallStatement ) {
 				tmp = merge( (DefinitionCallStatement) leftChild, (DefinitionCallStatement) rightChild );
+				seq.addChild( tmp.jolieNode() );
 			} else {
 				keepRun = false;
 				// If they're not equal, let's try if we can make an input choice branching.
